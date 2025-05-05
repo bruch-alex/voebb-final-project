@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+</head>
+<body>
+<!-- Language Selector Fragment -->
+<div th:fragment="selector" class="language-selector">
+  <span th:text="#{label.language}">Language</span>:
+  <form id="languageForm" method="post" th:action="@{/language/change}">
+    <select name="lang" id="languageSelect" onchange="this.form.submit()">
+      <option value="de" th:selected="${#locale.language == 'de'}">Deutsch</option>
+      <option value="en" th:selected="${#locale.language == 'en'}">English</option>
+      <option value="ru" th:selected="${#locale.language == 'ru'}">Русский</option>
+    </select>
+  </form>
+</div>
+
+<!-- Another version with flags for better visual representation -->
+<div th:fragment="selector-flags" class="language-selector-flags">
+  <form method="post" th:action="@{/language/change}" class="language-form">
+    <button type="submit" name="lang" value="de" class="lang-btn"
+            th:classappend="${#locale.language == 'de'} ? 'active' : ''">
+      <span class="flag-icon de">🇩🇪</span>
+    </button>
+    <button type="submit" name="lang" value="en" class="lang-btn"
+            th:classappend="${#locale.language == 'en'} ? 'active' : ''">
+      <span class="flag-icon en">🇬🇧</span>
+    </button>
+    <button type="submit" name="lang" value="ru" class="lang-btn"
+            th:classappend="${#locale.language == 'ru'} ? 'active' : ''">
+      <span class="flag-icon ru">🇷🇺</span>
+    </button>
+  </form>
+</div>
+</body>
+</html>
