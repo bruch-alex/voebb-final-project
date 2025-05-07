@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Libraries - VÖBB</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link rel="stylesheet" th:href="@{/css/libraries.css}">
+</head>
+<body>
+<!-- Include header fragment -->
+<div th:replace="~{fragments/header :: header}"></div>
+
+<div class="container">
+    <div class="page-header">
+        <h1 th:text="#{libraries.title}">Libraries</h1>
+    </div>
+
+    <!-- Search form -->
+    <div class="search-container">
+        <form th:action="@{/libraries/search}" method="get">
+            <div class="search-box">
+                <input type="text" name="searchText" th:value="${searchText}" th:placeholder="#{libraries.search.placeholder}">
+                <button type="submit" th:text="#{button.search}">Search</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Alert messages -->
+    <div th:if="${success}" class="alert alert-success">
+        <span th:text="${success}"></span>
+    </div>
+    <div th:if="${error}" class="alert alert-danger">
+        <span th:text="${error}"></span>
+    </div>
+
+    <!-- Libraries list -->
+    <div class="library-list">
+        <div th:if="${#lists.isEmpty(libraries)}" class="no-results">
+            <p th:text="#{libraries.no.results}">No libraries found</p>
+        </div>
+
+        <div th:each="library : ${libraries}" class="library-card">
+            <h2 class="library-name">
+                <a th:href="@{/libraries/{id}(id=${library.id})}" th:text="${library.name}">Library Name</a>
+            </h2>
+            <p class="library-location" th:text="${library.location}">Location</p>
+            <p class="library-address" th:text="${library.address}">Address</p>
+            <p class="library-description" th:if="${library.description}" th:text="${#strings.abbreviate(library.description, 150)}">
+                Library description...
+            </p>
+            <div class="library-actions">
+                <a th:href="@{/libraries/{id}(id=${library.id})}" class="btn btn-primary" th:text="#{button.details}">Details</a>
+                <div sec:authorize="hasRole('ADMIN')" class="admin-actions">
+                    <a th:href="@{/libraries/{id}/edit(id=${library.id})}" class="btn btn-secondary" th:text="#{button.edit}">Edit</a>
+                    <form th:action="@{/libraries/{id}/delete(id=${library.id})}" method="post" class="inline-form">
+                        <button type="submit" class="btn btn-danger" th:text="#{button.delete}"
+                                onclick="return confirm('Are you sure you want to delete this library?')">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin actions -->
+    <div sec:authorize="hasRole('ADMIN')" class="admin-actions-container">
+        <a th:href="@{/libraries/new}" class="btn btn-success" th:text="#{button.library.new}">Add New Library</a>
+    </div>
+</div>
+
+<!-- Include footer fragment -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>
