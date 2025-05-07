@@ -17,6 +17,9 @@ public class Address {
     @Column(name = "address_city", nullable = false, length = 90)
     private String city;
 
+    @Column(name = "address_district")
+    private String district;
+
     @Column(name = "address_postcode", length = 10)
     private String postcode;
 

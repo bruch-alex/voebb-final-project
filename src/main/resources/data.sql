@@ -158,3 +158,11 @@ VALUES (1, 1, 1001,
 INSERT INTO reservations (reservation_id, custom_user_id, item_id, reservation_start, reservation_due)
 VALUES (1, 2, 1001, CURRENT_DATE, CURRENT_DATE + INTERVAL '7 day')
 ON CONFLICT DO NOTHING;
+
+-- item status ---
+INSERT INTO item_status (item_status_name) VALUES ('borrowed')
+    ON CONFLICT DO NOTHING;
+INSERT INTO item_status (item_status_name) VALUES ('reserved')
+    ON CONFLICT DO NOTHING;
+INSERT INTO item_status (item_status_name) VALUES ('available')
+ON CONFLICT DO NOTHING;

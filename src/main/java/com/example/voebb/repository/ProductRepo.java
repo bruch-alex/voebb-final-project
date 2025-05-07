@@ -6,10 +6,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface ProductRepo extends JpaRepository<Product, Long> {
 
     Page<Product> findAllByTitleContainsIgnoreCase(String title, Pageable pageable);
 
-  //   Page<Product> findAllByTitle(String title, Pageable pageable);
+    Optional<Product> getProductById(Long id);
 }
