@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html
+        lang="en"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{base-layout}">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.5/dist/zephyr/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<main class="container mt-5">
+<main layout:fragment="page-content" class="container mt-5">
     <h2 class="text-center">Search products</h2>
 
     <form th:action="@{/products/search-results}" method="GET">

@@ -1,39 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
+<html
+        lang="en"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{base-layout}">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.5/dist/zephyr/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 
-<!-- pagination  TODO: Maybe put it into fragment-->
-<div class="mt-4 d-flex justify-content-center">
-    <ul class="pagination">
-        <li class="page-item" th:classappend="${page.hasPrevious()} ? '' : 'disabled'">
-            <a class="page-link"
-               th:href="@{/products/search-results(page=${page.number - 1}, title=${title})}">Previous</a>
-        </li>
+<main layout:fragment="page-content">
 
-        <li class="page-item" th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}"
-            th:classappend="${page.number == i} ? 'active'">
-            <a class="page-link"
-               th:href="@{/products/search-results(page=${i}, title=${title})}"
-               th:text="${i + 1}">1</a>
-        </li>
+    <div th:each="productDTO : ${productDTOs}" class="d-flex justify-content-center mb-4">
+        <div th:replace="~{fragments/product-card :: card(${productDTO})}"></div>
+    </div>
 
-        <li class="page-item" th:classappend="${page.hasNext()} ? '' : 'disabled'">
-            <a class="page-link"
-               th:href="@{/products/search-results(page=${page.number + 1}, title=${title})}">Next</a>
-        </li>
-    </ul>
-</div>
+    <!-- pagination navigation-->
+    <div class="mt-4 d-flex justify-content-center">
+        <ul class="pagination">
+            <li class="page-item" th:classappend="${page.hasPrevious()} ? '' : 'disabled'">
+                <a class="page-link"
+                   th:href="@{/products/search-results(page=${page.number - 1}, title=${title})}">Previous</a>
+            </li>
 
-<div th:each="productDTO : ${productDTOs}" class="d-flex justify-content-center mb-4">
-    <div th:replace="~{fragments/product-card :: card(${productDTO})}"></div>
-</div>
+            <li class="page-item" th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}"
+                th:classappend="${page.number == i} ? 'active'">
+                <a class="page-link"
+                   th:href="@{/products/search-results(page=${i}, title=${title})}"
+                   th:text="${i + 1}">1</a>
+            </li>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
-
+            <li class="page-item" th:classappend="${page.hasNext()} ? '' : 'disabled'">
+                <a class="page-link"
+                   th:href="@{/products/search-results(page=${page.number + 1}, title=${title})}">Next</a>
+            </li>
+        </ul>
+    </div>
+</main>
 </body>
 </html>
