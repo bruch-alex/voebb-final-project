@@ -1,71 +1,73 @@
 <!DOCTYPE html>
-<html lang="en">
+<html
+        lang="en"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{base-layout}">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.5/dist/zephyr/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<!-- General Product Info -->
-<div class="container mt-4">
-    <h4>General info</h4>
-    <p th:text="'Title: ' + ${productInfo.title}"></p>
-    <p th:text="'Id: ' + ${productInfo.id}"></p>
-    <p th:text="'Type: ' + ${productInfo.productType}"></p>
-    <p th:text="'Release: ' + ${productInfo.releaseYear}"></p>
-    <p th:text="'Photo: ' + ${productInfo.photo}"></p>
-    <p th:text="'Description: ' + ${productInfo.description}"></p>
-    <p th:text="'Link: ' + ${productInfo.productLinkToEmedia}"></p>
-</div>
+<main layout:fragment="page-content">
+    <!-- General Product Info -->
+    <div class="container mt-4">
+        <h4>General info</h4>
+        <p th:text="'Title: ' + ${productInfo.title}"></p>
+        <p th:text="'Id: ' + ${productInfo.id}"></p>
+        <p th:text="'Type: ' + ${productInfo.productType}"></p>
+        <p th:text="'Release: ' + ${productInfo.releaseYear}"></p>
+        <p th:text="'Photo: ' + ${productInfo.photo}"></p>
+        <p th:text="'Description: ' + ${productInfo.description}"></p>
+        <p th:text="'Link: ' + ${productInfo.productLinkToEmedia}"></p>
+    </div>
 
-<!-- Book details section -->
-<div th:if="${bookDetails != null}" class="container mt-4">
-    <h4>Book Details</h4>
-    <p th:text="'ISBN: ' + ${bookDetails.isbn}"></p>
-    <p th:text="'Edition: ' + ${bookDetails.edition}"></p>
-    <p th:text="'Pages: ' + ${bookDetails.pages}"></p>
-</div>
+    <!-- Book details section -->
+    <div th:if="${bookDetails != null}" class="container mt-4">
+        <h4>Book Details</h4>
+        <p th:text="'ISBN: ' + ${bookDetails.isbn}"></p>
+        <p th:text="'Edition: ' + ${bookDetails.edition}"></p>
+        <p th:text="'Pages: ' + ${bookDetails.pages}"></p>
+    </div>
 
-<!-- Creators section -->
-<div th:if="${creators.size() > 0}" class="container mt-4">
-    <h4>Creators</h4>
-    <ul th:each="creator : ${creators}">
-        <li th:text="'Id: ' + ${creator.creatorId}
+    <!-- Creators section -->
+    <div th:if="${creators.size() > 0}" class="container mt-4">
+        <h4>Creators</h4>
+        <ul th:each="creator : ${creators}">
+            <li th:text="'Id: ' + ${creator.creatorId}
         + ', Role: ' + ${creator.roleName}
         + ', Name: ' + ${creator.firstName}
         + ' ' + ${creator.lastName}"></li>
-    </ul>
-</div>
+        </ul>
+    </div>
 
-<!-- Locations section -->
-<div th:if="${locations.size() > 0}" class="container mt-4">
-    <h4>Locations</h4>
-    <table class="table table-hover">
-        <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">District</th>
-            <th scope="col">Library</th>
-            <th scope="col">Status</th>
-            <th scope="col">Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="location, stat : ${locations}">
-            <td th:text="${stat.index} + 1">1</td>
-            <td th:text="${location.district}">District</td>
-            <td th:text="${location.libraryName}">Library name</td>
-            <td th:text="${location.itemStatus}">Status</td>
-            <td>
-                <!-- TODO: Button to borrow item, add logic that hides this button if user is not logged in-->
-                <a th:href="@{/login}"
-                   class="btn btn-sm btn-primary">Login and borrow</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-
-
+    <!-- Locations section -->
+    <div th:if="${locations.size() > 0}" class="container mt-4">
+        <h4>Locations</h4>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">District</th>
+                <th scope="col">Library</th>
+                <th scope="col">Status</th>
+                <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="location, stat : ${locations}">
+                <td th:text="${stat.index} + 1">1</td>
+                <td th:text="${location.district}">District</td>
+                <td th:text="${location.libraryName}">Library name</td>
+                <td th:text="${location.itemStatus}">Status</td>
+                <td>
+                    <!-- TODO: Button to borrow item, add logic that hides this button if user is not logged in-->
+                    <a th:href="@{/login}"
+                       class="btn btn-sm btn-primary">Login and borrow</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
 </body>
 </html>

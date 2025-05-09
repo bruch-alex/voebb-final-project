@@ -1,0 +1,47 @@
+<div class="modal fade" id="loginModal"
+     xmlns:sec="http://www.w3.org/1999/xhtml">
+    <div class="modal-dialog"  role="document">
+        <div class="modal-content">
+
+            <div class="modal-body">
+                <!-- Login-->
+                <div sec:authorize="isAnonymous()">
+                    <form th:action="@{/login}" method="post">
+                        <div class="mb-3">
+                            <label for="loginUsername" class="form-label">Username</label>
+                            <input type="text" class="form-control" name="username" id="loginUsername" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="loginPassword" class="form-label">Password</label>
+                            <input type="password" class="form-control" name="password" id="loginPassword" required>
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="remember-me" id="flexCheckDefault">
+                            <label class="form-check-label" for="flexCheckDefault">
+                                Remember me
+                            </label>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">Login</button>
+                    </form>
+
+                    <div class="mt-3 text-center">
+                        <span>Don't have an account?</span>
+                        <a href="/users/register" class="text-decoration-none fw-bold">Register here!</a>
+                    </div>
+                </div>
+
+                <!-- Logout -->
+                <div sec:authorize="isAuthenticated()">
+                    <p>Hello, <strong sec:authentication="name"></strong> 👋</p>
+                    <form th:action="@{/logout}" method="post">
+                        <button type="submit" class="btn btn-danger w-100">Logout</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
