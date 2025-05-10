@@ -39,19 +39,19 @@
     <nav th:if="${page.totalPages > 1}">
         <ul class="pagination justify-content-center">
             <li class="page-item" th:classappend="${page.first} ? 'disabled'">
-                <a class="page-link" th:href="@{|/admin/products?page=${page.number - 1}|}">Previous</a>
+                <a class="page-link" th:href="@{|/templates/admin/products?page=${page.number - 1}|}">Previous</a>
             </li>
 
             <li class="page-item"
                 th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}"
                 th:classappend="${i == page.number} ? 'active'">
                 <a class="page-link"
-                   th:href="@{|/admin/products?page=${i}|}"
+                   th:href="@{|/templates/admin/products?page=${i}|}"
                    th:text="${i + 1}">1</a>
             </li>
 
             <li class="page-item" th:classappend="${page.last} ? 'disabled'">
-                <a class="page-link" th:href="@{|/admin/products?page=${page.number + 1}|}">Next</a>
+                <a class="page-link" th:href="@{|/templates/admin/products?page=${page.number + 1}|}">Next</a>
             </li>
         </ul>
     </nav>

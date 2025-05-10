@@ -8,7 +8,7 @@
 <body class="container py-5">
 <h2>Create New User</h2>
 
-<form th:action="@{/users/new}" th:object="${user}" method="post">
+<form th:action="@{/admin/users/new}" th:object="${user}" method="post">
     <div class="mb-3">
         <label for="firstName" class="form-label">First Name</label>
         <input type="text" id="firstName" th:field="*{firstName}" class="form-control" required />
@@ -41,7 +41,7 @@
 
     <div class="mb-3">
         <button type="submit" class="btn btn-primary">Submit</button>
-        <a href="/users" class="btn btn-secondary">Back to Users</a>
+        <a href="/admin/users" class="btn btn-secondary">Back to Users</a>
     </div>
 </form>
 

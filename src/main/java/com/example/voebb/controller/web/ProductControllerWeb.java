@@ -13,11 +13,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/products")
 public class ProductControllerWeb {
     private final ProductService productService;
     private final CreatorProductRelationService creatorService;
@@ -31,12 +29,12 @@ public class ProductControllerWeb {
         this.productItemService = productItemService;
     }
 
-    @GetMapping("/search")
+    @GetMapping()
     public String getSearchPage() {
-        return "product/product-search";
+        return "user/product/product-search";
     }
 
-    @GetMapping("/search-results")
+    @GetMapping("/search")
     public String getSearchResultPage(@PageableDefault(size = 5) Pageable pageable,
                                       @RequestParam String title,
                                       Model model) {
@@ -44,10 +42,10 @@ public class ProductControllerWeb {
         model.addAttribute("title", title);
         model.addAttribute("page", resultProducts);
         model.addAttribute("productDTOs", resultProducts.getContent());
-        return "product/product-list";
+        return "user/product/product-list";
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/products/{id}")
     public String getDetailsPage(@PathVariable Long id,
                                  Model model) {
         ProductInfoDTO productInfoDTO = productService.findById(id);
@@ -56,6 +54,6 @@ public class ProductControllerWeb {
         model.addAttribute("creators", creatorService.getCreatorsByProductId(id));
         model.addAttribute("bookDetails", bookDetailsService.getDetailsDTOByProductId(id));
         model.addAttribute("locations", productItemService.getAllLocationsForProduct(id));
-        return "product/product-full-details";
+        return "user/product/product-full-details";
     }
 }

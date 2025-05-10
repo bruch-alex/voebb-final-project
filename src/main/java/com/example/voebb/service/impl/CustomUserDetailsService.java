@@ -1,5 +1,6 @@
 package com.example.voebb.service.impl;
 
+import com.example.voebb.model.dto.user.UserRegistrationDTO;
 import com.example.voebb.model.entity.CustomUser;
 import com.example.voebb.model.entity.CustomUserRole;
 import com.example.voebb.repository.CustomUserRepo;
@@ -49,15 +50,17 @@ public class CustomUserDetailsService implements UserDetailsService {
         );
     }
 
-    public void createUser(String email, String password) {
+    public void createUser(UserRegistrationDTO userRegistrationDTO) {
 
         CustomUserRole role = customUserRoleRepo.findByName("ROLE_CLIENT")
-                .orElseThrow(() -> new RuntimeException("Role not found"));
+                .orElseThrow(() -> new RuntimeException("ROLE_CLIENT not found"));
 
         CustomUser customUser = new CustomUser();
 
-        customUser.setEmail(email);
-        customUser.setPassword(passwordEncoder.encode(password));
+        customUser.setEmail(userRegistrationDTO.email());
+        customUser.setPassword(passwordEncoder.encode(userRegistrationDTO.password()));
+        customUser.setFirstName(userRegistrationDTO.firstName());
+        customUser.setLastName(userRegistrationDTO.lastName());
         customUser.setEnabled(true);
         customUser.setRoles(Set.of(role));
 

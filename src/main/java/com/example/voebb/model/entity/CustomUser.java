@@ -46,7 +46,7 @@ public class CustomUser {
 
     // TODO: TBD add more fields => created_at(register_date), updated_at, expired_membership_date
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_roles_relation",
             joinColumns = @JoinColumn(name = "custom_user_id"),

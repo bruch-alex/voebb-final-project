@@ -1,12 +1,11 @@
 package com.example.voebb.controller.web;
 
-import com.example.voebb.model.dto.UserRegistrationDTO;
+import com.example.voebb.model.dto.user.UserRegistrationDTO;
 import com.example.voebb.service.impl.CustomUserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class UserController {
@@ -18,12 +17,12 @@ public class UserController {
 
     @GetMapping("/register")
     public String getRegisterPage() {
-        return "register-page";
+        return "user/register-page";
     }
 
     @PostMapping("/register")
     public String postRegisterPage(@ModelAttribute UserRegistrationDTO userRegistrationDTO) {
-        customUserDetailsService.createUser(userRegistrationDTO.email(), userRegistrationDTO.password());
-        return "redirect:/register";
+        customUserDetailsService.createUser(userRegistrationDTO);
+        return "redirect:/";
     }
 }

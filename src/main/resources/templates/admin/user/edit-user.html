@@ -11,7 +11,7 @@
 <h2>Edit User</h2>
 
 <!-- Form to edit user details -->
-<form th:action="@{/users/edit/{id}(id=${user.id})}" th:object="${user}" method="post">
+<form th:action="@{/admin/users/edit/{id}(id=${user.id})}" th:object="${user}" method="post">
     <div class="row mb-3">
         <div class="col-md-6">
             <label for="firstName" class="form-label">First Name</label>
@@ -47,7 +47,7 @@
     </div>
 
     <button type="submit" class="btn btn-primary">Save Changes</button>
-    <a href="/users" class="btn btn-secondary">Back to Users</a>
+    <a href="/admin/users" class="btn btn-secondary">Back to Users</a>
 </form>
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" crossorigin="anonymous"></script>
