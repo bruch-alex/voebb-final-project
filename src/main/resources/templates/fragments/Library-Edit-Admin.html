@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Library</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.5/dist/zephyr/bootstrap.min.css">
+</head>
+<body>
+<div class="container my-4">
+    <h1 class="h4 mb-3">Edit Library</h1>
+
+    <form th:action="@{/admin/libraries/update/{id}(id=${library.id})}" method="post" th:object="${library}">
+        <input type="hidden" th:field="*{id}">
+
+        <div class="mb-3">
+            <label class="form-label">Library Name</label>
+            <input th:field="*{name}" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea th:field="*{description}" class="form-control" rows="2"></textarea>
+        </div>
+
+        <h5 class="mt-4">Address</h5>
+        <div class="row g-3 mb-3">
+            <div class="col-md-6">
+                <label class="form-label">City</label>
+                <input th:field="*{city}" class="form-control" required>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">District</label>
+                <input th:field="*{district}" class="form-control">
+            </div>
+            <div class="col-md-8">
+                <label class="form-label">Street</label>
+                <input th:field="*{street}" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">House Number</label>
+                <input th:field="*{houseNr}" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Postcode</label>
+                <input th:field="*{postcode}" class="form-control">
+            </div>
+            <div class="col-md-8">
+                <label class="form-label">OSM Link</label>
+                <input th:field="*{osmLink}" class="form-control" placeholder="OpenStreetMap link">
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <button type="submit" class="btn btn-primary">Update Library</button>
+            <a th:href="@{/admin/libraries}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

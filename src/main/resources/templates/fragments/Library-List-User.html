@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Libraries</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.5/dist/zephyr/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body>
+<div class="container my-4">
+    <h1 class="h3 mb-4">Our Libraries</h1>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        <div class="col" th:each="library : ${libraries}">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${library.name}">Library Name</h5>
+                    <h6 class="card-subtitle mb-2 text-muted" th:text="${library.district}">District</h6>
+                    <p class="card-text" th:text="${library.description}">Description</p>
+                    <p class="card-text">
+                        <i class="bi bi-geo-alt"></i>
+                        <span th:text="${library.street + ' ' + library.houseNr + ', ' + library.postcode + ' ' + library.city}">Address</span>
+                    </p>
+                    <a th:href="@{/libraries/{id}(id=${library.id})}" class="btn btn-sm btn-outline-primary">View Details</a>
+                    <a th:if="${library.osmLink}" th:href="${library.osmLink}" target="_blank" class="btn btn-sm btn-outline-secondary">
+                        <i class="bi bi-map"></i> View on Map
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin: Libraries</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.5/dist/zephyr/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body>
+<div class="container my-4">
+    <h1 class="h4 mb-3">Libraries Management (Admin)</h1>
+
+    <!-- Success message -->
+    <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+        <span th:text="${success}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+
+    <!-- Add Library button -->
+    <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addLibraryModal">
+        <i class="bi bi-plus-circle"></i> Add Library
+    </button>
+
+    <!-- Libraries Table -->
+    <table class="table table-striped">
+        <thead class="table-light">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">District</th>
+            <th scope="col">Address</th>
+            <th scope="col" class="text-end">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="library, stat : ${libraries}">
+            <td th:text="${stat.index + 1}">1</td>
+            <td th:text="${library.name}">Library Name</td>
+            <td th:text="${library.district}">District Name</td>
+            <td>
+                <span th:text="${library.street + ' ' + library.houseNr + ', ' + library.postcode + ' ' + library.city}">Address</span>
+            </td>
+            <td class="text-end">
+                <!-- Edit Button -->
+                <a th:href="@{/admin/libraries/edit/{id}(id=${library.id})}" class="btn btn-sm btn-outline-primary me-1">Edit</a>
+
+                <!-- Delete button -->
+                <form th:action="@{/admin/libraries/delete/{id}(id=${library.id})}" method="post" style="display:inline">
+                    <button type="submit" class="btn btn-sm btn-outline-danger"
+                            onclick="return confirm('Are you sure you want to delete this library?');">
+                        Delete
+                    </button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Add Library Modal -->
+    <div class="modal fade" id="addLibraryModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Library</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form th:action="@{/admin/libraries}" method="post" th:object="${newLibrary}">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Library Name</label>
+                            <input name="name" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Description</label>
+                            <textarea name="description" class="form-control" rows="2"></textarea>
+                        </div>
+                        <h5 class="mt-4">Address</h5>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">City</label>
+                                <input name="city" class="form-control" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">District</label>
+                                <input name="district" class="form-control">
+                            </div>
+                            <div class="col-md-8">
+                                <label class="form-label">Street</label>
+                                <input name="street" class="form-control" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">House Number</label>
+                                <input name="houseNr" class="form-control" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Postcode</label>
+                                <input name="postcode" class="form-control">
+                            </div>
+                            <div class="col-md-8">
+                                <label class="form-label">OSM Link</label>
+                                <input name="osmLink" class="form-control" placeholder="OpenStreetMap link">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button class="btn btn-success" type="submit">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
