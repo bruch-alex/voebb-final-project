@@ -13,9 +13,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Controller
-@RequestMapping("/admin/libraries")
-@RequiredArgsConstructor
+
 public class LibraryControllerAdmin {
 
     private final LibraryService libraryService;
@@ -33,7 +31,7 @@ public class LibraryControllerAdmin {
 
         model.addAttribute("libraries", libraryDTOs);
         model.addAttribute("newLibrary", new LibraryDTO());
-        return "admin/libraries/list";
+        return "fragments/Library-List-Admin.html";
     }
 
     @GetMapping("/new")
