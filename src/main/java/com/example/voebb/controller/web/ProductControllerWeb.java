@@ -25,9 +25,9 @@ public class ProductControllerWeb {
     private final CreatorService creatorService;
 
 
-    @GetMapping()
-    public String getSearchPage() {
-        return "user/product/product-search";
+    @GetMapping
+    public String getIndexPage() {
+        return "public/index";
     }
 
     @GetMapping("/search")
@@ -38,7 +38,7 @@ public class ProductControllerWeb {
         model.addAttribute("title", title);
         model.addAttribute("page", resultProducts);
         model.addAttribute("cardProductDTOs", resultProducts.getContent());
-        return "user/product/product-list";
+        return "public/product/product-list";
     }
 
     @GetMapping("/products/{id}")
@@ -49,6 +49,6 @@ public class ProductControllerWeb {
         model.addAttribute("productInfoDTO", productInfoDTO);
         model.addAttribute("bookDetailsDTO", bookDetailsService.getDetailsDTOByProductId(id));
         model.addAttribute("locationAndItemStatusDTOs", productItemService.getAllLocationsForProduct(id));
-        return "user/product/product-full-details";
+        return "public/product/product-full-details";
     }
 }

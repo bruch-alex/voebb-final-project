@@ -1,17 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{public/public-layout}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Registration page</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.5/dist/zephyr/bootstrap.min.css" rel="stylesheet">
 </head>
-<body class="d-flex flex-column min-vh-100">
-
-<!-- Navbar -->
-<div th:replace="~{user/fragments/main-navbar.html :: main-navbar}"></div>
-
-<main class="container mt-5">
+<body>
+<main class="container mt-5" layout:fragment="content">
 
     <h3 class="text-center mb-4">Create new user</h3>
 
@@ -98,13 +96,5 @@
     </form>
 </main>
 
-<!-- Modals -->
-<div th:replace="~{user/fragments/user-login-modal :: #loginModal}"></div>
-
-<!-- Footer -->
-<footer th:replace="~{user/fragments/footer.html :: footer}" class="mt-auto"></footer>
-
-<!-- Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
