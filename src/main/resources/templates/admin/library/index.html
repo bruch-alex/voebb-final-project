@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.5/dist/zephyr/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<main class="container mt-5">
+    <h2 class="text-center mb-4">Library management</h2>
+
+    <div class="mt-4 d-flex justify-content-center" th:if="${page.totalPages > 1}">
+        <ul class="pagination">
+            <li class="page-item" th:classappend="${page.hasPrevious()} ? '' : 'disabled'">
+                <a class="page-link"
+                   th:href="@{/admin/libraries(page=${page.number - 1})}">Previous</a>
+            </li>
+
+            <li class="page-item" th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}"
+                th:classappend="${page.number == i} ? 'active'">
+                <a class="page-link"
+                   th:href="@{/admin/libraries(page=${i})}"
+                   th:text="${i + 1}">1</a>
+            </li>
+
+            <li class="page-item" th:classappend="${page.hasNext()} ? '' : 'disabled'">
+                <a class="page-link"
+                   th:href="@{/admin/title(page=${page.number + 1})}">Next</a>
+            </li>
+        </ul>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>District</th>
+            <th>Name</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="library : ${libraries}">
+            <td th:text="${library.id}"></td>
+            <td th:text="${library.district}"></td>
+            <td th:text="${library.name}"></td>
+
+            <td>
+                <!-- Edit userDTO -->
+                <a th:href="@{/admin/libraries/edit/{id}(id=${library.id})}" class="btn btn-info btn-sm">Edit</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="mt-4 d-flex justify-content-center" th:if="${page.totalPages > 1}">
+        <ul class="pagination">
+            <li class="page-item" th:classappend="${page.hasPrevious()} ? '' : 'disabled'">
+                <a class="page-link"
+                   th:href="@{/admin/libraries(page=${page.number - 1})}">Previous</a>
+            </li>
+
+            <li class="page-item" th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}"
+                th:classappend="${page.number == i} ? 'active'">
+                <a class="page-link"
+                   th:href="@{/admin/libraries(page=${i})}"
+                   th:text="${i + 1}">1</a>
+            </li>
+
+            <li class="page-item" th:classappend="${page.hasNext()} ? '' : 'disabled'">
+                <a class="page-link"
+                   th:href="@{/admin/title(page=${page.number + 1})}">Next</a>
+            </li>
+        </ul>
+    </div>
+
+    <a href="/admin/libraries/new" class="btn btn-primary">Create New Library</a>
+</main>
+</body>
+</html>
