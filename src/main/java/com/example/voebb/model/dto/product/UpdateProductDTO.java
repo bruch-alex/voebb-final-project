@@ -13,6 +13,8 @@ public record UpdateProductDTO(
 
         BookDetailsDTO bookDetails,   // nullable for non-books
         // TODO: Add creators
-        List<Long> countryIds
+        List<Long> countryIds,
+
+        List<Long> languageIds
 ) {
 }

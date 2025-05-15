@@ -121,6 +121,34 @@
         }
 
     });
+    //language
+    const languageListItems = document.querySelectorAll("#language_list li");
+    document.getElementById("search-language-input").addEventListener("input", function () {
+        const filter = this.value.toLowerCase();
+        let lastVisibleItem = null;
+
+        languageListItems.forEach(function (item) {
+            const label = item.querySelector("label");
+            const text = label.textContent.toLowerCase();
+
+            if (text.includes(filter)) {
+                item.style.display = "list-item";
+                lastVisibleItem = item;
+            } else {
+                item.style.display = "none";
+            }
+        });
+
+        languageListItems.forEach(function (item) {
+            if (item.style.display === "list-item") {
+                item.style.borderBottom = "1px solid #ddd";
+            }
+        });
+
+        if (lastVisibleItem) {
+            lastVisibleItem.style.borderBottom = "none";
+        }
+    });
 </script>
 </body>
 </html>

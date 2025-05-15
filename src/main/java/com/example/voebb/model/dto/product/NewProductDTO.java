@@ -1,15 +1,15 @@
 package com.example.voebb.model.dto.product;
 
 import com.example.voebb.model.dto.creator.CreatorWithRoleDTO;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 @Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class NewProductDTO {
@@ -32,5 +32,6 @@ public class NewProductDTO {
 //    }
 
     List<Long> countryIds;
+    List<Long> languageIds;
 
 }

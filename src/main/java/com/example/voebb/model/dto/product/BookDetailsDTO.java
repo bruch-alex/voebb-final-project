@@ -5,4 +5,7 @@ public record BookDetailsDTO(
         String edition,
         Integer pages
 ) {
+    public BookDetailsDTO() {
+        this(null, null, null);
+    }
 }
