@@ -1,0 +1,20 @@
+<div class="mt-4 d-flex justify-content-center" th:fragment="pagination">
+  <ul class="pagination">
+    <li class="page-item" th:classappend="${page.hasPrevious()} ? '' : 'disabled'">
+      <a class="page-link"
+         th:href="@{/search(page=${page.number - 1}, title=${title})}">Previous</a>
+    </li>
+
+    <li class="page-item" th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}"
+        th:classappend="${page.number == i} ? 'active'">
+      <a class="page-link"
+         th:href="@{/search(page=${i}, title=${title})}"
+         th:text="${i + 1}">1</a>
+    </li>
+
+    <li class="page-item" th:classappend="${page.hasNext()} ? '' : 'disabled'">
+      <a class="page-link"
+         th:href="@{/search(page=${page.number + 1}, title=${title})}">Next</a>
+    </li>
+  </ul>
+</div>

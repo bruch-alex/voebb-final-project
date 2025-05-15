@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{public/public-layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>List of products</title>
+</head>
+<body>
+<main layout:fragment="content" class="flex-fill">
+
+    <div th:replace="~{public/fragments/search-by-title-pagination:: pagination}"></div>
+
+    <div th:each="productDTO : ${productDTOs}" class="d-flex justify-content-center mb-4">
+        <div th:replace="~{public/fragments/product-card :: card(${productDTO})}"></div>
+    </div>
+
+    <div th:replace="~{public/fragments/search-by-title-pagination:: pagination}"></div>
+
+</main>
+</body>
+</html>

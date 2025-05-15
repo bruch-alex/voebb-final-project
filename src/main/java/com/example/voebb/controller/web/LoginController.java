@@ -21,14 +21,14 @@ public class LoginController {
     @GetMapping("/register")
     public String getRegisterPage(Model model) {
         model.addAttribute("userRegistrationDTO", new UserRegistrationDTO("", "", "", ""));
-        return "user/register-page";
+        return "public/login_register/register-page";
     }
 
     @PostMapping("/register")
     public String postRegisterPage(@ModelAttribute("userRegistrationDTO") @Valid UserRegistrationDTO userRegistrationDTO,
                                    BindingResult result) {
         if (result.hasErrors()) {
-            return "user/register-page";
+            return "public/login_register/register-page";
         }
         customUserDetailsService.registerUser(userRegistrationDTO);
         return "redirect:/";
