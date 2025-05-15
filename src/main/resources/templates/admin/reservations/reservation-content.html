@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/admin-layout}">
+
+
+<main layout:fragment="content">
+
+    <div class="container my-4">
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="mb-0">Reservation Dashboard</h2>
+            <button class="btn btn-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#reserveItem">
+                <i class="bi bi-plus-circle"></i> New Reservation
+            </button>
+        </div>
+
+        <div th:replace="admin/fragments/_alerts :: alerts"></div>
+
+        <form th:action="@{/admin/reservations}" method="get" class="row g-3 align-items-end mb-4">
+
+            <div class="col-12 col-md-3">
+                <label for="clientId" class="form-label">Client ID</label>
+                <input type="text" id="clientId" name="clientId"
+                       class="form-control"
+                       pattern="\d*" inputmode="numeric"
+                       th:value="${clientId}"
+                       placeholder="Enter Client ID"/>
+            </div>
+
+            <div class="col-12 col-md-3">
+                <label for="itemId" class="form-label">Item ID</label>
+                <input type="text" id="itemId" name="itemId"
+                       class="form-control"
+                       pattern="\d*" inputmode="numeric"
+                       th:value="${itemId}"
+                       placeholder="Enter Item ID"/>
+            </div>
+
+            <div class="col-12 col-md-3">
+                <select id="libraryId" name="libraryId" class="form-control">
+                    <option th:value="${null}" th:selected="${libraryId == null}">Filter by library</option>
+                    <option th:each="lib : ${libraries}"
+                            th:value="${lib.id}"
+                            th:text="${lib.name}"
+                            th:selected="${lib.id == libraryId}">
+                    </option>
+                </select>
+
+            </div>
+
+            <div class="col-12 col-md-3 text-md-end">
+                <button type="submit" class="btn btn-outline-primary w-100 w-md-auto">
+                    <i class="bi bi-filter"></i> <span class="d-none d-sm-inline">Apply Filters</span>
+                </button>
+            </div>
+        </form>
+
+
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                <tr>
+                    <th>ID</th>
+                    <th>User</th>
+                    <th>Item</th>
+                    <th>Start Date</th>
+                    <th>Due Date</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="res : ${reservations}">
+                    <td th:text="${res.id}"></td>
+                    <td th:text="${res.customUserFullName}"></td>
+                    <td th:text="${res.itemTitle}"></td>
+                    <td th:text="${res.startDate}"></td>
+                    <td th:text="${res.dueDate}"></td>
+                    <td class="text-end" style="white-space: nowrap;">
+                        <a th:href="@{/admin/reservation/edit/{id}(id=${res.id})}"
+                           class="btn btn-info btn-sm">
+                            <i class="bi bi-pencil d-inline d-sm-none"></i>
+                            <span class="d-none d-sm-inline">Edit</span>
+                        </a>
+
+                        <a th:href="@{/admin/reservation/cancel/{id}(id=${res.id})}"
+                           onclick="return confirm('Are you sure you want to cancel this reservation?');"
+                           class="btn btn-danger btn-sm d-inline-flex align-items-center">
+                            <i class="bi bi-x-circle d-inline d-sm-none"></i> <!-- icon only on small -->
+                            <span class="d-none d-sm-inline">Cancel</span>
+                        </a>
+                    </td>
+
+                </tr>
+                <tr th:if="${#lists.isEmpty(reservations)}">
+                    <td colspan="6" class="text-center text-muted">No reservations found.</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        <nav th:if="${page.totalPages > 1}">
+            <ul class="pagination justify-content-center">
+                <li class="page-item" th:classappend="${page.first} ? 'disabled'">
+                    <a class="page-link"
+                       th:href="@{/admin/reservations(page=${page.number - 1}, clientId=${clientId}, itemId=${itemId}, libraryId=${libraryId})}">Previous</a>
+                </li>
+
+                <li class="page-item"
+                    th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}"
+                    th:classappend="${i == page.number} ? 'active'">
+                    <a class="page-link"
+                       th:href="@{/admin/reservations(page=${i}, clientId=${clientId}, itemId=${itemId}, libraryId=${libraryId})}"
+                       th:text="${i + 1}">1</a>
+                </li>
+
+                <li class="page-item" th:classappend="${page.last} ? 'disabled'">
+                    <a class="page-link"
+                       th:href="@{/admin/reservations(page=${page.number + 1}, clientId=${clientId}, itemId=${itemId}, libraryId=${libraryId})}">Next</a>
+                </li>
+            </ul>
+        </nav>
+
+    </div>
+</main>
+</html>
+
