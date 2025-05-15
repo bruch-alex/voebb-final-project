@@ -32,7 +32,15 @@ VALUES (1, 'ROLE_ADMIN'),
 INSERT INTO languages (language_id, language_name)
 VALUES
     (1, 'English'),
-    (2, 'German')
+    (2, 'German'),
+    (3, 'Hindi'),
+    (4, 'Chinese'),
+    (5, 'Japanese'),
+    (6, 'French'),
+    (7, 'Spanish'),
+    (8, 'Russian'),
+    (9, 'Arabic'),
+    (10, 'Korean')
 ON CONFLICT (language_id) DO NOTHING;
 SELECT setval('languages_language_id_seq', (SELECT MAX(language_id) FROM languages));
 -- DUMMY DATA BELLOW

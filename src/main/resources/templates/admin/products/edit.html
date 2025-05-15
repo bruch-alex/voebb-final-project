@@ -60,6 +60,7 @@
 
 
         <!-- Countries -->
+        <div class="col-md-6 mb-3">
         <div class="border rounded-2 p-2 no-upper-and-bottom-border" style="max-width: 300px">
             <input type="text" id="searchInput" placeholder="Search countries..." class="form-control mb-2">
             <div class="overflow-auto" style="max-height: 200px">
@@ -79,6 +80,48 @@
                         </div>
                     </li>
                 </ul>
+            </div>
+        </div>
+        </div>
+
+
+        <!-- languages -->
+        <div class="col-md-6 mb-3">
+        <div class="border rounded-2 p-2 no-upper-and-bottom-border" style="max-width: 300px">
+            <input type="text" id="languageSearchInput" placeholder="Search languages..." class="form-control mb-2">
+            <div class="overflow-auto" style="max-height: 200px">
+                <ul class="list-group" id="language_list" style="border: none">
+                    <li class="list-group-item" style="border-left: none; border-right: none"
+                        th:each="language : ${languages}">
+                        <div class="form-check">
+                            <input class="form-check-input"
+                                   type="checkbox"
+                                   th:value="${language.id}"
+                                   th:field="*{languageIds}"
+                                   th:id="'langCheckbox__' + ${language.id}"
+                            >
+                            <label class="form-check-label"
+                                   th:for="'langCheckbox__' + ${language.id}"
+                                   th:text="${language.name}"></label>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        </div>
+        <div th:if="${product.productType == 'book' or product.productType == 'ebook'}" class="col-12">
+            <h5>Book Details</h5>
+            <div class="mb-2">
+                <label for="isbn" class="form-label">ISBN</label>
+                <input type="text" th:field="*{bookDetails.isbn}" id="isbn" class="form-control"/>
+            </div>
+            <div class="mb-2">
+                <label for="edition" class="form-label">Edition</label>
+                <input type="text" th:field="*{bookDetails.edition}" id="edition" class="form-control"/>
+            </div>
+            <div class="mb-2">
+                <label for="pages" class="form-label">Pages</label>
+                <input type="number" th:field="*{bookDetails.pages}" id="pages" class="form-control"/>
             </div>
         </div>
 
@@ -122,6 +165,36 @@
             lastVisibleItem.style.borderBottom = "none";
         }
 
+    });
+</script>
+<script>
+    const languageItems = document.querySelectorAll("#language_list li");
+    document.getElementById("languageSearchInput").addEventListener("input", function () {
+        const filter = this.value.toLowerCase();
+
+        let lastVisible = null;
+
+        languageItems.forEach(function (item) {
+            const label = item.querySelector("label");
+            const text = label.textContent.toLowerCase();
+
+            if (text.includes(filter)) {
+                item.style.display = "list-item";
+                lastVisible = item;
+            } else {
+                item.style.display = "none";
+            }
+        });
+
+        languageItems.forEach(function (item) {
+            if (item.style.display === "list-item") {
+                item.style.borderBottom = "1px solid #ddd";
+            }
+        });
+
+        if (lastVisible) {
+            lastVisible.style.borderBottom = "none";
+        }
     });
 </script>
 </body>

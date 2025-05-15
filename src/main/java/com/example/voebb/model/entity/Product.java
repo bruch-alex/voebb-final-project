@@ -66,4 +66,6 @@ public class Product {
     )
     private List<Country> countries;
 
+
+
 }

@@ -3,6 +3,7 @@ package com.example.voebb.service.impl;
 import com.example.voebb.model.dto.creator.CreatorRequestDTO;
 import com.example.voebb.model.dto.product.*;
 import com.example.voebb.model.entity.Country;
+import com.example.voebb.model.entity.Language;
 import com.example.voebb.model.entity.Product;
 import com.example.voebb.model.entity.ProductType;
 import com.example.voebb.repository.CountryRepo;
@@ -150,13 +151,16 @@ public class ProductServiceImpl implements ProductService {
         Product product = productRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
 
-        BookDetailsDTO bookDetailsDTO = new BookDetailsDTO(
-                product.getBookDetails().getIsbn(),
-                product.getBookDetails().getEdition(),
-                product.getBookDetails().getPages()
-        );
+        BookDetailsDTO bookDetailsDTO = null;
 
-        // TODO: Make mapper
+        if (product.getBookDetails() != null) {
+            bookDetailsDTO = new BookDetailsDTO(
+                    product.getBookDetails().getIsbn(),
+                    product.getBookDetails().getEdition(),
+                    product.getBookDetails().getPages()
+            );
+        }
+
         return new UpdateProductDTO(
                 product.getId(),
                 product.getType().getName(),
@@ -166,9 +170,12 @@ public class ProductServiceImpl implements ProductService {
                 product.getDescription(),
                 product.getProductLinkToEmedia(),
                 bookDetailsDTO,
-                product.getCountries().stream().map(
-                        Country::getId
-                ).toList()
+                product.getCountries().stream()
+                        .map(Country::getId)
+                        .toList(),
+                product.getLanguages().stream()
+                        .map(Language::getId)
+                        .toList()
         );
     }
 
