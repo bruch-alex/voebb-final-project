@@ -66,20 +66,6 @@ public class ProductControllerAdmin {
     public String editProduct(@PathVariable("id") Long id, Model model) {
 
         UpdateProductDTO product = productService.getProductById(id);
-        if (product.bookDetails() == null) {
-            product = new UpdateProductDTO(
-                    product.id(),
-                    product.productType(),
-                    product.title(),
-                    product.releaseYear(),
-                    product.photo(),
-                    product.description(),
-                    product.productLinkToEmedia(),
-                    new BookDetailsDTO("","",0), // new empty BookDetailsDTO
-                    product.countryIds(),
-                    product.languageIds()
-            );
-        }
 
         model.addAttribute("product", product);
         model.addAttribute("countries", countryService.findAll());

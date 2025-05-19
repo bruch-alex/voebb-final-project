@@ -7,6 +7,7 @@ import com.example.voebb.model.entity.Language;
 import com.example.voebb.model.entity.Product;
 import com.example.voebb.model.entity.ProductType;
 import com.example.voebb.repository.CountryRepo;
+import com.example.voebb.repository.LanguageRepo;
 import com.example.voebb.repository.ProductRepo;
 import com.example.voebb.service.*;
 import jakarta.transaction.Transactional;
@@ -28,6 +29,7 @@ public class ProductServiceImpl implements ProductService {
     private final CreatorService creatorService;
     private final ProductTypeService productTypeService;
     private final CountryRepo countryRepo;
+    private final LanguageRepo languageRepo;
 
     public ProductServiceImpl(
             ProductRepo productRepo,
@@ -36,7 +38,7 @@ public class ProductServiceImpl implements ProductService {
             CreatorService creatorService,
             ProductTypeService productTypeService,
             CountryRepo countryRepo,
-            ProductItemService productItemService) {
+            ProductItemService productItemService, LanguageRepo languageRepo) {
         this.productRepo = productRepo;
         this.bookDetailsService = bookDetailsService;
         this.creatorService = creatorService;
@@ -44,6 +46,7 @@ public class ProductServiceImpl implements ProductService {
         this.creatorProductRelationService = creatorProductRelationService;
         this.productItemService = productItemService;
         this.countryRepo = countryRepo;
+        this.languageRepo = languageRepo;
     }
 
     @Override
@@ -151,7 +154,7 @@ public class ProductServiceImpl implements ProductService {
         Product product = productRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
 
-        BookDetailsDTO bookDetailsDTO = null;
+        BookDetailsDTO bookDetailsDTO;
 
         if (product.getBookDetails() != null) {
             bookDetailsDTO = new BookDetailsDTO(
@@ -159,7 +162,10 @@ public class ProductServiceImpl implements ProductService {
                     product.getBookDetails().getEdition(),
                     product.getBookDetails().getPages()
             );
+        } else {
+            bookDetailsDTO = new BookDetailsDTO("", "", 0);
         }
+
 
         return new UpdateProductDTO(
                 product.getId(),
@@ -186,7 +192,9 @@ public class ProductServiceImpl implements ProductService {
                 .orElseThrow(() -> new RuntimeException("Product not found"));
 
         List<Country> countries = countryRepo.findAllById(updateProductDTO.countryIds());
-
+        Set<Language> languages = languageRepo.findAllById(updateProductDTO.languageIds())
+                .stream()
+                .collect(Collectors.toSet());
         // TODO: make mapper
         existingProduct.setTitle(updateProductDTO.title());
         existingProduct.setReleaseYear(updateProductDTO.releaseYear());
@@ -194,6 +202,7 @@ public class ProductServiceImpl implements ProductService {
         existingProduct.setPhoto(updateProductDTO.photo());
         existingProduct.setProductLinkToEmedia(updateProductDTO.productLinkToEmedia());
         existingProduct.setCountries(countries);
+        existingProduct.setLanguages(languages);
         productRepo.save(existingProduct);
         return updateProductDTO;
     }
