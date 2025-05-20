@@ -76,5 +76,21 @@ public class BookDetailsServiceImpl implements BookDetailsService {
         bookDetailsRepo.deleteById(productId);
     }
 
+    @Override
+    public void updateOrCreateBookDetails(BookDetailsDTO bookDetailsDTO, Product existingProduct) {
+        BookDetails bookDetails = existingProduct.getBookDetails(); // ✅ fixed
+
+        if (bookDetails == null) {
+            bookDetails = new BookDetails();
+            bookDetails.setProduct(existingProduct); // ✅ use existingProduct here too
+        }
+
+        bookDetails.setIsbn(bookDetailsDTO.getIsbn());
+        bookDetails.setEdition(bookDetailsDTO.getEdition());
+        bookDetails.setPages(bookDetailsDTO.getPages());
+
+        bookDetailsRepo.save(bookDetails);
+    }
+
 
 }

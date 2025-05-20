@@ -14,4 +14,6 @@ public interface BookDetailsService {
     BookDetails updateDetails(Long productId, NewBookDetailsDTO newDetails);
 
     void deleteDetails(Long productId);
+
+    void updateOrCreateBookDetails(BookDetailsDTO bookDetailsDTO, Product existingProduct);
 }

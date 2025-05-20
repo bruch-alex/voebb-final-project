@@ -8,4 +8,14 @@ public record BookDetailsDTO(
     public BookDetailsDTO() {
         this(null, null, null);
     }
+
+    public String getIsbn() {
+        return isbn;
+    }
+    public String getEdition() {
+        return edition;
+    }
+    public Integer getPages() {
+        return pages;
+    }
 }

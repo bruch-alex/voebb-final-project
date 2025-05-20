@@ -203,6 +203,10 @@ public class ProductServiceImpl implements ProductService {
         existingProduct.setProductLinkToEmedia(updateProductDTO.productLinkToEmedia());
         existingProduct.setCountries(countries);
         existingProduct.setLanguages(languages);
+        BookDetailsDTO bookDetailsDTO = updateProductDTO.bookDetails();
+        if (bookDetailsDTO != null) {
+            bookDetailsService.updateOrCreateBookDetails(bookDetailsDTO, existingProduct);
+        }
         productRepo.save(existingProduct);
         return updateProductDTO;
     }
