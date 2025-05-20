@@ -14,37 +14,38 @@
     <!-- General Product Info -->
     <div class="container mt-4">
         <h4>General info</h4>
-        <p th:text="'Title: ' + ${productInfoDTO.title}"></p>
-        <p th:text="'Id: ' + ${productInfoDTO.id}"></p>
-        <p th:text="'Type: ' + ${productInfoDTO.productType}"></p>
-        <p th:text="'Release: ' + ${productInfoDTO.releaseYear}"></p>
-        <p th:text="'Photo: ' + ${productInfoDTO.photo}"></p>
-        <p th:text="'Description: ' + ${productInfoDTO.description}"></p>
-        <p th:text="'Link: ' + ${productInfoDTO.productLinkToEmedia}"></p>
+        <p th:text="'Title: ' + ${productInfo.title}"></p>
+        <p th:text="'Id: ' + ${productInfo.id}"></p>
+        <p th:text="'Type: ' + ${productInfo.productType}"></p>
+        <p th:text="'Release: ' + ${productInfo.releaseYear}"></p>
+        <p th:text="'Photo: ' + ${productInfo.photo}"></p>
+        <p th:text="'Description: ' + ${productInfo.description}"></p>
+        <p th:text="'Link: ' + ${productInfo.productLinkToEmedia}"></p>
     </div>
 
     <!-- Book details section -->
-    <div class="container mt-4" th:if="${bookDetailsDTO != null}">
+    <div class="container mt-4" th:if="${bookDetails != null}">
         <h4>Book Details</h4>
-        <p th:text="'ISBN: ' + ${bookDetailsDTO.isbn}"></p>
-        <p th:text="'Edition: ' + ${bookDetailsDTO.edition}"></p>
-        <p th:text="'Pages: ' + ${bookDetailsDTO.pages}"></p>
+        <p th:text="'ISBN: ' + ${bookDetails.isbn}"></p>
+        <p th:text="'Edition: ' + ${bookDetails.edition}"></p>
+        <p th:text="'Pages: ' + ${bookDetails.pages}"></p>
     </div>
 
     <!-- Creators section -->
-    <div class="container mt-4" th:if="${productInfoDTO.creators.size() > 0}">
+    <div class="container mt-4" th:if="${creators.size() > 0}">
         <h4>Creators</h4>
-        <ul th:each="creatorWithRoleDTO : ${productInfoDTO.creators}">
-            <li th:text="${creatorWithRoleDTO.role}
-        + ': '+ ${creatorWithRoleDTO.firstName}
-        + ' ' + ${creatorWithRoleDTO.lastName}"></li>
+        <ul th:each="creator : ${creators}">
+            <li th:text="'Id: ' + ${creator.creatorId}
+        + ', Role: ' + ${creator.roleName}
+        + ', Name: ' + ${creator.firstName}
+        + ' ' + ${creator.lastName}"></li>
         </ul>
     </div>
 
     <!-- Locations section -->
-    <div class="container mt-4" th:if="${locationAndItemStatusDTOs.size() > 0}">
+    <div class="container mt-4" th:if="${locations.size() > 0}">
         <h4>Locations</h4>
-        <table class="table table-hover table-striped">
+        <table class="table table-hover">
             <thead>
             <tr>
                 <th scope="col">Status</th>
