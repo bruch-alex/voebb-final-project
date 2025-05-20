@@ -1,3 +1,5 @@
+
+
 <div th:fragment="addProductModal">
     <div class="modal fade" id="addProductModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -8,7 +10,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
 
-                <form th:action="@{/admin/products}" th:object="${productDTO}" method="post">
+                <form th:action="@{/admin/products}" method="post">
                     <div class="modal-body">
                         <div class="row g-3">
 
@@ -46,11 +48,11 @@
                                 <h5>Creator</h5>
                             </div>
                             <div class="col-md-4">
-                                <label class="form-label">First Name</label>
+                                <label class="form-label">First name</label>
                                 <input name="creators[0].firstName" class="form-control" required>
                             </div>
                             <div class="col-md-4">
-                                <label class="form-label">Last Name</label>
+                                <label class="form-label">Last name</label>
                                 <input name="creators[0].lastName" class="form-control" required>
                             </div>
                             <div class="col-md-4">
@@ -65,9 +67,8 @@
                             </div>
 
                             <!-- Countries -->
-                            <div class="col-md-6 mb-3">
                             <div class="border rounded-2 p-2 no-upper-and-bottom-border" style="max-width: 300px">
-                                <input type="text" id="searchInput" placeholder="Search Countries" class="form-control mb-2">
+                                <input type="text" id="searchInput" placeholder="Search countries..." class="form-control mb-2">
                                 <div class="overflow-auto" style="max-height: 200px">
                                     <ul class="list-group" id="country_list" style="border: none" >
                                         <li class="list-group-item" style="border-left: none; border-right: none"
@@ -87,52 +88,48 @@
                                     </ul>
                                 </div>
                             </div>
-                            </div>
 
-                            <!-- Languages -->
+
                             <div class="col-md-6 mb-3">
-                            <div class="border rounded-2 p-2 no-upper-and-bottom-border" style="max-width: 300px">
-                                <input type="text" id="search-language-input" placeholder="Search Languages" class="form-control mb-2">
-
-                                <div class="overflow-auto" style="max-height: 200px">
-                                    <ul class="list-group" id="language_list" style="border: none">
-                                        <li class="list-group-item" style="border-left: none; border-right: none"
-                                            th:each="language : ${languages}">
-                                            <div class="form-check">
-                                                <input class="form-check-input"
-                                                       type="checkbox"
-                                                       name="languageIds"
-                                                       th:value="${language.id}"
-
-                                                       th:id="'lang_checkbox__' + ${language.id}">
-                                                <label class="form-check-label"
-                                                       th:for="'lang_checkbox__' + ${language.id}"
-                                                       th:text="${language.name}"></label>
-                                            </div>
-                                        </li>
-                                    </ul>
+                                <div class="border rounded-2 p-2" style="max-width: 300px">
+                                    <input type="text" id="search-language-input" placeholder="Search Languages" class="form-control mb-2">
+                                    <div class="overflow-auto" style="max-height: 200px">
+                                        <ul class="list-group" id="language_list" style="border: none">
+                                            <li class="list-group-item"
+                                                th:each="language : ${languages}"
+                                                style="border-left: none; border-right: none">
+                                                <div class="form-check">
+                                                    <input class="form-check-input"
+                                                           type="checkbox"
+                                                           name="languageIds"
+                                                           th:value="${language.id}"
+                                                           th:id="'lang_checkbox__' + ${language.id}">
+                                                    <label class="form-check-label"
+                                                           th:for="'lang_checkbox__' + ${language.id}"
+                                                           th:text="${language.name}"></label>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
-                            </div>
 
-                            <!-- Book Details (shown only if book or ebook) -->
-                            <div th:if="${productDTO.productType == 'book' or productDTO.productType == 'ebook'}"
-                                 class="border rounded p-2 mb-4">
+                            <!-- Book Details (conditional) -->
+                            <div id="bookDetailsBlock" class="border rounded p-2 mb-4 d-none">
                                 <h5>Book details</h5>
                                 <div class="mb-2">
                                     <label>ISBN</label>
-                                    <input name="bookDetails.isbn" th:field="*{bookDetails.isbn}" class="form-control"/>
+                                    <input name="bookDetails.isbn" class="form-control"/>
                                 </div>
                                 <div class="mb-2">
                                     <label>Edition</label>
-                                    <input name="bookDetails.edition" th:field="*{bookDetails.edition}" class="form-control"/>
+                                    <input name="bookDetails.edition" class="form-control"/>
                                 </div>
                                 <div class="mb-2">
                                     <label>Pages</label>
-                                    <input name="bookDetails.pages" type="number" th:field="*{bookDetails.pages}" class="form-control"/>
+                                    <input name="bookDetails.pages" type="number" class="form-control"/>
                                 </div>
                             </div>
-
 
                         </div>
                     </div>
@@ -147,3 +144,5 @@
         </div>
     </div>
 </div>
+
+
