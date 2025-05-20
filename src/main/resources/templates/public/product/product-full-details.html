@@ -44,34 +44,32 @@
     <!-- Locations section -->
     <div class="container mt-4" th:if="${locationAndItemStatusDTOs.size() > 0}">
         <h4>Locations</h4>
-        <table class="table table-hover">
+        <table class="table table-hover table-striped">
             <thead>
             <tr>
-                <th scope="col">#</th>
+                <th scope="col">Status</th>
                 <th scope="col">District</th>
                 <th scope="col">Library</th>
                 <th scope="col">Location in library</th>
-                <th scope="col">Status</th>
                 <th scope="col">Actions</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="locationAndItemStatusDTO, stat : ${locationAndItemStatusDTOs}">
-                <td th:text="${stat.index} + 1">1</td>
-                <td th:text="${locationAndItemStatusDTO.district}">District</td>
-                <td th:text="${locationAndItemStatusDTO.libraryName}">Library name</td>
-                <td th:text="${locationAndItemStatusDTO.locationInLibrary()}">Location in library</td>
+            <tr th:each="locationAndItemStatusDTO : ${locationAndItemStatusDTOs}">
                 <td th:switch="${locationAndItemStatusDTO.itemStatus}">
                     <span th:case="'available'" class="badge bg-success fs-6">Available</span>
                     <span th:case="'borrowed'" class="badge bg-danger fs-6">Borrowed</span>
                     <span th:case="'reserved'" class="badge bg-warning fs-6">Reserved</span>
                 </td>
+                <td th:text="${locationAndItemStatusDTO.district}">District</td>
+                <td th:text="${locationAndItemStatusDTO.libraryName}">Library</td>
+                <td th:text="${locationAndItemStatusDTO.locationInLibrary()}">Location in library</td>
                 <td>
                     <!-- TODO: Button to borrow item, add logic that hides this button if user is not logged in-->
                     <a class="btn btn-sm btn-primary"
                        data-bs-target="#loginModal"
                        data-bs-toggle="modal"
-                       sec:authorize="isAnonymous()">Login and borrow</a>
+                       sec:authorize="isAnonymous()">Login and reserve</a>
                     <a class="btn btn-sm btn-primary"
                        th:href="@{/borrow}"
                        sec:authorize="isAuthenticated()">Borrow or reserve</a>
@@ -81,7 +79,5 @@
         </table>
     </div>
 </main>
-
-
 </body>
 </html>
