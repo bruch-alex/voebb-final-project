@@ -1,5 +1,6 @@
 package com.example.voebb.service.impl;
 
+import com.example.voebb.model.dto.creator.AddCreatorRoleDTO;
 import com.example.voebb.model.dto.creator.CreatorRoleResponseDTO;
 import com.example.voebb.model.entity.CreatorRole;
 import com.example.voebb.repository.CreatorRoleRepo;
@@ -44,6 +45,21 @@ public class CreatorRoleServiceImpl implements CreatorRoleService {
     }
 
     @Override
+    public List<CreatorRoleResponseDTO> searchByRoleName(String roleName) {
+
+        if (roleName == null || roleName.isBlank()) {
+            throw new IllegalArgumentException("Creator role name cannot be null or empty");
+        }
+
+        return creatorRoleRepo.findTop5ByCreatorRoleNameContainingIgnoreCase(roleName)
+                .stream()
+                .map(role -> new CreatorRoleResponseDTO(
+                        role.getId(),
+                        role.getCreatorRoleName()))
+                .toList();
+    }
+
+    @Override
     public CreatorRoleResponseDTO getCreatorRoleById(Long id) {
         return creatorRoleRepo.findById(id)
                 .map(role -> new CreatorRoleResponseDTO(role.getId(), role.getCreatorRoleName()))
@@ -51,13 +67,15 @@ public class CreatorRoleServiceImpl implements CreatorRoleService {
     }
 
     @Override
-    public void createCreatorRole(String roleName) {
-        CreatorRole role = new CreatorRole(null, roleName);
-        CreatorRole saved = creatorRoleRepo.save(role);
+    public CreatorRoleResponseDTO saveCreatorRole(AddCreatorRoleDTO dto) {
+        CreatorRole newRole = new CreatorRole();
+        newRole.setCreatorRoleName(dto.creatorRoleName());
+        creatorRoleRepo.save(newRole);
+        return new CreatorRoleResponseDTO(newRole.getId(), newRole.getCreatorRoleName());
     }
 
     @Override
-    public void  updateCreatorRole(Long id, String roleName) {
+    public void updateCreatorRole(Long id, String roleName) {
         CreatorRole existing = creatorRoleRepo.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Creator role not found"));
 

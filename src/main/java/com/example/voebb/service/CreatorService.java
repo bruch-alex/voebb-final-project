@@ -11,6 +11,8 @@ public interface CreatorService {
 
     void assignCreatorsToProduct(List<CreatorWithRoleDTO> creatorDTOs, Product product);
 
+    List<CreatorResponseDTO> searchByLastName(String lastName);
+
     List<CreatorResponseDTO> getAllCreators();
 
     CreatorResponseDTO getCreatorById(Long id);

@@ -57,7 +57,7 @@ public class Product {
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "language_id")
     )
-    private Set<Language> languages;
+    private List<Language> languages;
 
     @ManyToMany
     @JoinTable(

@@ -1,5 +1,6 @@
 package com.example.voebb.service;
 
+import com.example.voebb.model.dto.creator.AddCreatorRoleDTO;
 import com.example.voebb.model.dto.creator.CreatorRoleResponseDTO;
 import com.example.voebb.model.entity.CreatorRole;
 
@@ -11,9 +12,11 @@ public interface CreatorRoleService {
 
     List<CreatorRoleResponseDTO> getAllCreatorRoles();
 
+    List<CreatorRoleResponseDTO> searchByRoleName(String name);
+
     CreatorRoleResponseDTO getCreatorRoleById(Long id);
 
-    void createCreatorRole(String roleName);
+    CreatorRoleResponseDTO saveCreatorRole(AddCreatorRoleDTO dto);
 
     void updateCreatorRole(Long id, String roleName);
 

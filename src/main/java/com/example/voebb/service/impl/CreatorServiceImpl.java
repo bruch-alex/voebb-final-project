@@ -8,7 +8,6 @@ import com.example.voebb.model.entity.CreatorProductRelation;
 import com.example.voebb.model.entity.CreatorRole;
 import com.example.voebb.model.entity.Product;
 import com.example.voebb.repository.CreatorRepo;
-import com.example.voebb.repository.ProductRepo;
 import com.example.voebb.service.CreatorRoleService;
 import com.example.voebb.service.CreatorService;
 import jakarta.persistence.EntityNotFoundException;
@@ -24,8 +23,6 @@ public class CreatorServiceImpl implements CreatorService {
 
     private final CreatorRepo creatorRepo;
     private final CreatorRoleService creatorRoleService;
-    private final ProductRepo productRepo;
-
 
     @Override
     @Transactional
@@ -59,6 +56,24 @@ public class CreatorServiceImpl implements CreatorService {
     }
 
     @Override
+    public List<CreatorResponseDTO> searchByLastName(String lastName) {
+
+        if (lastName == null || lastName.trim().isEmpty()) {
+           throw new IllegalArgumentException("Last name cannot be null or empty");
+        }
+
+        return creatorRepo
+                .findTop5ByLastNameContainingIgnoreCase(lastName)
+                .stream()
+                .map(creator -> new CreatorResponseDTO(
+                        creator.getId(),
+                        creator.getFirstName(),
+                        creator.getLastName()
+                ))
+                .toList();
+    }
+
+    @Override
     public List<CreatorResponseDTO> getAllCreators() {
         return creatorRepo.findAll().stream()
                 .map(c -> new CreatorResponseDTO(c.getId(), c.getFirstName(), c.getLastName()))
@@ -73,6 +88,7 @@ public class CreatorServiceImpl implements CreatorService {
     }
 
     @Override
+    @Transactional
     public CreatorResponseDTO saveCreator(CreatorFullNameDTO dto) {
         Creator newCreator = new Creator();
         newCreator.setFirstName(dto.firstName());

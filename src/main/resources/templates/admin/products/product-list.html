@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/admin-layout}">
+<head>
+    <title>Product Management</title>
+</head>
+<head>
+    <title layout:title="Product Management">Product Management</title>
+</head>
+
+<body>
+<main layout:fragment="content">
+    <div class="container my-4">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="mb-0">Product Management</h2>
+            <a class="btn btn-primary" th:href="@{/admin/products/new}">
+                <i class="bi bi-plus-circle"></i> Add Product
+            </a>
+        </div>
+
+        <div th:replace="~{admin/fragments/_alerts :: alerts}"></div>
+
+        <div th:replace="~{admin/fragments/_product-table :: productTable(${page})}"></div>
+    </div>
+
+</main>
+</body>
+</html>

@@ -1,6 +1,5 @@
 package com.example.voebb.service.impl;
 
-
 import com.example.voebb.model.entity.ProductType;
 import com.example.voebb.repository.ProductTypeRepo;
 import com.example.voebb.service.ProductTypeService;
@@ -8,6 +7,8 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 @Service
@@ -37,5 +38,16 @@ public class ProductTypeServiceImpl implements ProductTypeService {
     public ProductType findByName(String name) {
         return productTypeRepo.findByNameIgnoreCase(name.trim())
                 .orElseThrow(() -> new EntityNotFoundException("Product type not found: " + name));
+    }
+
+
+    @Override
+    public List<ProductType> getAllProductTypes() {
+        return productTypeRepo.findAll();
+    }
+
+    @Override
+    public List<ProductType> getProductTypeByIds(List<Long> ids){
+        return productTypeRepo.findAllById(ids);
     }
 }

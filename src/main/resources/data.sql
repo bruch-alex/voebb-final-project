@@ -31,8 +31,16 @@ VALUES (1, 'ROLE_ADMIN'),
 INSERT INTO languages (language_id, language_name)
 VALUES
     (1, 'English'),
-    (2, 'German')
-    ON CONFLICT (language_id) DO NOTHING;
+    (2, 'German'),
+    (3, 'Hindi'),
+    (4, 'Chinese'),
+    (5, 'Japanese'),
+    (6, 'French'),
+    (7, 'Spanish'),
+    (8, 'Russian'),
+    (9, 'Arabic'),
+    (10, 'Korean')
+ON CONFLICT (language_id) DO NOTHING;
 SELECT setval('languages_language_id_seq', (SELECT MAX(language_id) FROM languages));
 -- DUMMY DATA BELLOW
 
@@ -138,8 +146,8 @@ VALUES (1, 1),  -- Philosopher's Stone published in the UK
 -- Join table (product linked to languages)
 INSERT INTO language_relation (product_id, language_id)
 VALUES (1, 1),
-       (1, 2)
-    ON CONFLICT (product_id, language_id) DO NOTHING;
+       (1, 2);
+
 
 -- Libraries ─────────────────────────────────────────────────
 INSERT INTO libraries (library_id, library_name, library_description, address_city, address_district, address_postcode, address_street, address_house_nr, address_osm_link) VALUES (1, 'Central City Library', 'Main public library in the heart of Berlin.', 'Berlin', 'Mitte', '10115', 'Hauptstraße', '123', 'https://www.openstreetmap.org/?mlat=52.5300&mlon=13.3847#map=16/52.5300/13.3847') ON CONFLICT (library_id) DO NOTHING;

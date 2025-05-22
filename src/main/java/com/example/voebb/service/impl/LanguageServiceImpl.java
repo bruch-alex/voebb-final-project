@@ -7,6 +7,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class LanguageServiceImpl implements LanguageService {
@@ -30,4 +32,16 @@ public class LanguageServiceImpl implements LanguageService {
                     return languageRepo.save(lang);
                 });
     }
+
+    @Override
+    public List<Language> getAllLanguages() {
+        return languageRepo.findAll();
+    }
+
+    @Override
+    public List<Language> getLanguagesByIds(List<Long> ids) {
+        return languageRepo.findAllById(ids);
+    }
+
+
 }

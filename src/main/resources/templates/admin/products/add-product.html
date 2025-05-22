@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/admin-layout}">
+
+<head>
+    <title layout:title="Add Product">Add Product</title>
+
+    <style>
+        .selected-tag {
+            background-color: #e9ecef;
+            border-radius: 20px;
+            padding: 4px 10px;
+            font-size: 0.875rem;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .selected-tag button {
+            border: none;
+            background: transparent;
+            margin-left: 6px;
+            font-weight: bold;
+            color: #888;
+            cursor: pointer;
+        }
+
+        .list-group-item button {
+            white-space: nowrap;
+        }
+    </style>
+</head>
+
+<body>
+<main layout:fragment="content">
+    <div class="container my-5">
+        <h2 class="mb-4 fw-bold">Add New Product</h2>
+
+        <div th:replace="~{admin/fragments/_alerts :: alerts}"></div>
+
+        <div class="progress mb-3" style="height: 20px;">
+            <div id="formProgress" class="progress-bar" role="progressbar" style="width: 33%;" aria-valuenow="33"
+                 aria-valuemin="0" aria-valuemax="100">Step 1 of 3
+            </div>
+        </div>
+
+        <form th:action="@{/admin/products/new}" th:object="${createProductDTO}" method="post"
+              class="row g-4 needs-validation" novalidate>
+
+            <ul class="nav nav-tabs" id="productTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="tab-basic-tab" data-bs-toggle="tab" data-bs-target="#tab-basic"
+                            type="button" role="tab">Basic Info
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+        <span data-bs-toggle="tooltip" data-bs-placement="top" title="Please complete Basic Info first">
+          <button class="nav-link disabled" id="tab-creators-tab" data-bs-toggle="tab" data-bs-target="#tab-creators"
+                  type="button" role="tab" tabindex="-1" aria-disabled="true">Creators</button>
+        </span>
+                </li>
+                <li class="nav-item" role="presentation">
+        <span data-bs-toggle="tooltip" data-bs-placement="top" title="Please complete Creators first">
+          <button class="nav-link disabled" id="tab-metadata-tab" data-bs-toggle="tab" data-bs-target="#tab-metadata"
+                  type="button" role="tab" tabindex="-1" aria-disabled="true">Metadata</button>
+        </span>
+                </li>
+            </ul>
+
+            <div class="tab-content pt-3">
+
+                <!-- ============================ Basic Info Tab ============================ -->
+                <div class="tab-pane fade show active" id="tab-basic" role="tabpanel">
+                    <div class="col-12 card p-4 shadow-sm">
+                        <h5 class="mb-3">Basic Information</h5>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Product Type <span class="text-danger">*</span></label>
+                                <select th:field="*{productTypeId}" class="form-select" required>
+                                    <option value="">-- Select Type --</option>
+                                    <option th:each="type : ${productTypes}" th:value="${type.id}"
+                                            th:text="${type.name.toUpperCase()}"></option>
+                                </select>
+                                <div class="text-danger" th:if="${#fields.hasErrors('productTypeId')}"
+                                     th:errors="*{productTypeId}"></div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Title <span class="text-danger">*</span></label>
+                                <input th:field="*{title}" class="form-control" required>
+                                <div class="text-danger" th:if="${#fields.hasErrors('title')}"
+                                     th:errors="*{title}"></div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label class="form-label">Release Year</label>
+                                <input th:field="*{releaseYear}" class="form-control" pattern="\d{4}"
+                                       placeholder="e.g. 2023">
+                                <div class="text-danger" th:if="${#fields.hasErrors('releaseYear')}"
+                                     th:errors="*{releaseYear}"></div>
+                            </div>
+
+                            <div class="col-md-8">
+                                <label class="form-label">Cover Photo URL</label>
+                                <input th:field="*{photo}" class="form-control" type="url">
+                                <div class="text-danger" th:if="${#fields.hasErrors('photo')}"
+                                     th:errors="*{photo}"></div>
+                            </div>
+
+                            <div class="col-12">
+                                <label class="form-label">Description</label>
+                                <textarea th:field="*{description}" class="form-control" rows="3"
+                                          maxlength="1000"></textarea>
+                                <div class="text-danger" th:if="${#fields.hasErrors('description')}"
+                                     th:errors="*{description}"></div>
+                            </div>
+
+                            <div id="emediaBlock" class="col-md-6 d-none">
+                                <label class="form-label">Product Link (eMedia)</label>
+                                <input th:field="*{productLinkToEmedia}" class="form-control">
+                                <div class="text-danger" th:if="${#fields.hasErrors('productLinkToEmedia')}"
+                                     th:errors="*{productLinkToEmedia}"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="bookDetailsBlock" class="col-12 card p-4 shadow-sm d-none mt-4">
+                        <h5 class="mb-3">Book Details</h5>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label>ISBN</label>
+                                <input th:field="*{bookDetails.isbn}" class="form-control" maxlength="20">
+                            </div>
+                            <div class="col-md-4">
+                                <label>Edition</label>
+                                <input th:field="*{bookDetails.edition}" class="form-control">
+                            </div>
+                            <div class="col-md-4">
+                                <label>Pages</label>
+                                <input th:field="*{bookDetails.pages}" type="number" min="1" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn btn-primary mt-3" onclick="goToTab('tab-creators-tab', 2)">Next
+                    </button>
+                    </button>
+                </div>
+
+
+                <!-- ============================ Creators Section Tab  ============================ -->
+                <div class="tab-pane fade" id="tab-creators" role="tabpanel">
+                    <div class="card p-4 shadow-sm">
+                        <h5 class="mb-3 fw-semibold">Creators</h5>
+                        <div class="text-danger mt-2"
+                             th:if="${#fields.hasErrors('creators')}"
+                             th:errors="*{creators}"></div>
+                        <div id="creatorsPreview" class="d-flex flex-wrap gap-2 mb-3"></div>
+
+                        <div class="row g-3 align-items-end">
+
+                            <div class="col-md-5 position-relative">
+                                <label for="creatorSearchInput" class="form-label">
+                                    Search Creator by last name <span class="text-danger">*</span>
+                                </label>
+                                <input id="creatorSearchInput" type="text" class="form-control"
+                                       placeholder="e.g. Rowling"
+                                       autocomplete="off" required>
+                                <ul id="creatorResultsBox" class="list-group position-absolute w-100 d-none shadow-sm"
+                                    style="z-index: 10;"></ul>
+                            </div>
+
+                            <div class="col-md-5 position-relative">
+                                <label for="roleSearchInput" class="form-label">
+                                    Search Role <span class="text-danger">*</span>
+                                </label>
+                                <input id="roleSearchInput" type="text" class="form-control" placeholder="e.g. Author"
+                                       autocomplete="off" required>
+                                <ul id="roleResultsBox" class="list-group position-absolute w-100 d-none shadow-sm"
+                                    style="z-index: 10;"></ul>
+                            </div>
+
+                            <div class="col-md-2">
+                                <button type="button" class="btn btn-primary w-100" onclick="addCreatorToPreview()">
+                                    Add Creator
+                                </button>
+                            </div>
+                        </div>
+
+                        <!--  Fields populated by AJAX -->
+                        <input type="hidden" id="creatorId">
+                        <input type="hidden" id="creatorFirstName">
+                        <input type="hidden" id="creatorLastName">
+                        <input type="hidden" id="creatorIndex" value="0">
+                        <input type="hidden" id="creatorRoleId">
+                        <input type="hidden" id="creatorRole">
+                    </div>
+
+                    <button type="button" class="btn btn-secondary mt-3 me-2" onclick="goToTab('tab-basic-tab', 1)">
+                        Back
+                    </button>
+                    <button type="button" class="btn btn-primary mt-3" onclick="goToTab('tab-metadata-tab', 3)">Next
+                    </button>
+                </div>
+
+
+                <!-- ============================ Country & Language Section Tab ============================ -->
+                <div class="tab-pane fade" id="tab-metadata" role="tabpanel">
+                    <div class="col-12 card p-4 shadow-sm">
+                        <h5 class="mb-3">Metadata</h5>
+                        <div class="row">
+                            <div class="col-md-6 mb-2">
+                                <label class="form-label">Publication Countries</label>
+                                <div class="text-danger mt-1" th:if="${#fields.hasErrors('countryIds')}"
+                                     th:errors="*{countryIds}"></div>
+                                <div class="border rounded bg-light-subtle p-2 mb-2" style="min-height: 40px;">
+                                    <div id="selectedCountries" class="d-flex flex-wrap gap-2"></div>
+                                </div>
+                                <input id="searchCountryInput" type="text" class="form-control form-control-sm mb-2"
+                                       placeholder="Search countries..."/>
+                                <ul class="list-group border rounded" id="country_list"
+                                    style="max-height: 210px; overflow-y: auto; padding-left: 0.5rem; box-shadow: none; ">
+                                    <li class="list-group-item border-0 py-2"
+                                        th:each="country : ${countries}">
+                                        <div class="form-check">
+                                            <input class="form-check-input"
+                                                   type="checkbox"
+                                                   th:value="${country.id}"
+                                                   th:field="*{countryIds}"
+                                                   th:id="'country__' + ${country.id}">
+                                            <label class="form-check-label"
+                                                   th:for="'country__' + ${country.id}"
+                                                   th:text="${country.name}"></label>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="col-md-6 mb-2">
+                                <label class="form-label">Available Languages</label>
+                                <div class="text-danger mt-1" th:if="${#fields.hasErrors('languageIds')}"
+                                     th:errors="*{languageIds}"></div>
+                                <div class="border rounded bg-light-subtle p-2 mb-2" style="min-height: 40px;">
+                                    <div id="selectedLanguages" class="d-flex flex-wrap gap-2"></div>
+                                </div>
+                                <input id="searchLanguageInput" type="text" class="form-control form-control-sm mb-2"
+                                       placeholder="Search languages..."/>
+                                <ul class="list-group border rounded" id="language_list"
+                                    style="max-height: 210px; overflow-y: auto; padding-left: 0.5rem; box-shadow: none; ">
+                                    <li class="list-group-item border-0 py-2"
+                                        th:each="language : ${languages}">
+                                        <div class="form-check">
+                                            <input class="form-check-input"
+                                                   type="checkbox"
+                                                   th:value="${language.id}"
+                                                   th:field="*{languageIds}"
+                                                   th:id="'language__' + ${language.id}">
+                                            <label class="form-check-label"
+                                                   th:for="'language__' + ${language.id}"
+                                                   th:text="${language.name}"></label>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn btn-secondary mt-3 me-2" onclick="goToTab('tab-creators-tab', 2)">
+                        Back
+                    </button>
+                    <button type="submit" class="btn btn-success mt-3">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div th:replace="~{admin/fragments/_creator-create :: createCreatorModal}"></div>
+    <div th:replace="~{admin/fragments/_role-create :: createRoleModal}"></div>
+
+    <script th:src="@{/js/product/conditional-display-product-details.js}"></script>
+    <script th:src="@{/js/product/select-country-language.js}"></script>
+    <script th:src="@{/js/product/creators-form.js}"></script>
+
+
+    <script>
+        function goToTab(tabId, step) {
+            const currentTabPane = document.querySelector('.tab-pane.show.active');
+            const requiredInputs = currentTabPane.querySelectorAll('[required]');
+            let allValid = true;
+            requiredInputs.forEach(input => {
+                if (!input.checkValidity()) {
+                    input.classList.add('is-invalid');
+                    allValid = false;
+                } else {
+                    input.classList.remove('is-invalid');
+                }
+            });
+
+            if (!allValid) return;
+
+            const tabButton = document.getElementById(tabId);
+            tabButton.disabled = false;
+            const tab = new bootstrap.Tab(tabButton);
+            tab.show();
+            updateProgress(step);
+        }
+
+        function updateProgress(step) {
+            const progressBar = document.getElementById('formProgress');
+            const percent = step * 33;
+            progressBar.style.width = percent + '%';
+            progressBar.setAttribute('aria-valuenow', percent);
+            progressBar.textContent = `Step ${step} of 3`;
+        }
+    </script>
+</main>
+</body>
+</html>

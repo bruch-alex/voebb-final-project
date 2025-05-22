@@ -1,15 +1,18 @@
 package com.example.voebb.service.impl;
 
+import com.example.voebb.model.dto.creator.CreatorWithRoleDTO;
 import com.example.voebb.model.dto.product.CardProductDTO;
 import com.example.voebb.model.dto.product.CreateProductDTO;
 import com.example.voebb.model.dto.product.ProductInfoDTO;
 import com.example.voebb.model.dto.product.UpdateProductDTO;
 import com.example.voebb.model.entity.Country;
+import com.example.voebb.model.entity.Language;
 import com.example.voebb.model.entity.Product;
 import com.example.voebb.model.entity.ProductType;
 import com.example.voebb.model.mapper.ProductMapper;
 import com.example.voebb.repository.CountryRepo;
 import com.example.voebb.repository.ProductRepo;
+import com.example.voebb.repository.ProductTypeRepo;
 import com.example.voebb.service.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -28,31 +31,58 @@ public class ProductServiceImpl implements ProductService {
     private final ProductItemService productItemService;
     private final BookDetailsService bookDetailsService;
     private final CreatorService creatorService;
-    private final ProductTypeService productTypeService;
     private final CountryRepo countryRepo;
+    private final CountryService countryService;
+    private final LanguageService languageService;
+    private final ProductTypeRepo productTypeRepo;
 
     @Override
     @Transactional
     public void createProduct(CreateProductDTO dto) {
+        if (dto.getProductTypeId() == null) {
+            throw new IllegalArgumentException("Product type is required.");
+        }
 
-        ProductType productType = productTypeService.findOrCreate(dto.getProductType().trim());
-        List<Country> countries = countryRepo.findAllById(dto.getCountryIds());
+        ProductType productType = productTypeRepo.findById(dto.getProductTypeId())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid product type ID: " + dto.getProductTypeId()));
+
+        List<Country> countries = countryService.getCountriesByIds(dto.getCountryIds());
+        List<Language> languages = languageService.getLanguagesByIds(dto.getLanguageIds());
 
         Product newProduct = new Product();
+        newProduct.setType(productType);
         newProduct.setTitle(dto.getTitle());
         newProduct.setReleaseYear(dto.getReleaseYear());
         newProduct.setPhoto(dto.getPhoto());
         newProduct.setDescription(dto.getDescription());
         newProduct.setProductLinkToEmedia(dto.getProductLinkToEmedia());
-        newProduct.setType(productType);
         newProduct.setCountries(countries);
+        newProduct.setLanguages(languages);
 
-        if (newProduct.isBook()) {
+        productRepo.save(newProduct);
+
+        if (newProduct.isBook() && dto.getBookDetails() != null) {
             bookDetailsService.saveBookDetails(dto.getBookDetails(), newProduct);
         }
-        productRepo.save(newProduct);
-        creatorService.assignCreatorsToProduct(dto.getCreators(), newProduct);
+
+        if (dto.getCreators() == null || dto.getCreators().isEmpty()) {
+            throw new IllegalArgumentException("At least one creator is required.");
+        }
+
+        List<CreatorWithRoleDTO> validCreators = dto.getCreators().stream()
+                .filter(creator -> creator != null &&
+                        creator.getLastName() != null && !creator.getLastName().isBlank() &&
+                        creator.getRole() != null && !creator.getRole().isBlank())
+                .toList();
+
+        if (validCreators.isEmpty()) {
+            throw new IllegalArgumentException("At least one valid creator with role is required.");
+        }
+
+
+        creatorService.assignCreatorsToProduct(validCreators, newProduct);
     }
+
 
     @Override
     public Page<CardProductDTO> getProductCardsByTitle(String title, Pageable pageable) {

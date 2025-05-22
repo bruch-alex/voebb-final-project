@@ -16,7 +16,7 @@
             <td class="text-end">
 
                 <!-- Edit Button-->
-                 <!-- TODO: Add edit functionality -->
+                <!-- TODO: Add edit functionality -->
                 <a th:href="@{/admin/products/edit/{id}(id=${prod.id})}"
                    class="btn btn-sm btn-outline-primary me-1">Edit</a>
 
@@ -35,24 +35,25 @@
         </tbody>
     </table>
 
-<!-- pagination  TODO: Maybe put it into fragment-->
-<div class="mt-4 d-flex justify-content-center" th:if="${page.totalPages > 1}">
-    <ul class="pagination">
-        <li class="page-item" th:classappend="${page.hasPrevious()} ? '' : 'disabled'">
-            <a class="page-link"
-               th:href="@{/admin/products(page=${page.number - 1})}">Previous</a>
-        </li>
+    <!-- pagination  TODO: Maybe put it into fragment-->
+    <div class="mt-4 d-flex justify-content-center" th:if="${page.totalPages > 1}">
+        <ul class="pagination">
+            <li class="page-item" th:classappend="${page.hasPrevious()} ? '' : 'disabled'">
+                <a class="page-link"
+                   th:href="@{/admin/products(page=${page.number - 1})}">Previous</a>
+            </li>
 
-        <li class="page-item" th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}"
-            th:classappend="${page.number == i} ? 'active'">
-            <a class="page-link"
-               th:href="@{/admin/products(page=${i})}"
-               th:text="${i + 1}">1</a>
-        </li>
+            <li class="page-item" th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}"
+                th:classappend="${page.number == i} ? 'active'">
+                <a class="page-link"
+                   th:href="@{/admin/products(page=${i})}"
+                   th:text="${i + 1}">1</a>
+            </li>
 
-        <li class="page-item" th:classappend="${page.hasNext()} ? '' : 'disabled'">
-            <a class="page-link"
-               th:href="@{/admin/products(page=${page.number + 1})}">Next</a>
-        </li>
-    </ul>
+            <li class="page-item" th:classappend="${page.hasNext()} ? '' : 'disabled'">
+                <a class="page-link"
+                   th:href="@{/admin/products(page=${page.number + 1})}">Next</a>
+            </li>
+        </ul>
+    </div>
 </div>

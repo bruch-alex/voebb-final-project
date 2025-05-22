@@ -1,0 +1,22 @@
+<div th:fragment="createCreatorModal">
+    <div class="modal fade" id="newCreatorModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <form id="newCreatorForm" class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Creator</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <label>First Name</label>
+                    <input id="newFirstName" type="text" class="form-control mb-2" required>
+                    <label>Last Name</label>
+                    <input id="newLastName" type="text" class="form-control" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Use This Creator</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

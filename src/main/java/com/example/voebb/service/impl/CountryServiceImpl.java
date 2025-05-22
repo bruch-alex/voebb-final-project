@@ -47,10 +47,6 @@ public class CountryServiceImpl implements CountryService {
         return countryRepo.findById(id).orElseThrow(() -> new RuntimeException("Country with Id" + id + "not found"));
     }
 
-    @Override
-    public List<Country> getAllCountries() {
-        return countryRepo.findAll();
-    }
 
     @Override
     public Country updateCountry(Long id, Country updatedCountry) {
@@ -66,14 +62,13 @@ public class CountryServiceImpl implements CountryService {
 
     }
 
-    //TODO:  Use CountryDTO
     @Override
-    public List<Country> findAll() {
+    public List<Country> getAllCountries() {
         return countryRepo.findAll();
     }
 
     @Override
-    public List<Country> findCountriesByIds(List<Long> ids) {
+    public List<Country> getCountriesByIds(List<Long> ids) {
         return countryRepo.findAllById(ids);
     }
 
