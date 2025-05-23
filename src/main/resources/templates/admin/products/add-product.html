@@ -39,8 +39,8 @@
         <div th:replace="~{admin/fragments/_alerts :: alerts}"></div>
 
         <div class="progress mb-3" style="height: 20px;">
-            <div id="formProgress" class="progress-bar" role="progressbar" style="width: 33%;" aria-valuenow="33"
-                 aria-valuemin="0" aria-valuemax="100">Step 1 of 3
+            <div id="formProgress" class="progress-bar" role="progressbar" style="width: 33%;"
+                 aria-valuemin="0" aria-valuemax="100">Step 1 of 4
             </div>
         </div>
 
@@ -63,6 +63,13 @@
         <span data-bs-toggle="tooltip" data-bs-placement="top" title="Please complete Creators first">
           <button class="nav-link disabled" id="tab-metadata-tab" data-bs-toggle="tab" data-bs-target="#tab-metadata"
                   type="button" role="tab" tabindex="-1" aria-disabled="true">Metadata</button>
+        </span>
+                </li>
+                </li>
+                <li class="nav-item" role="presentation">
+        <span data-bs-toggle="tooltip" data-bs-placement="top" title="Please complete Creators first">
+          <button class="nav-link disabled" id="tab-results-tab" data-bs-toggle="tab" data-bs-target="#tab-results"
+                  type="button" role="tab" tabindex="-1" aria-disabled="true">Results</button>
         </span>
                 </li>
             </ul>
@@ -268,6 +275,69 @@
                     <button type="button" class="btn btn-secondary mt-3 me-2" onclick="goToTab('tab-creators-tab', 2)">
                         Back
                     </button>
+                    <button type="button" class="btn btn-primary mt-3" onclick="goToTab('tab-results-tab', 4)">Review
+                        changes
+                    </button>
+                </div>
+
+                <!-- ============================ Check results Tab ============================ -->
+                <div class="tab-pane fade" id="tab-results" role="tabpanel">
+                    <h2 class="mb-3">Check product info</h2>
+
+                    <div class="col-12 card p-4 shadow-sm mt-4">
+                        <div class="row">
+                            <div class="col-md-6 mb-2">
+                                <p><strong>Product Type:</strong> <span id="revProductType"></span></p>
+                                <p><strong>Title:</strong> <span id="revTitle"></span></p>
+                                <p><strong>Release Year:</strong> <span id="revReleaseYear"></span></p>
+                                <p><strong>Cover Photo:</strong> <span id="revPhoto"></span></p>
+                                <p><strong>Description:</strong> <span id="revDescription"></span></p>
+                                <p><strong>Product Link (eMedia):</strong> <span id="revProductLink"></span></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 card p-4 shadow-sm mt-4">
+                        <h5 class="mb-3">Book Details</h5>
+                        <div class="row">
+                            <div class="col-md-6 mb-2">
+                                <p><strong>ISBN:</strong> <span id="revISBN"></span></p>
+                                <p><strong>Edition:</strong> <span id="revEdition"></span></p>
+                                <p><strong>Pages:</strong> <span id="revPages"></span></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 card p-4 shadow-sm mt-4">
+                        <div class="row">
+                            <div class="col-md-6 mb-2">
+                                <h5 class="mb-3">Creators</h5>
+                                <ul id="selected_creators_review"></ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 card p-4 shadow-sm mt-4">
+                        <div class="row">
+                            <div class="col-md-6 mb-2">
+                                <h5 class="mb-3">Countries</h5>
+                                <ul id="selected_countries_review"></ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 card p-4 shadow-sm mt-4">
+                        <div class="row">
+                            <div class="col-md-6 mb-2">
+                                <h5 class="mb-3">Languages</h5>
+                                <ul id="selected_languages_review"></ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn btn-secondary mt-3 me-2" onclick="goToTab('tab-metadata-tab', 3)">
+                        Back
+                    </button>
                     <button type="submit" class="btn btn-success mt-3">Submit</button>
                 </div>
             </div>
@@ -303,15 +373,120 @@
             const tab = new bootstrap.Tab(tabButton);
             tab.show();
             updateProgress(step);
+            addInfoToResults(step);
         }
 
         function updateProgress(step) {
             const progressBar = document.getElementById('formProgress');
-            const percent = step * 33;
+            const percent = step * 25;
             progressBar.style.width = percent + '%';
             progressBar.setAttribute('aria-valuenow', percent);
-            progressBar.textContent = `Step ${step} of 3`;
+            progressBar.textContent = `Step ${step} of 4`;
         }
+
+        function addInfoToResults(step) {
+            switch (step) {
+                case 1:
+                    console.log("step 1");
+                    break;
+                case 2:
+                    console.log("step 2");
+                    updateGeneralInfo();
+                    break;
+                case 3:
+                    console.log("step 3");
+                    updateSelectedCreators();
+                    break;
+                case 4:
+                    console.log("step 4");
+                    updateSelectedCountries();
+                    updateSelectedLanguages();
+                    break;
+            }
+        }
+
+        function updateSelectedCountries() {
+            const selectedCountries = [];
+            const checkboxes = document.querySelectorAll('#country_list input[type=checkbox]:checked');
+            checkboxes.forEach(cb => {
+                const label = document.querySelector(`label[for="${cb.id}"]`);
+                if (label) selectedCountries.push(label.textContent.trim());
+            });
+
+            const reviewList = document.getElementById('selected_countries_review');
+            reviewList.innerHTML = ''; // Clear existing
+            selectedCountries.forEach(name => {
+                const li = document.createElement('li');
+                li.textContent = name;
+                reviewList.appendChild(li);
+            });
+        }
+
+        function updateSelectedLanguages() {
+            const selectedLanguages = [];
+            const checkboxes = document.querySelectorAll('#language_list input[type=checkbox]:checked');
+            checkboxes.forEach(cb => {
+                const label = document.querySelector(`label[for="${cb.id}"]`);
+                if (label) selectedLanguages.push(label.textContent.trim());
+            });
+
+            const reviewList = document.getElementById('selected_languages_review');
+            reviewList.innerHTML = ''; // Clear existing
+            selectedLanguages.forEach(name => {
+                const li = document.createElement('li');
+                li.textContent = name;
+                reviewList.appendChild(li);
+            });
+        }
+
+        function updateSelectedCreators() {
+            const reviewList = document.getElementById('selected_creators_review');
+            reviewList.innerHTML = ''; // Clear existing
+            const creatorDivs = document.querySelectorAll('#creatorsPreview .selected-tag');
+
+            creatorDivs.forEach(div => {
+                const firstName = div.querySelector('input[name$=".firstName"]').value;
+                const lastName = div.querySelector('input[name$=".lastName"]').value;
+                const role = div.querySelector('input[name$=".role"]').value;
+
+                const li = document.createElement('li');
+                li.textContent = `${firstName} ${lastName} — ${role}`;
+                reviewList.appendChild(li);
+            });
+        }
+
+        function updateGeneralInfo() {
+            // Get values
+            const productTypeSelect = document.getElementById('productTypeId');
+            const productTypeText = productTypeSelect.options[productTypeSelect.selectedIndex].text;
+            const title = document.getElementById('title').value;
+            const releaseYear = document.getElementById('releaseYear').value;
+            const photoUrl = document.getElementById('photo').value;
+            const description = document.getElementById('description').value;
+            const productLink = document.getElementById('productLinkToEmedia').value;
+
+            // Set review content
+            document.getElementById('revProductType').textContent = productTypeText || 'N/A';
+            document.getElementById('revTitle').textContent = title || 'N/A';
+            document.getElementById('revReleaseYear').textContent = releaseYear || 'N/A';
+            document.getElementById('revPhoto').textContent = photoUrl || 'N/A';
+            document.getElementById('revDescription').textContent = description || 'N/A';
+            document.getElementById('revProductLink').textContent = productLink || 'N/A';
+
+            console.log(productTypeSelect.value);
+
+            if (productTypeSelect.value === "1" || productTypeSelect.value === "2") {
+                console.log('book details');
+                const isbn = document.getElementById('bookDetails.isbn').value;
+                const edition = document.getElementById('bookDetails.edition').value;
+                const pages = document.getElementById('bookDetails.pages').value;
+
+                document.getElementById('revISBN').textContent = isbn || 'N/A';
+                document.getElementById('revEdition').textContent = edition || 'N/A';
+                document.getElementById('revPages').textContent = pages || 'N/A';
+            }
+        }
+
     </script>
 </main>
 </body>
