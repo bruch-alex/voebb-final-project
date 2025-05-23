@@ -6,12 +6,13 @@ import com.example.voebb.model.dto.creator.CreatorWithRoleDTO;
 import com.example.voebb.model.entity.Product;
 
 import java.util.List;
+import java.util.Set;
 
 public interface CreatorService {
 
     void assignCreatorsToProduct(List<CreatorWithRoleDTO> creatorDTOs, Product product);
 
-    List<CreatorResponseDTO> searchByLastName(String lastName);
+    Set<CreatorResponseDTO> searchByName(String lastName);
 
     List<CreatorResponseDTO> getAllCreators();
 

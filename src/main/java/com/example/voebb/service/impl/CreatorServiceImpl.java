@@ -15,7 +15,10 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -33,8 +36,8 @@ public class CreatorServiceImpl implements CreatorService {
         for (CreatorWithRoleDTO dto : creatorDTOs) {
 
             String firstName = dto.getFirstName() == null ? "" : dto.getFirstName().trim();
-            String lastName  = dto.getLastName()  == null ? "" : dto.getLastName().trim();
-            String roleName = dto.getRole()   == null ? "" : dto.getRole().trim();
+            String lastName = dto.getLastName() == null ? "" : dto.getLastName().trim();
+            String roleName = dto.getRole() == null ? "" : dto.getRole().trim();
 
             Creator creator = creatorRepo
                     .findByFirstNameIgnoreCaseAndLastNameIgnoreCase(firstName, lastName)
@@ -56,21 +59,27 @@ public class CreatorServiceImpl implements CreatorService {
     }
 
     @Override
-    public List<CreatorResponseDTO> searchByLastName(String lastName) {
-
-        if (lastName == null || lastName.trim().isEmpty()) {
-           throw new IllegalArgumentException("Last name cannot be null or empty");
+    public Set<CreatorResponseDTO> searchByName(String name) {
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Last name cannot be null or empty");
         }
 
-        return creatorRepo
-                .findTop5ByLastNameContainingIgnoreCase(lastName)
-                .stream()
-                .map(creator -> new CreatorResponseDTO(
-                        creator.getId(),
-                        creator.getFirstName(),
-                        creator.getLastName()
-                ))
-                .toList();
+        String[] nameParts = name.split(" ");
+
+        Set<CreatorResponseDTO> creators = new HashSet<>();
+
+        for (var namePart : nameParts) {
+            creatorRepo
+                    .searchByNameNative(namePart)
+                    .stream()
+                    .map(creator -> new CreatorResponseDTO(
+                            creator.getId(),
+                            creator.getFirstName(),
+                            creator.getLastName()
+                    ))
+                    .forEach(creators::add);
+        }
+        return creators;
     }
 
     @Override

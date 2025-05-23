@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/creators")
@@ -22,8 +23,8 @@ public class CreatorRestController {
     private final CreatorRoleService creatorRoleService;
 
     @GetMapping("/searchCreator")
-    public List<CreatorResponseDTO> searchByLastName(@RequestParam String lastName) {
-        return creatorService.searchByLastName(lastName.trim());
+    public Set<CreatorResponseDTO> searchByLastName(@RequestParam String lastName) {
+        return creatorService.searchByName(lastName.trim());
     }
 
     @PostMapping("/newCreator")
