@@ -1,11 +1,10 @@
 package com.example.voebb.model.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -18,11 +17,18 @@ public class ProductType {
     private Long id;
 
     @Column(name = "name", nullable = false, unique = true)
-    private String name; // e.g. [note: 'Book, Ebook, DVD, Boardgame']
+    private String name; //  [terms for BE logic : 'book, ebook, dvd, boardgame']
 
-    // TODO: TBD
-    //    @Column(name = "borrow_duration_days", nullable = false)
-    //    private int borrowDurationDays; // [note: '14 days for films and 28 for books']
+    @Column(name = "display_name", nullable = false)
+    private String displayName; // [ label for UI: Book, E-Book, DVD, Board Game]
+
+    /*
+        14 days - films
+        28 days - books
+         7 days - boardgames
+     */
+    @Column(name = "borrow_duration_days", nullable = false)
+    private int borrowDurationDays;
 
     @Column(name = "main_creator_role_id", nullable = false)
     private Long mainCreatorRoleId;

@@ -1,6 +1,6 @@
 <nav class="navbar sticky-top navbar-expand-lg bg-primary" th:fragment="admin-navbar" data-bs-theme="light">
   <div class="container-fluid">
-    <a class="navbar-brand text-light" href="/admin">Admin panel</a>
+    <a class="navbar-brand text-light" href="/admin">ADMIN PANEL</a>
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
             data-bs-target="#navbarColor01" aria-controls="navbarColor01"
@@ -9,29 +9,38 @@
     </button>
     
     <div class="collapse navbar-collapse" id="navbarColor01">
-      <ul class="navbar-nav me-auto">
-        <li class="nav-item" role="presentation">
-          <a class="nav-link active text-light" href="/admin/users">Users</a>
-        </li>
+      <ul class="nav nav-underline me-auto">
+        <li class="nav-item">
+          <a class="nav-link text-white pb-0"
+             th:classappend="${requestURI != null and requestURI.startsWith('/admin/users')} ? ' active border-bottom border-white' : ''"
+             href="/admin/users">Users</a>
         
-        <li class="nav-item" role="presentation">
-          <a class="nav-link active text-light" href="/admin/libraries">Libraries</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link text-white  pb-0"
+             th:classappend="${requestURI != null and requestURI.startsWith('/admin/libraries')} ? ' active border-bottom border-white' : ''"
+             href="/admin/libraries">Libraries</a>
         
-        <li class="nav-item" role="presentation">
-          <a class="nav-link active text-light" href="/admin/products">Products</a>
         </li>
-        
-        <li class="nav-item" role="presentation">
-          <a class="nav-link active text-light" href="/admin/items">Items</a>
+        <li class="nav-item">
+          <a class="nav-link text-white  pb-0"
+             th:classappend="${requestURI != null and requestURI.startsWith('/admin/products')} ? ' active  border-bottom border-white' : ''"
+             href="/admin/products">Products</a>
         </li>
-        
-        <li class="nav-item" role="presentation">
-          <a class="nav-link active text-light" href="/admin/borrowings">Borrowings</a>
+        <li class="nav-item">
+          <a class="nav-link text-white  pb-0"
+             th:classappend="${requestURI != null and requestURI.startsWith('/admin/items')} ? ' active border-bottom border-white' : ''"
+             href="/admin/items">Items</a>
         </li>
-        
-        <li class="nav-item" role="presentation">
-          <a class="nav-link active text-light" href="/admin/reservations">Reservations</a>
+        <li class="nav-item">
+          <a class="nav-link text-white  pb-0"
+             th:classappend="${requestURI != null and requestURI.startsWith('/admin/borrowings')} ? ' active  border-bottom border-white' : ''"
+             href="/admin/borrowings">Borrowings</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white  pb-0"
+             th:classappend="${requestURI != null and requestURI.startsWith('/admin/reservations')} ? ' active border-bottom border-white' : ''"
+             href="/admin/reservations">Reservations</a>
         </li>
       </ul>
       

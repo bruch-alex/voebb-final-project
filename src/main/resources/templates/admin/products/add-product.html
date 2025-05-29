@@ -86,7 +86,7 @@
                                 <select th:field="*{productTypeId}" class="form-select" required>
                                     <option value="">-- Select Type --</option>
                                     <option th:each="type : ${productTypes}" th:value="${type.id}"
-                                            th:text="${type.name.toUpperCase()}"></option>
+                                            th:text="${type.displayName}"></option>
                                 </select>
                                 <div class="text-danger" th:if="${#fields.hasErrors('productTypeId')}"
                                      th:errors="*{productTypeId}"></div>

@@ -5,6 +5,7 @@ import com.example.voebb.model.dto.reservation.GetReservationDTO;
 import com.example.voebb.service.LibraryService;
 import com.example.voebb.service.ReservationService;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,7 +29,7 @@ public class ReserveControllerAdmin {
             @RequestParam(required = false) Long userId,
             @RequestParam(required = false) Long itemId,
             @RequestParam(required = false) Long libraryId,
-            @PageableDefault(size = 5, sort = "id", direction = Sort.Direction.ASC) Pageable pageable,
+            @PageableDefault(size = 5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
             Model model
     ) {
         Page<GetReservationDTO> page = reservationService.getFilteredReservations(userId, itemId, libraryId, pageable);

@@ -174,7 +174,7 @@ public class CustomUserDetailsService implements UserDetailsService, CustomUserS
         existingUser.setEmail(userDto.email());
         existingUser.setPhoneNumber(userDto.phoneNumber());
         existingUser.setEnabled(userDto.enabled());
-        existingUser.setBorrowedBooksCount(userDto.borrowedBooksCount());
+        existingUser.setBorrowedProductsCount(userDto.borrowedBooksCount());
 
         if (userDto.password() != null && !userDto.password().isBlank()) {
             existingUser.setPassword(userDto.password());
@@ -221,7 +221,7 @@ public class CustomUserDetailsService implements UserDetailsService, CustomUserS
                 user.getFirstName(),
                 user.getLastName(),
                 user.isEnabled(),
-                user.getBorrowedBooksCount(),
+                user.getBorrowedProductsCount(),
                 roleIds
         );
     }
@@ -239,7 +239,7 @@ public class CustomUserDetailsService implements UserDetailsService, CustomUserS
         user.setEmail(dto.email());
         user.setPhoneNumber(dto.phoneNumber());
         user.setEnabled(dto.enabled());
-        user.setBorrowedBooksCount(dto.borrowedBooksCount());
+        user.setBorrowedProductsCount(dto.borrowedBooksCount());
         user.setPassword(dto.password());
         user.setRoles(userRoles);
         return user;

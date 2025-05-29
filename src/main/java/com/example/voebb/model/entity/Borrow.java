@@ -2,13 +2,12 @@ package com.example.voebb.model.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 
-@Data
+@Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity

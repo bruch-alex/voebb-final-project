@@ -12,7 +12,7 @@
         <tr th:each="prod, stat : ${page.content}">
             <td th:text="${stat.index + 1 + page.number * page.size}">1</td>
             <td th:text="${prod.title}">Example Title</td>
-            <td th:text="${prod.type.name}">book</td>
+            <td th:text="${prod.type.displayName}">book</td>
             <td class="text-end">
 
                 <!-- Edit Button-->

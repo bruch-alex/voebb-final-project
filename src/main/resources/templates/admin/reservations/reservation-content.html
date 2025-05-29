@@ -3,15 +3,18 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{admin/admin-layout}">
 
+<head>
+    <title>Reservation</title>
+</head>
 
 <main layout:fragment="content">
-
+    
     <div class="container my-4">
-
+        
         <h2 class="mb-4">Reservation Dashboard</h2>
-
+        
         <div th:replace="~{admin/fragments/_alerts :: alerts}"></div>
-
+        
         <div class="card border shadow-sm mb-4">
             <div class="card-header bg-light d-flex justify-content-between align-items-center">
                 <strong>New Reservation</strong>
@@ -20,7 +23,7 @@
                     <i class="bi bi-plus-circle"></i> Show/Hide Reservation Form
                 </button>
             </div>
-
+            
             <div id="createReservationForm" class="collapse">
                 <form th:action="@{/admin/reservations}" method="post" class="card-body">
                     <div class="row g-3">
@@ -37,7 +40,7 @@
                                    required
                                    oninvalid="this.setCustomValidity('Please enter a valid numeric User ID')"
                                    oninput="this.setCustomValidity('')">
-
+                        
                         </div>
                         <div class="col-md-6">
                             <label for="itemIdForm" class="form-label">Item ID</label>
@@ -47,12 +50,12 @@
                                    class="form-control"
                                    inputmode="numeric"
                                    pattern="[0-9]+"
-                                   th:value="${userId}"
+                                   th:value="${itemId}"
                                    placeholder="Enter Item ID"
                                    required
                                    oninvalid="this.setCustomValidity('Please enter a valid numeric Item ID')"
                                    oninput="this.setCustomValidity('')">
-
+                        
                         </div>
                         <div class="col-12 text-end">
                             <button type="submit" class="btn btn-success">
@@ -63,9 +66,9 @@
                 </form>
             </div>
         </div>
-
+        
         <form th:action="@{/admin/reservations}" method="get" class="row g-3 align-items-end mb-4">
-
+            
             <div class="col-12 col-md-3">
                 <label for="userIdFilter" class="form-label">User ID</label>
                 <input type="text"
@@ -80,8 +83,8 @@
                        oninvalid="this.setCustomValidity('Please enter a valid numeric User ID')"
                        oninput="this.setCustomValidity('')">
             </div>
-
-
+            
+            
             <div class="col-12 col-md-3">
                 <label for="itemIdFilter" class="form-label">Item ID</label>
                 <input type="text"
@@ -90,15 +93,15 @@
                        class="form-control"
                        inputmode="numeric"
                        pattern="[0-9]+"
-                       th:value="${userId}"
+                       th:value="${itemId}"
                        placeholder="Enter Item ID"
                        required
                        oninvalid="this.setCustomValidity('Please enter a valid numeric Item ID')"
                        oninput="this.setCustomValidity('')">
-
+            
             </div>
-
-
+            
+            
             <div class="col-12 col-md-3">
                 <select id="libraryId" name="libraryId" class="form-control">
                     <option th:value="${null}" th:selected="${libraryId == null}">Filter by library</option>
@@ -108,17 +111,17 @@
                             th:selected="${lib.id == libraryId}">
                     </option>
                 </select>
-
+            
             </div>
-
+            
             <div class="col-12 col-md-3 text-md-end">
                 <button type="submit" class="btn btn-outline-primary w-100 w-md-auto">
                     <i class="bi bi-filter"></i> <span class="d-none d-sm-inline">Apply Filters</span>
                 </button>
             </div>
         </form>
-
-
+        
+        
         <div class="table-responsive">
             <table class="table table-hover align-middle">
                 <thead class="table-light">
@@ -139,14 +142,14 @@
                     <td th:text="${res.startDate}"></td>
                     <td th:text="${res.dueDate}"></td>
                     <td class="text-end" style="white-space: nowrap;">
-
+                        
                         <!--                        TODO: Disabled Edit Button for MVP-->
                         <!--                        <a th:href="@{/admin/reservations/edit/{id}(id=${res.id})}"-->
                         <!--                           class="btn btn-info btn-sm">-->
                         <!--                            <i class="bi bi-pencil d-inline d-sm-none"></i>-->
                         <!--                            <span class="d-none d-sm-inline">Edit</span>-->
                         <!--                        </a>-->
-
+                        
                         <form th:action="@{/admin/reservations/cancel/{id}(id=${res.id})}" method="post"
                               class="d-inline">
                             <button type="submit"
@@ -157,7 +160,7 @@
                             </button>
                         </form>
                     </td>
-
+                
                 </tr>
                 <tr th:if="${#lists.isEmpty(reservations)}">
                     <td colspan="6" class="text-center text-muted">No reservations found.</td>
@@ -165,7 +168,7 @@
                 </tbody>
             </table>
         </div>
-
+        
         <!-- Pagination -->
         <nav th:if="${page.totalPages > 1}">
             <ul class="pagination justify-content-center">
@@ -173,7 +176,7 @@
                     <a class="page-link"
                        th:href="@{/admin/reservations(page=${page.number - 1}, userId=${userId}, itemId=${itemId}, libraryId=${libraryId})}">Previous</a>
                 </li>
-
+                
                 <li class="page-item"
                     th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}"
                     th:classappend="${i == page.number} ? 'active'">
@@ -181,7 +184,7 @@
                        th:href="@{/admin/reservations(page=${i}, userId=${userId}, itemId=${itemId}, libraryId=${libraryId})}"
                        th:text="${i + 1}">1</a>
                 </li>
-
+                
                 <li class="page-item" th:classappend="${page.last} ? 'disabled'">
                     <a class="page-link"
                        th:href="@{/admin/reservations(page=${page.number + 1}, userId=${userId}, itemId=${itemId}, libraryId=${libraryId})}">Next</a>
@@ -191,4 +194,3 @@
     </div>
 </main>
 </html>
-

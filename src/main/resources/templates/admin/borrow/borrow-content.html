@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/admin-layout}">
+
+<head>
+  <title>Borrow</title>
+</head>
+
+<main layout:fragment="content">
+  <div class="container my-4">
+    <h2 class="mb-4">Borrowings Dashboard</h2>
+    
+    <div th:replace="~{admin/fragments/_alerts :: alerts}"></div>
+    
+    <div class="card border shadow-sm mb-4">
+      <div class="card-header bg-light d-flex justify-content-between align-items-center flex-wrap">
+        <strong>New Borrowing</strong>
+        <button class="btn btn-sm btn-outline-primary mt-2 mt-md-0"
+                data-bs-toggle="collapse"
+                data-bs-target="#createBorrowForm"
+                aria-expanded="false"
+                aria-controls="createBorrowForm">
+          <i class="bi bi-plus-circle me-1"></i> Show/Hide Borrow Form
+        </button>
+      </div>
+      
+      <div id="createBorrowForm" class="collapse">
+        <form th:action="@{/admin/borrowings}" method="post" class="card-body pt-4">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label for="userIdForm" class="form-label">User ID</label>
+              <input type="text"
+                     name="userId"
+                     id="userIdForm"
+                     class="form-control"
+                     inputmode="numeric"
+                     pattern="[0-9]+"
+                     th:value="${userId}"
+                     placeholder="Enter User ID"
+                     required
+                     oninvalid="this.setCustomValidity('Please enter a valid numeric User ID')"
+                     oninput="this.setCustomValidity('')">
+            </div>
+            
+            <div class="col-md-6">
+              <label for="itemIdForm" class="form-label">Item ID</label>
+              <input type="text"
+                     name="itemId"
+                     id="itemIdForm"
+                     class="form-control"
+                     inputmode="numeric"
+                     pattern="[0-9]+"
+                     th:value="${itemId}"
+                     placeholder="Enter Item ID"
+                     required
+                     oninvalid="this.setCustomValidity('Please enter a valid numeric Item ID')"
+                     oninput="this.setCustomValidity('')">
+            </div>
+            
+            <div class="col-12 text-end">
+              <button type="submit" class="btn btn-success">
+                <i class="bi bi-check-circle me-1"></i> Submit Borrow
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    
+    
+    <div class="card border shadow-sm mb-4">
+      <div class="card-header bg-light d-flex justify-content-between align-items-center flex-wrap">
+        <strong>Filter Borrowings</strong>
+        <div class="d-flex gap-2 mt-2 mt-md-0">
+          <a th:href="@{/admin/borrowings}" class="btn btn-outline-secondary btn-sm">
+            <i class="bi bi-arrow-counterclockwise"></i> Reset
+          </a>
+          <button type="submit" form="borrowingsFilterForm" class="btn btn-primary btn-sm">
+            <i class="bi bi-filter"></i> Apply Filters
+          </button>
+        </div>
+      </div>
+      
+      <form id="borrowingsFilterForm" th:action="@{/admin/borrowings}" method="get" class="card-body row g-3">
+        
+        <div class="col-md-3">
+          <label for="userIdFilter" class="form-label">User ID</label>
+          <input type="text"
+                 id="userIdFilter"
+                 name="userId"
+                 class="form-control"
+                 pattern="[0-9]*"
+                 inputmode="numeric"
+                 th:value="${userId}"
+                 placeholder="Enter User ID">
+        </div>
+        
+        <div class="col-md-3">
+          <label for="itemId" class="form-label">Item ID</label>
+          <input type="text"
+                 id="itemId"
+                 name="itemId"
+                 class="form-control"
+                 pattern="[0-9]*"
+                 inputmode="numeric"
+                 th:value="${itemId}"
+                 placeholder="Enter Item ID">
+        </div>
+        
+        <div class="col-md-3">
+          <label for="libraryIdFilter" class="form-label">Library</label>
+          <select id="libraryIdFilter" name="libraryId" class="form-select">
+            <option value="" th:selected="${libraryId == null}">All Libraries</option>
+            <option th:each="lib : ${libraries}"
+                    th:value="${lib.id}"
+                    th:text="${lib.name}"
+                    th:selected="${lib.id == libraryId}">
+            </option>
+          </select>
+        </div>
+        
+        <div class="col-md-3">
+          <label for="statusFilter" class="form-label">Borrow Status</label>
+          <select id="statusFilter" name="status" class="form-select">
+            <option value="" th:selected="${status == null}">All Statuses</option>
+            <option value="Active" th:selected="${status == 'Active'}">Active</option>
+            <option value="Overdue" th:selected="${status == 'Overdue'}">Overdue</option>
+            <option value="Returned" th:selected="${status == 'Returned'}">Returned</option>
+          </select>
+        </div>
+      </form>
+    </div>
+    
+    
+    <div class="table-responsive border rounded shadow-sm mb-0">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-light">
+        <tr class="small text-nowrap">
+          <th>ID</th>
+          <th>User</th>
+          <th>Item</th>
+          <th><abbr title="Start Date">Start</abbr></th>
+          <th><abbr title="Due Date">Due</abbr></th>
+          <th><abbr title="Return Date">Returned</abbr></th>
+          <th>Status</th>
+          <th><abbr title="Extensions">Ext.</abbr></th>
+          <th class="text-end">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="borrow : ${borrowings}">
+          <td th:text="${borrow.borrowId}"></td>
+          
+          <td class="text-nowrap">
+            <div class="small text-muted" th:text="'ID: #' + ${borrow.userId}"></div>
+            <div th:text="${borrow.customUserFullName}"></div>
+          </td>
+          
+          <td class="text-nowrap" style="max-width: 220px;">
+            <div class="small text-muted d-flex align-items-center gap-2">
+              
+              <span th:text="'ID: #' + ${borrow.itemId}"></span>
+              
+              <span class="badge bg-light"
+                    th:text="${borrow.productType}"
+                    title="Product Type">
+              </span>
+            </div>
+            
+            <div class="d-flex align-items-center gap-1">
+              <span class="text-truncate d-inline-block"
+                    style="max-width: 160px;"
+                    th:text="${borrow.itemTitle}"
+                    th:attr="data-bs-toggle='tooltip', title=${borrow.itemTitle}">
+              </span>
+            </div>
+          </td>
+          
+          <td th:text="${borrow.startDate}"></td>
+          <td th:text="${borrow.dueDate}"></td>
+          <td th:text="${borrow.returnDate != null ? borrow.returnDate : 'N/A'}"></td>
+          
+          <td>
+        <span th:classappend="
+              ${borrow.borrowStatus} == 'Returned' ? 'badge bg-success-subtle text-success-emphasis' :
+              (${borrow.borrowStatus} == 'Overdue' ? 'badge bg-danger-subtle text-danger-emphasis' :
+              'badge bg-primary-subtle text-primary-emphasis')"
+              th:text="${borrow.borrowStatus}">
+        </span>
+          </td>
+          
+          <td th:text="${borrow.extendsCount}"></td>
+          
+          <td class="text-end text-nowrap">
+            <form th:action="@{/admin/borrowings/extend/{id}(id=${borrow.borrowId})}" method="post" class="d-inline">
+              <span data-bs-toggle="tooltip"
+                    th:attr="title=${borrow.returnDate != null ? 'Already returned'
+                  : (borrow.extendsCount >= 2 ? 'Max extensions reached'
+                  : 'Extend Borrowing')}">
+                <button type="submit"
+                        class="btn btn-sm btn-info me-1"
+                        th:disabled="${borrow.returnDate != null || borrow.extendsCount >= 2}">
+                <i class="bi bi-clock-history me-1"></i> Extend
+              </button>
+              </span>
+            
+            </form>
+            
+            <form th:action="@{/admin/borrowings/return/{id}(id=${borrow.borrowId})}" method="post" class="d-inline">
+              <span data-bs-toggle="tooltip"
+                    th:attr="title=${borrow.returnDate != null ? 'Already returned' : 'Mark as Returned'}">
+                <button type="submit"
+                        class="btn btn-sm btn-success"
+                        th:disabled="${borrow.returnDate != null}">
+                 <i class="bi bi-box-arrow-in-left me-1"></i> Return
+              </button>
+              </span>
+            
+            </form>
+          </td>
+        </tr>
+        
+        <tr th:if="${#lists.isEmpty(borrowings)}" class="table-light" style="pointer-events: none;">
+          <td colspan="9" class="text-center text-muted">No borrowings found.</td>
+        </tr>
+        
+        </tbody>
+      </table>
+    </div>
+    
+    
+    <nav th:if="${page.totalPages > 1}" class="mt-3">
+      <ul class="pagination justify-content-center small">
+        <li class="page-item" th:classappend="${page.first} ? 'disabled'">
+          <a class="page-link"
+             th:href="@{/admin/borrowings(page=${page.number - 1}, userId=${userId}, itemId=${itemId}, libraryId=${libraryId}, status=${status})}">
+            Previous
+          </a>
+        </li>
+        <li class="page-item"
+            th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}"
+            th:classappend="${i == page.number} ? 'active'">
+          <a class="page-link"
+             th:href="@{/admin/borrowings(page=${i}, userId=${userId}, itemId=${itemId}, libraryId=${libraryId}, status=${status})}"
+             th:text="${i + 1}">
+          </a>
+        </li>
+        <li class="page-item" th:classappend="${page.last} ? 'disabled'">
+          <a class="page-link"
+             th:href="@{/admin/borrowings(page=${page.number + 1}, userId=${userId}, itemId=${itemId}, libraryId=${libraryId}, status=${status})}">
+            Next
+          </a>
+        </li>
+      </ul>
+    </nav>
+  
+  </div>
+</main>
+</html>

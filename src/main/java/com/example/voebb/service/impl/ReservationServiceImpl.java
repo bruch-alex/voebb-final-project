@@ -7,10 +7,7 @@ import com.example.voebb.model.entity.CustomUser;
 import com.example.voebb.model.entity.ItemStatus;
 import com.example.voebb.model.entity.ProductItem;
 import com.example.voebb.model.entity.Reservation;
-import com.example.voebb.repository.CustomUserRepo;
-import com.example.voebb.repository.ItemStatusRepo;
-import com.example.voebb.repository.ProductItemRepo;
-import com.example.voebb.repository.ReservationRepo;
+import com.example.voebb.repository.*;
 import com.example.voebb.service.ReservationService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +25,7 @@ public class ReservationServiceImpl implements ReservationService {
     private final CustomUserRepo userRepo;
     private final ProductItemRepo itemRepo;
     private final ItemStatusRepo statusRepo;
+    private final BorrowRepo borrowRepo;
 
 
     @Override
@@ -54,7 +52,10 @@ public class ReservationServiceImpl implements ReservationService {
             throw new ItemNotAvailableException(item.getProduct().getTitle(), item.getId(), item.getStatus().getName());
         }
 
-        if (user.getBorrowedBooksCount() >= 5) {
+        int activeBorrowCount = borrowRepo.countByCustomUserIdAndReturnDateIsNull(user.getId());
+        int activeReservationCount = reservationRepo.countByCustomUserId(user.getId());
+
+        if (activeBorrowCount + activeReservationCount >= 5) {
             throw new UserBorrowLimitExceededException(user.getId(), user.getFirstName(), user.getLastName());
         }
 
@@ -71,7 +72,7 @@ public class ReservationServiceImpl implements ReservationService {
         item.setStatus(reservedStatus);
         itemRepo.save(item);
 
-        user.setBorrowedBooksCount(user.getBorrowedBooksCount() + 1);
+        user.setBorrowedProductsCount(user.getBorrowedProductsCount() + 1);
         userRepo.save(user);
     }
 
@@ -104,7 +105,7 @@ public class ReservationServiceImpl implements ReservationService {
         reservation.getItem().setStatus(available);
 
         CustomUser user = reservation.getCustomUser();
-        user.setBorrowedBooksCount(user.getBorrowedBooksCount() - 1);
+        user.setBorrowedProductsCount(user.getBorrowedProductsCount() - 1);
 
         userRepo.save(user);
         itemRepo.save(reservation.getItem());

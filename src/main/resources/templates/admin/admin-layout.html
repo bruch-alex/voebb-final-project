@@ -4,20 +4,20 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
-    <meta name="_csrf" th:content="${_csrf.token}">
-    <meta name="_csrf_header" th:content="${_csrf.headerName}">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.5/dist/zephyr/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/navbar.css">
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <title data-layout-title-pattern="$CONTENT_TITLE $LAYOUT_TITLE">(admin)</title>
+  <meta charset="UTF-8">
+  <meta name="_csrf" th:content="${_csrf.token}">
+  <meta name="_csrf_header" th:content="${_csrf.headerName}">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.5/dist/zephyr/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/navbar.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <title data-layout-title-pattern="$CONTENT_TITLE $LAYOUT_TITLE">| ADMIN</title>
 </head>
 <body class="d-flex flex-column min-vh-100">
 
 <header>
-    <div th:replace="~{admin/fragments/_admin-navbar.html :: admin-navbar}"></div>
+  <div th:replace="~{admin/fragments/_admin-navbar.html :: admin-navbar}"></div>
 </header>
 
 <!--Main content-->

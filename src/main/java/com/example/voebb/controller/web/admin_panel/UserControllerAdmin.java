@@ -3,6 +3,7 @@ package com.example.voebb.controller.web.admin_panel;
 import com.example.voebb.model.dto.user.UserDTO;
 import com.example.voebb.repository.CustomUserRoleRepo;
 import com.example.voebb.service.CustomUserService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,9 +19,11 @@ public class UserControllerAdmin {
     private final CustomUserService customUserService;
     private final CustomUserRoleRepo customUserRoleRepo;
 
+    // TODO: get paginated Users
     @GetMapping
     public String listUsers(Model model) {
         model.addAttribute("userDTOs", customUserService.getAllUsers());
+
         return "admin/user/user-management";
     }
 
