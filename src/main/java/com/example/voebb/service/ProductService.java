@@ -9,7 +9,7 @@ public interface ProductService {
 
     void createProduct(CreateProductDTO dto);
 
-    Page<CardProductDTO> getProductCardsByTitle(String title, Pageable pageable);
+    Page<CardProductDTO> getProductCardsByFilters(ProductFilters filters, Pageable pageable);
 
     Page<ProductInfoDTO> getAllByTitleAdmin(String title, Pageable pageable);
 

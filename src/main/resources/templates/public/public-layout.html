@@ -4,28 +4,54 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.5/dist/zephyr/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" rel="stylesheet">
   <link th:href="@{/css/custom-style.css}" rel="stylesheet">
   <title data-layout-title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE"></title>
 </head>
-<body class="d-flex flex-column min-vh-100">
-<header class="sticky-top">
+<body class="d-flex flex-column min-vh-100 bg-light">
+
+<header class="sticky-top" style="max-height: 150px">
   <div th:replace="~{public/fragments/main-navbar.html :: main-navbar}"></div>
-  
   <div class="w-100 p-2 bg-primary">
     <div class="container">
-      <form th:action="@{/search}" method="GET">
-        <div class="d-flex mb-3" style="gap: 0.5rem;">
-          <div class="form-floating flex-grow-1">
+      <form th:action="@{/search}" method="POST" th:object="${productFilters}" id="searchForm">
+        
+        <input type="hidden" th:field="*{author}" id="creatorHidden">
+        <input type="hidden" th:field="*{productType}" id="productTypeHidden">
+        <input type="hidden" th:field="*{languageId}" id="languageHidden">
+        <input type="hidden" th:field="*{libraryId}" id="libraryHidden">
+        <input type="hidden" th:field="*{countryId}" id="countryHidden">
+        
+        <div class="d-flex justify-content-center gap-3">
+          <div class="form-floating flex-grow-1" style="max-width: 400px">
             <input type="text" class="form-control" id="title" name="title"
-                   th:value="${title}" placeholder="Search for a product">
+                   th:field="*{title}" placeholder="Search for a product">
             <label for="title">Search</label>
           </div>
+          
+          <div class="dropdown w-25" id="libraryDropdown">
+            <button class="btn btn-secondary dropdown-toggle h-100 w-100 text-body" type="button"
+                    id="libraryDropdownButton"
+                    data-bs-toggle="dropdown" aria-expanded="false"
+                    style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+              All libraries
+            </button>
+            <ul class="dropdown-menu mt-2 shadow-lg" aria-labelledby="libraryDropdownButton"
+                style="max-height: 200px; overflow-y: auto;">
+              <li><a class="dropdown-item" data-value="">All libraries</a></li>
+              <li th:each="lib : ${libraries}">
+                <a class="dropdown-item"
+                   th:text="${lib.district} + ': ' + ${lib.name}"
+                   th:attr="data-value=${lib.id}"></a>
+              </li>
+            </ul>
+          </div>
+          
           <button type="submit" class="btn btn-secondary">Search</button>
         </div>
       </form>
-    
     </div>
   </div>
 </header>
@@ -34,7 +60,7 @@
 <div layout:fragment="content"></div>
 
 <!-- Footer -->
-<footer th:replace="~{public/fragments/footer.html :: footer}" class="mt-auto"></footer>
+<footer th:replace="~{public/fragments/footer.html :: footer}"></footer>
 
 <!--Scripts-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

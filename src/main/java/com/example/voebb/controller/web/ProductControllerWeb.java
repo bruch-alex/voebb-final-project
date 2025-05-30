@@ -1,20 +1,20 @@
 package com.example.voebb.controller.web;
 
-import com.example.voebb.model.dto.product.ProductInfoDTO;
+import com.example.voebb.model.dto.library.LibraryDTO;
 import com.example.voebb.model.dto.product.CardProductDTO;
-import com.example.voebb.service.BookDetailsService;
-import com.example.voebb.service.CreatorService;
-import com.example.voebb.service.ProductItemService;
-import com.example.voebb.service.ProductService;
+import com.example.voebb.model.dto.product.ProductFilters;
+import com.example.voebb.model.dto.product.ProductInfoDTO;
+import com.example.voebb.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-    import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -23,23 +23,32 @@ public class ProductControllerWeb {
     private final BookDetailsService bookDetailsService;
     private final ProductItemService productItemService;
     private final CreatorService creatorService;
+    private final LibraryService libraryService;
 
 
     @GetMapping
-    public String getIndexPage() {
+    public String getIndexPage(@ModelAttribute(name = "libraries") List<LibraryDTO> libraries) {
         return "public/index";
     }
 
+    @PostMapping("/search")
+    public String postSearchResultPage(@ModelAttribute ProductFilters productFilters,
+                                       RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("productFilters", productFilters);
+        return "redirect:/search?page=1";
+    }
+
     @GetMapping("/search")
-    public String getSearchResultPage(@PageableDefault(size = 5) Pageable pageable,
-                                      @RequestParam String title,
+    public String getSearchResultPage(@ModelAttribute(name = "productFilters") ProductFilters productFilters,
+                                      @RequestParam(defaultValue = "1") int page,
                                       Model model) {
-        Page<CardProductDTO> resultProducts = productService.getProductCardsByTitle(title, pageable);
-        model.addAttribute("title", title);
+        Pageable pageable = PageRequest.of(page - 1, 5);
+        Page<CardProductDTO> resultProducts = productService.getProductCardsByFilters(productFilters, pageable);
         model.addAttribute("page", resultProducts);
         model.addAttribute("cardProductDTOs", resultProducts.getContent());
-        return "public/product/product-list";
+        return "/public/product/product-list";
     }
+
 
     @GetMapping("/products/{id}")
     public String getDetailsPage(@PathVariable Long id,

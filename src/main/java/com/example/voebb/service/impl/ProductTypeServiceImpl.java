@@ -1,5 +1,6 @@
 package com.example.voebb.service.impl;
 
+import com.example.voebb.model.dto.product.ProductTypeDTO;
 import com.example.voebb.model.entity.ProductType;
 import com.example.voebb.repository.ProductTypeRepo;
 import com.example.voebb.service.ProductTypeService;
@@ -42,8 +43,12 @@ public class ProductTypeServiceImpl implements ProductTypeService {
 
 
     @Override
-    public List<ProductType> getAllProductTypes() {
-        return productTypeRepo.findAll();
+    public List<ProductTypeDTO> getAllProductTypes() {
+        return productTypeRepo.findAll().stream()
+                .map(productType -> new ProductTypeDTO(
+                        productType.getId(),
+                        productType.getName()
+                )).toList();
     }
 
     @Override

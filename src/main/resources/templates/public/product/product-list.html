@@ -4,18 +4,145 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{public/public-layout}">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+      .hover-card {
+          transition: box-shadow 0.3s ease, transform 0.3s ease;
+      }
+
+      .hover-card:hover {
+          box-shadow: 0 4px 20px rgba(13, 110, 253, 0.3);
+          transform: translateY(-2px);
+      }
+
+      .page-wrapper {
+          width: 100vw;
+          min-height: 100vh;
+          display: flex;
+          justify-content: center; /* center cards container */
+          align-items: flex-start;
+          box-sizing: border-box;
+      }
+
+
+      .cards-container {
+          width: 50rem; /* fixed width */
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          flex-shrink: 0; /* don't shrink */
+      }
+      
+      .filters-sidebar {
+          width: 250px;
+          height: fit-content;
+          position: fixed;
+          left: 15px;
+          top: 160px;
+          bottom: 0;
+          box-sizing: border-box;
+      }
+  </style>
+
 </head>
 <body>
-<main layout:fragment="content" class="flex-fill">
-    <div th:replace="~{public/fragments/search-by-title-pagination:: pagination}"></div>
 
-    <div th:each="cardProductDTO : ${cardProductDTOs}" class="d-flex justify-content-center mb-4">
-        <div th:replace="~{public/fragments/product-card :: card(${cardProductDTO})}"></div>
-    </div>
-
-    <div th:replace="~{public/fragments/search-by-title-pagination:: pagination}"></div>
-</main>
+<div layout:fragment="content">
+  <div class="page-wrapper d-flex">
+    <aside class="filters-sidebar card p-3">
+      <h5>Filters</h5>
+      
+      <hr style="border: none; height: 1px; background-color: black;"/>
+      
+      <label for="productTypeDropdown" class="form-label">Product Type</label>
+      <div class="dropdown w-auto" id="productTypeDropdown">
+        <button class="btn btn-secondary dropdown-toggle w-100 text-body" type="button"
+                id="productTypeDropdownButton"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+          All
+        </button>
+        <ul class="dropdown-menu mt-2 shadow-lg" aria-labelledby="productTypeDropdownButton"
+            style="max-height: 200px; overflow-y: auto;">
+          <li><a class="dropdown-item" data-value="">All</a></li>
+          <li th:each="type : ${productTypes}">
+            <a class="dropdown-item"
+               th:text="${type.name}"
+               th:attr="data-value=${type.id}"></a>
+          </li>
+        </ul>
+      </div>
+      
+      <hr style="border: none; height: 1px; background-color: black;"/>
+      
+      <div>
+        <label for="creator" class="form-label">Creator</label>
+        <input type="text" id="creator" name="creator" class="form-control" th:value="${productFilters.author}">
+      </div>
+      
+      <hr style="border: none; height: 1px; background-color: black;"/>
+      
+      <label for="languageDropdown" class="form-label">Product language</label>
+      <div class="dropdown w-auto" id="languageDropdown">
+        <button class="btn btn-secondary dropdown-toggle w-100 text-body" type="button"
+                id="languageDropdownButton"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+          All
+        </button>
+        <ul class="dropdown-menu mt-2 shadow-lg" aria-labelledby="languageDropdownButton"
+            style="max-height: 200px; overflow-y: auto;">
+          <li><a class="dropdown-item" data-value="">All</a></li>
+          <li th:each="language : ${productLanguages}">
+            <a class="dropdown-item"
+               th:text="${language.name}"
+               th:attr="data-value=${language.id}"></a>
+          </li>
+        </ul>
+      </div>
+      
+      <hr style="border: none; height: 1px; background-color: black;"/>
+      
+      <label for="countryDropdown" class="form-label">Product country</label>
+      <div class="dropdown w-auto" id="countryDropdown">
+        <button class="btn btn-secondary dropdown-toggle w-100 text-body" type="button"
+                id="countryDropdownButton"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+          All
+        </button>
+        <ul class="dropdown-menu mt-2 shadow-lg" aria-labelledby="countryDropdownButton"
+            style="max-height: 200px; overflow-y: auto;">
+          <li><a class="dropdown-item" data-value="">All</a></li>
+          <li th:each="country : ${productCountries}">
+            <a class="dropdown-item"
+               th:text="${country.name}"
+               th:attr="data-value=${country.id}"></a>
+          </li>
+        </ul>
+      </div>
+      
+      <hr style="border: none; height: 1px; background-color: black;"/>
+      
+      <button id="applyFiltersBtn" class="btn btn-primary w-100 m-1">Apply filters</button>
+      <button id="resetFiltersBtn" class="btn btn-danger w-100 m-1">Reset filters</button>
+    </aside>
+    
+    <main class="cards-container d-flex container align-items-stretch mt-3">
+      <!-- Card List -->
+      <div class="flex-fill">
+        
+        <div th:each="cardProductDTO : ${cardProductDTOs}" class="d-flex justify-content-center mb-4">
+          <a th:replace="~{public/fragments/product-card :: card(${cardProductDTO})}"></a>
+        </div>
+        
+        <div th:replace="~{public/fragments/search-by-title-pagination:: pagination}"></div>
+      </div>
+    </main>
+  
+  </div>
+  <script th:src="@{/js/product/synchronizeProductFiltersAndHiddenInput.js}"></script>
+</div>
 </body>
 </html>

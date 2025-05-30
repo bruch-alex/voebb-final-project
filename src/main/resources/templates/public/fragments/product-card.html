@@ -1,11 +1,12 @@
-<div class="card mb-3" th:fragment="card(cardProductDTO)" style="width: 50rem;">
-    <div class="card-header" th:text="'id: ' + ${cardProductDTO.id}"></div>
-    <div class="card-body">
+<div class="card hover-card" th:fragment="card(cardProductDTO)" style="width: 50rem;">
+    <div class="card-header">
         <a th:href="@{/products/{id}(id=${cardProductDTO.id})}"
            style="text-decoration: none; color: inherit;">
-            <h4 class="card-title" th:text="${cardProductDTO.title}"></h4>
+            <h4 th:text="${cardProductDTO.title}"></h4>
         </a>
-
+    </div>
+    <div class="card-body">
+        
         <p class="card-text"
            th:if="${cardProductDTO.mainCreators != null}"
            th:text="${cardProductDTO.mainCreators}"></p>
@@ -30,7 +31,7 @@
                      th:attr="aria-labelledby='headerLibrary__' + ${cardProductDTO.id}">
                     <div class="accordion-body">
                         <div th:each="location : ${cardProductDTO.locations}">
-                            <p th:text="'Location: ' + ${location.district} + ', ' + ${location.libraryName} + ', available items: ' + ${location.itemsCount}"></p>
+                            <p th:utext="'<b>' + ${location.district} + ':</b> ' + ${location.libraryName} + ', available items: ' + ${location.itemsCount}"></p>
                         </div>
                     </div>
                 </div>

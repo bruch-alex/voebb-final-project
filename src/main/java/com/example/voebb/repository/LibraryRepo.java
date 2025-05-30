@@ -52,6 +52,7 @@ public interface LibraryRepo extends JpaRepository<Library, Long> {
                     l.name
                 )
                 FROM Library l
+                ORDER BY l.address.district
             """)
     List<LibraryDTO> getAllInDTO();
 
