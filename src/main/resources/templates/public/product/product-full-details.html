@@ -14,11 +14,19 @@
     <!-- General Product Info -->
     <div class="container mt-4">
         <h4>General info</h4>
+        <!-- ✅ Book Cover Image -->
+        <div style="text-align: center;">
+            <img th:src="${productInfoDTO.photo}"
+                 alt="Book cover"
+                 style="height: 250px; object-fit: contain; margin-bottom: 1rem;"
+                 th:attr="onerror='this.onerror=null; this.src=\'' + ${productInfoDTO.defaultPhoto} + '\';'" />
+        </div>
+        
         <p th:text="'Title: ' + ${productInfoDTO.title}"></p>
         <p th:text="'Id: ' + ${productInfoDTO.id}"></p>
         <p th:text="'Type: ' + ${productInfoDTO.productType}"></p>
         <p th:text="'Release: ' + ${productInfoDTO.releaseYear}"></p>
-        <p th:text="'Photo: ' + ${productInfoDTO.photo}"></p>
+        
         <p th:text="'Description: ' + ${productInfoDTO.description}"></p>
         <p th:text="'Link: ' + ${productInfoDTO.productLinkToEmedia}"></p>
     </div>

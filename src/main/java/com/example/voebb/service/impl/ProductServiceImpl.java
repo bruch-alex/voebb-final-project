@@ -9,6 +9,7 @@ import com.example.voebb.model.entity.Country;
 import com.example.voebb.model.entity.Language;
 import com.example.voebb.model.entity.Product;
 import com.example.voebb.model.entity.ProductType;
+import com.example.voebb.model.mapper.BookDetailsMapper;
 import com.example.voebb.model.mapper.ProductMapper;
 import com.example.voebb.repository.CountryRepo;
 import com.example.voebb.repository.ProductRepo;
@@ -88,24 +89,44 @@ public class ProductServiceImpl implements ProductService {
     public Page<CardProductDTO> getProductCardsByTitle(String title, Pageable pageable) {
         Page<Product> page = productRepo.findAllByTitleContainsIgnoreCase(title, pageable);
 
-        return page.map(product -> new CardProductDTO(
+        return page.map(product -> {
+            String mainCreator = product.getCreatorProductRelations().stream()
+                    .filter(relation -> relation.getCreatorRole().getId().equals(product.getType().getMainCreatorRoleId()))
+                    .map(relation -> relation.getCreator().getFirstName() + " " + relation.getCreator().getLastName())
+                    .collect(Collectors.joining(", "));
+
+            return new CardProductDTO(
+                    product.getId(),
+                    product.getType().getName(),
+                    product.getTitle(),
+                    product.getReleaseYear(),
+                    product.getPhoto(),
+                    product.getType().getDefaultCoverUrl(),
+                    product.getProductLinkToEmedia(),
+                    mainCreator,
+                    productItemService.getLocationsForAvailableItemsByProductId(product.getId())
+            );
+        });
+    }
+
+
+    @Override
+    public Page<ProductInfoDTO> getAllByTitleAdmin(String title, Pageable pageable) {
+        Page<Product> page = productRepo.findAllByTitleContainsIgnoreCase(title, pageable);
+
+        return page.map(product -> new ProductInfoDTO(
                 product.getId(),
                 product.getType().getName(),
                 product.getTitle(),
                 product.getReleaseYear(),
                 product.getPhoto(),
+                product.getType().getDefaultCoverUrl(),
+                product.getDescription(),
                 product.getProductLinkToEmedia(),
-                product.getCreatorProductRelations().stream()
-                        .filter(relation -> relation.getCreatorRole().getId().equals(product.getType().getMainCreatorRoleId()))
-                        .map(relation -> relation.getCreator().getFirstName() + " " + relation.getCreator().getLastName())
-                        .collect(Collectors.joining(", ")),
-                productItemService.getLocationsForAvailableItemsByProductId(product.getId())));
-    }
-
-    @Override
-    public Page<ProductInfoDTO> getAllByTitleAdmin(String title, Pageable pageable) {
-        Page<Product> page = productRepo.findAllByTitleContainsIgnoreCase(title, pageable);
-        return page.map(ProductMapper::toProductInfoDTO);
+                product.getCountries().stream().map(Country::getName).collect(Collectors.toSet()),
+                product.isBook() ? BookDetailsMapper.toDto(product.getBookDetails()) : null,
+                creatorService.getCreatorsWithRolesByProductId(product.getId())
+        ));
     }
 
     @Override

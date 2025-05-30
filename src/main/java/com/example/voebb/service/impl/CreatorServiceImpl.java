@@ -7,6 +7,7 @@ import com.example.voebb.model.entity.Creator;
 import com.example.voebb.model.entity.CreatorProductRelation;
 import com.example.voebb.model.entity.CreatorRole;
 import com.example.voebb.model.entity.Product;
+import com.example.voebb.repository.CreatorProductRelationRepo;
 import com.example.voebb.repository.CreatorRepo;
 import com.example.voebb.service.CreatorRoleService;
 import com.example.voebb.service.CreatorService;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +28,7 @@ public class CreatorServiceImpl implements CreatorService {
 
     private final CreatorRepo creatorRepo;
     private final CreatorRoleService creatorRoleService;
+    private final CreatorProductRelationRepo creatorProductRelationRepo;
 
     @Override
     @Transactional
@@ -123,5 +126,16 @@ public class CreatorServiceImpl implements CreatorService {
             throw new EntityNotFoundException("Creator not found");
         }
         creatorRepo.deleteById(id);
+    }
+
+    @Override
+    public List<CreatorWithRoleDTO> getCreatorsWithRolesByProductId(Long id) {
+        return creatorProductRelationRepo.findByProductId(id).stream()
+                .map(rel -> new CreatorWithRoleDTO(
+                        rel.getCreator().getFirstName(),
+                        rel.getCreator().getLastName(),
+                        rel.getCreatorRole().getCreatorRoleName()
+                ))
+                .collect(Collectors.toList());
     }
 }

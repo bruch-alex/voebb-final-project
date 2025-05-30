@@ -14,6 +14,7 @@ public record ProductInfoDTO(
         String title,
         String releaseYear,
         String photo,
+        String defaultPhoto,
         String description, // summary of the product based on media_type
         String productLinkToEmedia,
         Set<String> countries,

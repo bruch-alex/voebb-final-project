@@ -26,4 +26,7 @@ public class ProductType {
 
     @Column(name = "main_creator_role_id", nullable = false)
     private Long mainCreatorRoleId;
+
+    @Column(name = "default_cover_url")
+    private String defaultCoverUrl;
 }

@@ -23,4 +23,6 @@ public interface CreatorService {
     CreatorResponseDTO updateCreator(Long id, CreatorFullNameDTO dto);
 
     void deleteCreator(Long id);
+
+    List<CreatorWithRoleDTO> getCreatorsWithRolesByProductId(Long id);
 }

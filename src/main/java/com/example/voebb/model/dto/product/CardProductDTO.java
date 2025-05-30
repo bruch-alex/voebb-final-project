@@ -11,7 +11,7 @@ public record CardProductDTO(
         String title,
         String releaseYear,
         String photo,
+        String defaultPhoto,
         String productLinkToEmedia,
         String mainCreators,
-        List<LocationAndItemsCountDTO> locations
-) {}
+        List<LocationAndItemsCountDTO> locations) {}

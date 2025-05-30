@@ -8,10 +8,10 @@ ON CONFLICT (creator_role_id) DO NOTHING;
 SELECT SETVAL('creator_roles_creator_role_id_seq', (SELECT MAX(creator_role_id) FROM creator_roles));
 
 -- Product types
-INSERT INTO product_types (product_type_id, name, main_creator_role_id)
-VALUES (1, 'book', 1),
-       (2, 'ebook', 1),
-       (3, 'DVD', 4)
+INSERT INTO product_types (product_type_id, name, main_creator_role_id, default_cover_url)
+VALUES (1, 'book', 1, '/images/default-book.jpg'),
+       (2, 'ebook', 1, '/images/default-book.jpg'),
+       (3, 'DVD', 4, '/images/default-dvd.jpg')
 ON CONFLICT (product_type_id) DO NOTHING;
 SELECT SETVAL('product_types_product_type_id_seq', (SELECT MAX(product_type_id) FROM product_types));
 
@@ -34,22 +34,21 @@ SELECT SETVAL('user_roles_role_id_seq', (SELECT MAX(role_id) FROM user_roles));;
 
 -- Languages  ─────────────────────────────────────────────────
 INSERT INTO languages (language_id, language_name)
-VALUES
-    (1, 'English'),
-    (2, 'German'),
-    (3, 'Hindi'),
-    (4, 'Chinese'),
-    (5, 'Japanese'),
-    (6, 'French'),
-    (7, 'Spanish'),
-    (8, 'Russian'),
-    (9, 'Arabic'),
-    (10, 'Korean')
+VALUES (1, 'English'),
+       (2, 'German'),
+       (3, 'Hindi'),
+       (4, 'Chinese'),
+       (5, 'Japanese'),
+       (6, 'French'),
+       (7, 'Spanish'),
+       (8, 'Russian'),
+       (9, 'Arabic'),
+       (10, 'Korean')
 ON CONFLICT (language_id) DO NOTHING;
-SELECT setval('languages_language_id_seq', (SELECT MAX(language_id) FROM languages));
+SELECT SETVAL('languages_language_id_seq', (SELECT MAX(language_id) FROM languages));
 -- DUMMY DATA BELLOW
 
--- Products
+-- Products with photos
 INSERT INTO products (product_id, product_type_id, product_link_to_emedia, title, release_year, photo, description)
 VALUES (1, 1, NULL, 'Harry Potter and the Philosopher''s Stone', '1997', 'photo_url_1', 'First book of Harry Potter series'),
        (2, 2, 'https://ebooks.voebb.de/hp1', 'Harry Potter and the Philosopher''s Stone', '1997', 'photo_url_1', 'First book of Harry Potter series'),
@@ -57,25 +56,29 @@ VALUES (1, 1, NULL, 'Harry Potter and the Philosopher''s Stone', '1997', 'photo_
        (4, 2, 'https://ebooks.voebb.de/hp2', 'Harry Potter and the Chamber of Secrets', '1998', 'photo_url_2', 'Second book in the series'),
        (5, 1, NULL, 'Harry Potter and the Prisoner of Azkaban', '1999', 'photo_url_3', 'Third book in the series'),
        (6, 2, 'https://ebooks.voebb.de/hp3', 'Harry Potter and the Goblet of Fire', '2000', 'photo_url_4', 'Fourth book in the series'),
-       (7, 1, NULL, 'Harry Potter and the Order of the Phoenix', '2003', 'photo_url_5', 'Fifth book in the series'),
-       (8, 2, 'https://ebooks.voebb.de/hp4', 'Harry Potter and the Half-Blood Prince', '2005', 'photo_url_6', 'Sixth book in the series'),
-       (9, 1, NULL, 'Harry Potter and the Deathly Hallows', '2007', 'photo_url_7', 'Final book in the series'),
-       (10, 1, NULL, 'Harry Potter and the Cursed Child', '2016', 'photo_url_8', 'Play based on Harry Potter universe'),
-       (11, 1, NULL, 'Fantastic Beasts and Where to Find Them', '2001', 'photo_url_9', 'A companion book to Harry Potter'),
-       (12, 3, NULL, 'The Matrix', '1999', 'photo_url_9', 'DVD format')
+       (7, 1, NULL, 'Harry Potter and the Order of the Phoenix', '2003', 'photo_url_5', 'Fifth book in the series')
+ON CONFLICT (product_id) DO NOTHING;
+
+-- Products without photos
+INSERT INTO products (product_id, product_type_id, product_link_to_emedia, title, release_year, description)
+VALUES (8, 2, 'https://ebooks.voebb.de/hp4', 'Harry Potter and the Half-Blood Prince', '2005', 'Sixth book in the series'),
+       (9, 1, NULL, 'Harry Potter and the Deathly Hallows', '2007', 'Final book in the series'),
+       (10, 1, NULL, 'Harry Potter and the Cursed Child', '2016', 'Play based on Harry Potter universe'),
+       (11, 1, NULL, 'Fantastic Beasts and Where to Find Them', '2001', 'A companion book to Harry Potter'),
+       (12, 3, NULL, 'The Matrix', '1999', 'DVD format')
 ON CONFLICT (product_id) DO NOTHING;
 SELECT SETVAL('products_product_id_seq', (SELECT MAX(product_id) FROM products));
 
 -- Book Details (for both physical books and e-books)
 INSERT INTO book_details (product_id, book_isbn, book_edition, book_pages)
 VALUES (1, '9780747532699', '1st Edition', 223),
-       (2, '9780747532699-E', 'Digital Edition', 223),
+       (2, '9780747532699', 'Digital Edition', 223),
        (3, '9780747538493', '1st Edition', 251),
-       (4, '9780747538493-E', 'Digital Edition', 251),
+       (4, '9780747538493', 'Digital Edition', 251),
        (5, '9780747542155', '1st Edition', 317),
-       (6, '9780747542155-E', 'Digital Edition', 317),
+       (6, '9780747542155', 'Digital Edition', 317),
        (7, '9780747546245', '1st Edition', 607),
-       (8, '9780747546245-E', 'Digital Edition', 607),
+       (8, '9780747546245', 'Digital Edition', 607),
        (9, '9780747595830', '1st Edition', 607),
        (10, '9781338216660', '1st Edition', 320),
        (11, '9781408880715', '1st Edition', 128)

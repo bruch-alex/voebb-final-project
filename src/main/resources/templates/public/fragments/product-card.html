@@ -1,40 +1,53 @@
 <div class="card mb-3" th:fragment="card(cardProductDTO)" style="width: 50rem;">
-    <div class="card-header" th:text="'id: ' + ${cardProductDTO.id}"></div>
-    <div class="card-body">
-        <a th:href="@{/products/{id}(id=${cardProductDTO.id})}"
-           style="text-decoration: none; color: inherit;">
-            <h4 class="card-title" th:text="${cardProductDTO.title}"></h4>
-        </a>
-
+  <div class="card-header">
+    <a th:href="@{/products/{id}(id=${cardProductDTO.id})}"
+       style="text-decoration: none; color: inherit;">
+      <h4 class="card-title" th:text="${cardProductDTO.title}"></h4>
+    </a>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-9">
         <p class="card-text"
            th:if="${cardProductDTO.mainCreators != null}"
            th:text="${cardProductDTO.mainCreators}"></p>
-
         <p class="card-text" th:text="'productType: ' + ${cardProductDTO.productType}"></p>
-
-        <!-- Accordion -->
-        <div class="accordion" th:id="'accordionProduct__' + ${cardProductDTO.id}">
-            <div class="accordion-item">
-                <h2 class="accordion-header" th:id="'headerLibrary__' + ${cardProductDTO.id}">
-                    <button class="accordion-button collapsed"
-                            type="button"
-                            data-bs-toggle="collapse"
-                            th:data-bs-target="'#collapseLibrary__' + ${cardProductDTO.id}"
-                            th:aria-controls="'collapseLibrary__' + ${cardProductDTO.id}"
-                            th:text="'Available in ' + ${cardProductDTO.locations.size()} + ' ' + (${cardProductDTO.locations.size() == 1} ? 'library' : libraries)">
-                        Locations
-                    </button>
-                </h2>
-                <div class="accordion-collapse collapse"
-                     th:id="'collapseLibrary__' + ${cardProductDTO.id}"
-                     th:attr="aria-labelledby='headerLibrary__' + ${cardProductDTO.id}">
-                    <div class="accordion-body">
-                        <div th:each="location : ${cardProductDTO.locations}">
-                            <p th:text="'Location: ' + ${location.district} + ', ' + ${location.libraryName} + ', available items: ' + ${location.itemsCount}"></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+      </div>
+      <div class="col-3 text-end">
+        <!-- ✅ Book Cover Image -->
+        <img th:src="${cardProductDTO.photo}"
+             class="rounded"
+             alt="Book cover"
+             style="height: 150px; width: 100px; object-fit: contain; margin-bottom: 1rem;"
+             th:attr="onerror=|this.onerror=null; this.src='${cardProductDTO.defaultPhoto}?v=1';|">
+      </div>
     </div>
+    <div class="row">
+      <!-- Accordion -->
+      <div class="accordion" th:id="'accordionProduct__' + ${cardProductDTO.id}">
+        <div class="accordion-item">
+          <h2 class="accordion-header" th:id="'headerLibrary__' + ${cardProductDTO.id}">
+            <button class="accordion-button collapsed"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    th:data-bs-target="'#collapseLibrary__' + ${cardProductDTO.id}"
+                    th:aria-controls="'collapseLibrary__' + ${cardProductDTO.id}"
+                    th:text="'Available in ' + ${cardProductDTO.locations.size()} + ' ' + (${cardProductDTO.locations.size() == 1} ? 'library' : 'libraries')">
+              Locations
+            </button>
+          </h2>
+          <div class="accordion-collapse collapse"
+               th:id="'collapseLibrary__' + ${cardProductDTO.id}"
+               th:attr="aria-labelledby='headerLibrary__' + ${cardProductDTO.id}">
+            <div class="accordion-body">
+              <div th:each="location : ${cardProductDTO.locations}">
+                <p
+                  th:text="'Location: ' + ${location.district} + ', ' + ${location.libraryName} + ', available items: ' + ${location.itemsCount}"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
