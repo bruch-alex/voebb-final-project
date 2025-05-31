@@ -12,7 +12,7 @@ public interface ReservationService {
 
     void createReservation(CreateReservationDTO dto);
 
-    void updateReservation(Long id, CreateReservationDTO dto);
+    String fulfillReservation(Long reservationId);
 
     void deleteReservation(Long id);
 }

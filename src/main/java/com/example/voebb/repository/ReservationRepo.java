@@ -10,6 +10,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.util.List;
+
 
 @Repository
 public interface ReservationRepo extends JpaRepository<Reservation, Long> {
@@ -17,17 +19,19 @@ public interface ReservationRepo extends JpaRepository<Reservation, Long> {
     @Query("""
                 SELECT new com.example.voebb.model.dto.reservation.GetReservationDTO(
                     r.id,
+                    u.id,
                     CONCAT(u.firstName, ' ', u.lastName),
+                    i.id,
                     p.title,
                     r.startDate,
-                    r.dueDate
-                )
+                    r.dueDate,
+                    0L                  )
                 FROM Reservation r
                 JOIN r.customUser u
                 JOIN r.item i
                 JOIN i.product p
-                JOIN i.location loc
-                JOIN loc.library l
+                LEFT JOIN i.location loc
+                LEFT JOIN loc.library l
                 WHERE (:userId IS NULL OR u.id = :userId)
                   AND (:itemId IS NULL OR i.id = :itemId)
                   AND (:libraryId IS NULL OR l.id = :libraryId)
@@ -40,5 +44,7 @@ public interface ReservationRepo extends JpaRepository<Reservation, Long> {
     );
 
     int countByCustomUserId(Long userId);
+
+    List<Reservation> findByDueDateBefore(LocalDate today);
 
 }

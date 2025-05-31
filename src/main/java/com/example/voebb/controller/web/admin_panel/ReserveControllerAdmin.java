@@ -5,7 +5,6 @@ import com.example.voebb.model.dto.reservation.GetReservationDTO;
 import com.example.voebb.service.LibraryService;
 import com.example.voebb.service.ReservationService;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -37,7 +36,7 @@ public class ReserveControllerAdmin {
         model.addAttribute("page", page);
         model.addAttribute("reservations", page.getContent());
         model.addAttribute("userId", userId);
-        model.addAttribute("itemIdFilter", itemId);
+        model.addAttribute("itemId", itemId);
         model.addAttribute("libraryId", libraryId);
         model.addAttribute("libraries", libraryService.getAllLibraries());
 
@@ -58,7 +57,18 @@ public class ReserveControllerAdmin {
         return "redirect:/admin/reservations";
     }
 
-    // TODO: edit Form ?? Modal vs Page
+    @PostMapping("/fulfill/{id}")
+    public String fulfillReservation(@PathVariable("id") Long reservationId, RedirectAttributes redirectAttributes) {
+
+        try {
+            String message = reservationService.fulfillReservation(reservationId);
+            redirectAttributes.addFlashAttribute("success", message);
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+        }
+        return "redirect:/admin/reservations";
+    }
+
 
     @PostMapping("/cancel/{id}")
     public String cancelReservation(@PathVariable Long id, RedirectAttributes redirectAttributes) {
@@ -73,6 +83,5 @@ public class ReserveControllerAdmin {
 
         return "redirect:/admin/reservations";
     }
-
 
 }

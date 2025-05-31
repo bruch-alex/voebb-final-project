@@ -324,12 +324,23 @@ SELECT SETVAL('borrows_borrow_id_seq', (SELECT MAX(borrow_id) FROM borrows));
 
 --  ─────────── mock: RESERVATIONS ───────────
 INSERT INTO reservations (reservation_id, custom_user_id, item_id, reservation_start, reservation_due)
-VALUES (1, 2, 1, DATE '2025-05-10', DATE '2025-05-13'),
-       (2, 2, 2, DATE '2025-05-10', DATE '2025-05-13'),
-       (3, 5, 3, DATE '2025-05-08', DATE '2025-05-11'),
-       (4, 5, 3, DATE '2025-05-08', DATE '2025-05-11'),
-       (5, 1, 44, DATE '2025-05-08', DATE '2025-05-11'),
-       (6, 1, 20, DATE '2025-05-08', DATE '2025-05-11'),
-       (7, 4, 12, DATE '2025-05-08', DATE '2025-05-11')
+VALUES
+-- Starts today, ends in 3 days
+(1, 2, 1, CURRENT_DATE, CURRENT_DATE + INTERVAL '3 days'),
+
+-- Started yesterday, ends in 2 days
+(2, 2, 2, CURRENT_DATE - INTERVAL '1 day', CURRENT_DATE + INTERVAL '2 days'),
+
+-- Started 2 days ago, ends tomorrow
+(3, 5, 3, CURRENT_DATE - INTERVAL '2 days', CURRENT_DATE + INTERVAL '1 day'),
+
+-- Ends today
+(4, 5, 3, CURRENT_DATE - INTERVAL '3 days', CURRENT_DATE),
+
+-- Started 3 days ago, expired yesterday (simulate overdue for deletion job)
+(5, 1, 44, CURRENT_DATE - INTERVAL '4 days', CURRENT_DATE - INTERVAL '1 day'),
+
+-- Ends tomorrow
+(6, 1, 20, CURRENT_DATE - INTERVAL '2 days', CURRENT_DATE + INTERVAL '1 day')
 ON CONFLICT DO NOTHING;
 SELECT SETVAL('reservations_reservation_id_seq', (SELECT MAX(reservation_id) FROM reservations));
