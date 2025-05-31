@@ -48,7 +48,7 @@
 </head>
 <body>
 
-<div layout:fragment="content">
+<main layout:fragment="content">
   <div class="page-wrapper d-flex">
     <aside class="filters-sidebar card p-3">
       <h5>Filters</h5>
@@ -129,20 +129,44 @@
       <button id="resetFiltersBtn" class="btn btn-danger w-100 m-1">Reset filters</button>
     </aside>
     
-    <main class="cards-container d-flex container align-items-stretch mt-3">
+    <div class="cards-container d-flex container align-items-stretch mt-3">
       <!-- Card List -->
       <div class="flex-fill">
         
-        <div th:each="cardProductDTO : ${cardProductDTOs}" class="d-flex justify-content-center mb-4">
+        <div th:if="${#lists.isEmpty(cardProductDTOs)}"
+             class="card hover-card mt-4 text-start"
+             style="width: 50rem; margin: 0 auto;">
+          <div class="card-header bg-light text-dark">
+            <h5 class="mb-0">
+              <i class="bi bi-info-circle-fill text-warning me-2"></i>
+              No products found
+            </h5>
+          </div>
+          <div class="card-body">
+            <p class="card-text">
+              There are no products matching your filters in the library catalogue.
+            </p>
+            <p class="text-muted fst-italic" style="font-size: 0.9rem;">
+              Please change your search query.
+            </p>
+          </div>
+        </div>
+        
+        <div th:each="cardProductDTO : ${cardProductDTOs}"
+             class="d-flex justify-content-center mb-4">
           <a th:replace="~{public/fragments/product-card :: card(${cardProductDTO})}"></a>
         </div>
         
-        <div th:replace="~{public/fragments/search-by-title-pagination:: pagination}"></div>
+        
+        <div
+          th:replace="~{public/fragments/search-by-title-pagination::pagination}">
+        </div>
+      
       </div>
-    </main>
+    </div>
   
   </div>
   <script th:src="@{/js/product/synchronizeProductFiltersAndHiddenInput.js}"></script>
-</div>
+</main>
 </body>
 </html>

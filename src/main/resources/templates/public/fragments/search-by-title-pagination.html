@@ -1,4 +1,4 @@
-<div class="mt-4 d-flex justify-content-center" th:fragment="pagination">
+<div class="mt-4 d-flex justify-content-center" th:fragment="pagination" th:if="${page.totalPages > 1}">
   <ul class="pagination">
     <li class="page-item" th:classappend="${page.hasPrevious()} ? '' : 'disabled'">
       <a class="page-link"
