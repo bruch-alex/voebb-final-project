@@ -28,12 +28,21 @@
             <label for="email" class="form-label">Email</label>
             <input type="email" id="email" name="email" th:field="*{email}" class="form-control" required>
         </div>
-
+        
         <div class="mb-3">
             <label for="phoneNumber" class="form-label">Phone Number</label>
-            <input type="text" id="phoneNumber" name="phoneNumber" th:field="*{phoneNumber}" class="form-control" required>
+            <div class="input-group">
+                <span class="input-group-text">+49</span>
+                <input type="text"
+                       id="phoneNumber"
+                       class="form-control"
+                       th:field="*{phoneNumber}"
+                       placeholder="e.g. 17612345678"
+                       pattern="[1-9][0-9]{9,10}"
+                       required />
+            </div>
+            <div class="form-text">Do not include +49. Only enter the rest, e.g. 17612345678</div>
         </div>
-
         <div class="mb-3">
             <label for="borrowedBooksCount" class="form-label">Borrowed Books Count</label>
             <input type="number" id="borrowedBooksCount" name="borrowedBooksCount" th:field="*{borrowedBooksCount}"

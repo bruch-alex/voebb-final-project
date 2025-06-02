@@ -35,7 +35,7 @@ public class UserControllerAdmin {
     }
 
     @PostMapping("/new")
-    public String createUser(@ModelAttribute("user") UserDTO userDto) {
+    public String createUser(@ModelAttribute("userDTO") UserDTO userDto) {
         customUserService.createUser(userDto);
         return "redirect:/admin/users";
     }

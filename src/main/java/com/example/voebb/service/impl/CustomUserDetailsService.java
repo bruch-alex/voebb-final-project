@@ -47,8 +47,9 @@ public class CustomUserDetailsService implements UserDetailsService, CustomUserS
             customUser = userRepo.findByEmail(username)
                     .orElseThrow(() -> new UsernameNotFoundException("Email not found: " + username));
         } else if (isValidPhone(username)) {
-            customUser = userRepo.findByPhoneNumber(username)
-                    .orElseThrow(() -> new UsernameNotFoundException("Phone number not found: " + username));
+            String normalizedPhone = normalizePhone(username);
+            customUser = userRepo.findByPhoneNumber(normalizedPhone)
+                    .orElseThrow(() -> new UsernameNotFoundException("Phone number not found: " + normalizedPhone));
         } else {
             throw new UsernameNotFoundException("Invalid login identifier: " + username);
         }
@@ -67,11 +68,19 @@ public class CustomUserDetailsService implements UserDetailsService, CustomUserS
     }
 
     private boolean isValidPhone(String username) {
-        return username.matches("^\\+[0-9]{10,15}$");
+        return username.matches("^[0-9]{10,15}$");
     }
 
     private boolean isValidEmail(String username) {
         return username.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$");
+    }
+    private String normalizePhone(String phone) {
+        if (phone.length() <= 3) {
+            throw new IllegalArgumentException("Invalid phone number length");
+        }
+        String providerCode = phone.substring(0, 3);
+        String subscriberNumber = phone.substring(3);
+        return "+49-" + providerCode + "-" + subscriberNumber;
     }
 
     @Transactional
@@ -132,8 +141,10 @@ public class CustomUserDetailsService implements UserDetailsService, CustomUserS
             loginCredentialsChange = true;
         }
 
-        if (userDto.getNewPassword() != null && !userDto.getNewPassword().isBlank()) {
-            existingUser.setPassword(encoder.encode(userDto.getNewPassword()));
+        String normalizedPhone = normalizePhone(userDto.getPhoneNumber());
+        if (!normalizedPhone.equals(existingUser.getPhoneNumber())) {
+            existingUser.setPhoneNumber(normalizedPhone);
+            loginCredentialsChange = true;
         }
 
         userRepo.save(existingUser);

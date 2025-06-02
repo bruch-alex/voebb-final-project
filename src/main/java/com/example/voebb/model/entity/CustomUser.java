@@ -2,6 +2,7 @@ package com.example.voebb.model.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,9 +32,9 @@ public class CustomUser {
     @Column(nullable = false, unique = true, length = 120)
     private String email;
 
-    // TODO: decide pattern
-    @Column(nullable = false, unique = true, length = 20)
-    // @Pattern(regexp = "^\\+[0-9]{10,20}$", message = "Invalid phone number format")
+
+    @Column(name="phone_number", nullable = false, unique = true, length = 20)
+    @Pattern(regexp = "^\\+49-[0-9]{3}-[0-9]{7,8}$", message = "Invalid phone number format")
     private String phoneNumber;
 
     @Column(nullable = false)
@@ -58,5 +59,16 @@ public class CustomUser {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<CustomUserRole> roles = new HashSet<>();
+
+    public void setPhoneNumber(String phoneNumber) {
+        if (phoneNumber != null && phoneNumber.matches("^[1-9][0-9]{9,10}$")) {
+            // first 3 digits = provider code
+            String providerCode = phoneNumber.substring(0, 3);
+            String subscriberNumber = phoneNumber.substring(3);
+            this.phoneNumber = "+49-" + providerCode + "-" + subscriberNumber;
+        } else {
+            throw new IllegalArgumentException("Phone number must be 10 or 11 digits and start with a valid provider code");
+        }
+    }
 
 }

@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,12 +30,16 @@ public class ProfileController {
     }
 
     @PostMapping("/edit")
-    public String postEditUser(@ModelAttribute(name = "userDTO")
-                               @Valid
-                               UserUpdateDTO userUpdateDTO,
+    public String postEditUser(@ModelAttribute("userUpdateDTO") @Valid UserUpdateDTO userUpdateDTO,
+                               BindingResult bindingResult,
                                Principal principal,
                                HttpServletRequest request,
-                               HttpServletResponse response) {
+                               HttpServletResponse response,
+                               Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("userUpdateDTO", userUpdateDTO);
+            return "public/user/profile"; // Show form again with validation errors
+        }
         userDetailsService.updateUserInfo(userUpdateDTO, principal.getName(), request, response);
         return "redirect:/profile";
     }

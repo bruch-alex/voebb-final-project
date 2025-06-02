@@ -113,13 +113,13 @@ ON CONFLICT(creator_id, product_id, creator_role_id) DO NOTHING;
 --  Clients ─────────────────────────────────────────────────
 -- Test password is 12345678
 INSERT INTO custom_users (custom_user_id, first_name, last_name, email, phone_number, password, is_enabled, borrowed_products_count)
-VALUES (1, 'Admin 1', 'Admin 1', 'admin1@example.com', '+1234567890123451', '$2a$12$Rcps34Enqr7WYhMH0/POmesuIR9CiEGn1wrtq/VKqrh2H6tWmIu9e', TRUE, 0),
-       (2, 'Admin 2', 'Admin 2', 'admin2@example.com', '+1234567890123452', '$2a$12$Rcps34Enqr7WYhMH0/POmesuIR9CiEGn1wrtq/VKqrh2H6tWmIu9e', TRUE, 0),
-       (3, 'Client 1', 'Client 1', 'client1@example.com', '+1234567890123453', '$2a$12$Rcps34Enqr7WYhMH0/POmesuIR9CiEGn1wrtq/VKqrh2H6tWmIu9e', TRUE, 0),
-       (4, 'Client 2', 'Client 2', 'client2@example.com', '+1234567890123454', '$2a$12$Rcps34Enqr7WYhMH0/POmesuIR9CiEGn1wrtq/VKqrh2H6tWmIu9e', TRUE, 0),
-       (5, 'Helly ', 'R.', 'helly@example.com', '+1234567890123455', '$2a$12$Rcps34Enqr7WYhMH0/POmesuIR9CiEGn1wrtq/VKqrh2H6tWmIu9e', TRUE, 0),
-       (6, 'Mark', 'S', 'mark@example.com', '+1234567890123456', '$2a$12$Rcps34Enqr7WYhMH0/POmesuIR9CiEGn1wrtq/VKqrh2H6tWmIu9e', TRUE, 0),
-       (7, 'Ronald', 'B.', 'ronald@example.com', '+1234567890123457', '$2a$12$Rcps34Enqr7WYhMH0/POmesuIR9CiEGn1wrtq/VKqrh2H6tWmIu9e', TRUE, 5)
+VALUES (1, 'Admin 1', 'Admin 1', 'admin1@example.com', '+49-135-1234567', '$2a$12$Rcps34Enqr7WYhMH0/POmesuIR9CiEGn1wrtq/VKqrh2H6tWmIu9e', TRUE, 0),
+       (2, 'Admin 2', 'Admin 2', 'admin2@example.com', '+49-135-1234568', '$2a$12$Rcps34Enqr7WYhMH0/POmesuIR9CiEGn1wrtq/VKqrh2H6tWmIu9e', TRUE, 0),
+       (3, 'Client 1', 'Client 1', 'client1@example.com', '+49-135-1234569', '$2a$12$Rcps34Enqr7WYhMH0/POmesuIR9CiEGn1wrtq/VKqrh2H6tWmIu9e', TRUE, 0),
+       (4, 'Client 2', 'Client 2', 'client2@example.com', '+49-135-1234561', '$2a$12$Rcps34Enqr7WYhMH0/POmesuIR9CiEGn1wrtq/VKqrh2H6tWmIu9e', TRUE, 0),
+       (5, 'Helly ', 'R.', 'helly@example.com', '+49-135-1234560', '$2a$12$Rcps34Enqr7WYhMH0/POmesuIR9CiEGn1wrtq/VKqrh2H6tWmIu9e', TRUE, 0),
+       (6, 'Mark', 'S', 'mark@example.com', '+49-135-1234562', '$2a$12$Rcps34Enqr7WYhMH0/POmesuIR9CiEGn1wrtq/VKqrh2H6tWmIu9e', TRUE, 0),
+       (7, 'Ronald', 'B.', 'ronald@example.com', '+49-135-1234565', '$2a$12$Rcps34Enqr7WYhMH0/POmesuIR9CiEGn1wrtq/VKqrh2H6tWmIu9e', TRUE, 5)
 ON CONFLICT (custom_user_id) DO NOTHING;
 SELECT SETVAL('custom_users_custom_user_id_seq', (SELECT MAX(custom_user_id) FROM custom_users));
 
