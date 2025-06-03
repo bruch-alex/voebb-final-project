@@ -1,6 +1,6 @@
 <div th:fragment="public-login-dropdown" class="nav-item dropdown ms-auto">
   <button th:if="${!#authorization.expr('isAuthenticated()')}"
-     class="btn btn-secondary h-100 dropdown-toggle d-flex align-items-center px-3 py-2 rounded-2 text-dark"
+     class="btn btn-secondary h-100 dropdown-toggle d-flex align-items-center px-4 py-3 rounded-2 text-dark"
      href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"
      style="transition: background-color 0.2s ease;">
     <span>
@@ -17,12 +17,12 @@
     </span>
   </a>
   
-  <div class="dropdown-menu dropdown-menu-end bg-secondary shadow-sm p-3 mb-5 bg-body rounded" style="width: 280px;">
+  <div class="dropdown-menu dropdown-menu-end bg-secondary shadow-sm p-3 mb-5 bg-body rounded" style="width: 310px;">
     <div th:if="${!#authorization.expr('isAuthenticated()')}" class="container rounded" style="width: 260px;">
       <form th:action="@{/login}" method="post">
         <div class="mb-3">
           <label for="loginUsername" class="form-label">Username</label>
-          <input type="text" class="form-control" name="username" id="loginUsername" required>
+          <input type="text" class="form-control" name="username" id="loginUsername" placeholder="Email/Phone with country code" required>
         </div>
         
         <div class="mb-3">

@@ -1,5 +1,6 @@
 package com.example.voebb.service.impl;
 
+import com.example.voebb.exception.EmailAlreadyUsedException;
 import com.example.voebb.exception.UserNotFoundException;
 import com.example.voebb.model.dto.user.UserDTO;
 import com.example.voebb.model.dto.user.UserRegistrationDTO;
@@ -34,8 +35,8 @@ public class CustomUserDetailsService implements UserDetailsService, CustomUserS
     private final CustomUserRepo userRepo;
     private final CustomUserRoleRepo customUserRoleRepo;
     private final PasswordEncoder passwordEncoder;
-    private final CustomUserRepo customUserRepo;
-    private final PasswordEncoder encoder;
+
+
 
 
     @Override
@@ -68,37 +69,42 @@ public class CustomUserDetailsService implements UserDetailsService, CustomUserS
     }
 
     private boolean isValidPhone(String username) {
-        return username.matches("^[0-9]{10,15}$");
+        return username.matches("^\\+49\\d{10,11}$");
     }
 
     private boolean isValidEmail(String username) {
-        return username.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$");
+        return username.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
     }
-    private String normalizePhone(String phone) {
-        if (phone.length() <= 3) {
-            throw new IllegalArgumentException("Invalid phone number length");
-        }
-        String providerCode = phone.substring(0, 3);
-        String subscriberNumber = phone.substring(3);
+    private String normalizePhone(String input) {
+        // Input: +4917612345678 -> Output: +49-176-12345678
+        String digits = input.replace("+49", "");
+        String providerCode = digits.substring(0, 3);
+        String subscriberNumber = digits.substring(3);
         return "+49-" + providerCode + "-" + subscriberNumber;
     }
-
     @Transactional
     public void registerUser(UserRegistrationDTO userRegistrationDTO) {
+        if (userRepo.findByEmail(userRegistrationDTO.getEmail()).isPresent()) {
+            throw new RuntimeException("Email already in use");
+        }
+
+        if (userRepo.findByPhoneNumber(normalizePhone(userRegistrationDTO.getPhoneNumber())).isPresent()) {
+            throw new EmailAlreadyUsedException("Phone number already in use");
+        }
         CustomUserRole role = customUserRoleRepo.findByName("ROLE_CLIENT")
                 .orElseThrow(() -> new RuntimeException("ROLE_CLIENT not found"));
 
         CustomUser customUser = new CustomUser();
 
         customUser.setEmail(userRegistrationDTO.getEmail());
-        customUser.setPhoneNumber(userRegistrationDTO.getPhoneNumber());
+        customUser.setPhoneNumber(normalizePhone(userRegistrationDTO.getPhoneNumber()));
         customUser.setPassword(passwordEncoder.encode(userRegistrationDTO.getPassword()));
         customUser.setFirstName(userRegistrationDTO.getFirstName());
         customUser.setLastName(userRegistrationDTO.getLastName());
         customUser.setEnabled(true);
         customUser.setRoles(Set.of(role));
 
-        customUserRepo.save(customUser);
+        userRepo.save(customUser);
     }
 
     @Override
@@ -124,7 +130,7 @@ public class CustomUserDetailsService implements UserDetailsService, CustomUserS
         CustomUser existingUser = userRepo.findByEmail(oldEmail)
                 .orElseThrow(() -> new UserNotFoundException("User with email " + oldEmail + " not found"));
 
-        if(!encoder.matches(userDto.getOldPassword(), existingUser.getPassword())){
+        if(!passwordEncoder.matches(userDto.getOldPassword(), existingUser.getPassword())){
             throw new RuntimeException("Passwords are not matching");
         }
 
@@ -133,11 +139,6 @@ public class CustomUserDetailsService implements UserDetailsService, CustomUserS
 
         if (!userDto.getEmail().equals(oldEmail)) {
             existingUser.setEmail(userDto.getEmail());
-            loginCredentialsChange = true;
-        }
-
-        if (!userDto.getPhoneNumber().equals(existingUser.getPhoneNumber())) {
-            existingUser.setPhoneNumber(userDto.getPhoneNumber());
             loginCredentialsChange = true;
         }
 
@@ -183,7 +184,7 @@ public class CustomUserDetailsService implements UserDetailsService, CustomUserS
         existingUser.setFirstName(userDto.firstName());
         existingUser.setLastName(userDto.lastName());
         existingUser.setEmail(userDto.email());
-        existingUser.setPhoneNumber(userDto.phoneNumber());
+        existingUser.setPhoneNumber(normalizePhone(userDto.phoneNumber()));
         existingUser.setEnabled(userDto.enabled());
         existingUser.setBorrowedProductsCount(userDto.borrowedBooksCount());
 
@@ -248,7 +249,7 @@ public class CustomUserDetailsService implements UserDetailsService, CustomUserS
         user.setFirstName(dto.firstName());
         user.setLastName(dto.lastName());
         user.setEmail(dto.email());
-        user.setPhoneNumber(dto.phoneNumber());
+        user.setPhoneNumber(normalizePhone(dto.phoneNumber()));
         user.setEnabled(dto.enabled());
         user.setBorrowedProductsCount(dto.borrowedBooksCount());
         user.setPassword(dto.password());

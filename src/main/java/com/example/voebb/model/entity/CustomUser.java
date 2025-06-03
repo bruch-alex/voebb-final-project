@@ -34,7 +34,7 @@ public class CustomUser {
 
 
     @Column(name="phone_number", nullable = false, unique = true, length = 20)
-    @Pattern(regexp = "^\\+49-[0-9]{3}-[0-9]{7,8}$", message = "Invalid phone number format")
+
     private String phoneNumber;
 
     @Column(nullable = false)
@@ -61,14 +61,22 @@ public class CustomUser {
     private Set<CustomUserRole> roles = new HashSet<>();
 
     public void setPhoneNumber(String phoneNumber) {
-        if (phoneNumber != null && phoneNumber.matches("^[1-9][0-9]{9,10}$")) {
-            // first 3 digits = provider code
-            String providerCode = phoneNumber.substring(0, 3);
-            String subscriberNumber = phoneNumber.substring(3);
-            this.phoneNumber = "+49-" + providerCode + "-" + subscriberNumber;
-        } else {
-            throw new IllegalArgumentException("Phone number must be 10 or 11 digits and start with a valid provider code");
+        if (phoneNumber == null) {
+            throw new IllegalArgumentException("Phone number cannot be null");
         }
-    }
 
+        // Remove all non-digit characters except the plus sign, so +4917612345678 remains
+        String digitsOnly = phoneNumber.replaceAll("[^+\\d]", "");
+
+        if (!digitsOnly.matches("^\\+49\\d{10,11}$")) {
+            throw new IllegalArgumentException("Phone number must start with +49 followed by 10 or 11 digits");
+        }
+
+        // Now add hyphens: +49-XXX-XXXXXXX
+        String withoutPrefix = digitsOnly.substring(3); // Remove '+49' prefix
+        String providerCode = withoutPrefix.substring(0, 3);
+        String subscriberNumber = withoutPrefix.substring(3);
+
+        this.phoneNumber = "+49-" + providerCode + "-" + subscriberNumber;
+    }
 }

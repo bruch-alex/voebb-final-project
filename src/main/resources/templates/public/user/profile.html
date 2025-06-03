@@ -61,8 +61,12 @@
                     
                     <div class="mb-3">
                         <label for="phoneNumber" class="form-label">New Phone Number</label>
-                        <input type="tel" id="phoneNumber" th:field="*{phoneNumber}" class="form-control">
+                        <div class="input-group">
+                            <span class="input-group-text" id="basic-addon1">+49</span>
+                            <input type="tel" id="phoneNumber" th:field="*{phoneNumber}" class="form-control" aria-describedby="basic-addon1" placeholder="Enter phone number without +49" />
+                        </div>
                     </div>
+                    
 
                     <div class="mb-3">
                         <label for="newPassword" class="form-label">New Password</label>
@@ -86,5 +90,21 @@
     </div>
     
 </div>
+<script>
+    const phoneInput = document.getElementById('phoneNumber');
+    const form = phoneInput.closest('form');
+    
+    phoneInput.addEventListener('input', (e) => {
+        
+        let value = e.target.value.replace(/[^0-9]/g, '');
+        e.target.value = value;
+    });
+    
+    form.addEventListener('submit', () => {
+        phoneInput.value = phoneInput.value.replace(/[^0-9]/g, '');
+       
+    });
+</script>
+
 </body>
 </html>

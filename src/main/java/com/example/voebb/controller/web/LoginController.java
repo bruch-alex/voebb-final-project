@@ -26,8 +26,9 @@ public class LoginController {
 
     @PostMapping("/register")
     public String postRegisterPage(@ModelAttribute("userRegistrationDTO") @Valid UserRegistrationDTO userRegistrationDTO,
-                                   BindingResult result) {
+                                   BindingResult result, Model model) {
         if (result.hasErrors()) {
+            model.addAttribute("userRegistrationDTO", userRegistrationDTO); // just to be safe
             return "public/login-register/register-page";
         }
         customUserDetailsService.registerUser(userRegistrationDTO);

@@ -12,6 +12,10 @@
 <main class="container mt-5" layout:fragment="content">
 
     <h3 class="text-center mb-4">Create new user</h3>
+    
+    <div th:if="${error}" class="alert alert-danger">
+        <p th:text="${error}"></p>
+    </div>
 
     <form id="registrationForm" method="post" th:action="@{/register}" th:object="${userRegistrationDTO}">
         <div class="row mb-3">
@@ -20,7 +24,7 @@
 
                     <input class="form-control"
                            id="firstName"
-                           placeholder=""
+                           placeholder="First Name"
                            required
                            th:classappend="${#fields.hasErrors('firstName')} ? 'is-invalid' : ''"
                            th:field="*{firstName}"
@@ -40,7 +44,7 @@
 
                     <input class="form-control"
                            id="lastName"
-                           placeholder=""
+                           placeholder="Last Name"
                            required
                            th:classappend="${#fields.hasErrors('lastName')} ? 'is-invalid' : ''"
                            th:field="*{lastName}"
@@ -60,7 +64,7 @@
 
             <input class="form-control"
                    id="email"
-                   placeholder=""
+                   placeholder="Enter your Email"
                    required
                    th:classappend="${#fields.hasErrors('email')} ? 'is-invalid' : ''"
                    th:field="*{email}"
@@ -74,21 +78,44 @@
             </div>
         </div>
         <div class="form-floating mb-3">
-            <input class="form-control"
-                   id="phoneNumber"
-                   placeholder=""
-                   required
-                   th:classappend="${#fields.hasErrors('phoneNumber')} ? 'is-invalid' : ''"
-                   th:field="*{phoneNumber}"
-                   type="tel"
-            >
-            <label for="phoneNumber">Phone Number</label>
+            <div class="input-group">
+                <span class="input-group-text" id="basic-addon1">+49</span>
+                <input class="form-control"
+                       id="phoneNumber"
+                       placeholder="Phone Number (e.g.: 126-55664477)"
+                       required
+                       th:classappend="${#fields.hasErrors('phoneNumber')} ? 'is-invalid' : ''"
+                       th:field="*{phoneNumber}"
+                       type="tel"
+                       aria-describedby="basic-addon1"
+                       style="border-top-left-radius: 0; border-bottom-left-radius: 0;">
+                <label for="phoneNumber" style="left: 3rem;"></label>
+            </div>
+            
             <div class="invalid-feedback"
                  th:errors="*{phoneNumber}"
                  th:if="${#fields.hasErrors('phoneNumber')}">
             </div>
         </div>
-
+        <script>
+            const phoneInput = document.getElementById('phoneNumber');
+            const form = document.getElementById('registrationForm');
+            
+            phoneInput.addEventListener('input', (e) => {
+                let value = e.target.value.replace(/[^0-9]/g, ''); // Remove all non-digits
+                
+                if (value.length > 3) {
+                    value = value.slice(0, 3) + '-' + value.slice(3);
+                }
+                
+                e.target.value = value;
+            });
+            
+            // Before submitting form, remove dashes to send only digits
+            form.addEventListener('submit', () => {
+                phoneInput.value = phoneInput.value.replace(/-/g, '');
+            });
+        </script>
         <div class="form-floating mb-3">
             <input class="form-control"
                    id="password"
@@ -110,6 +137,27 @@
         </div>
     </form>
 </main>
+
+<script>
+    const phoneInput = document.getElementById('phoneNumber');
+    const form = document.getElementById('registrationForm');
+    
+    phoneInput.addEventListener('input', (e) => {
+        let value = e.target.value.replace(/[^0-9]/g, ''); // Remove all non-digits
+        
+        if (value.length > 3) {
+            value = value.slice(0, 3) + '-' + value.slice(3);
+        }
+        
+        e.target.value = value;
+    });
+    
+    // Before submitting form, remove dashes to send only digits
+    form.addEventListener('submit', () => {
+        let digits = phoneInput.value.replace(/-/g, '');
+        phoneInput.value = `+49${digits}`;
+    });
+</script>
 
 </body>
 </html>
