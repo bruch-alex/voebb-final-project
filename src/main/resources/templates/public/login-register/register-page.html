@@ -97,7 +97,7 @@
                  th:if="${#fields.hasErrors('phoneNumber')}">
             </div>
         </div>
-        
+       
         <div class="form-floating mb-3">
             <input class="form-control"
                    id="password"
@@ -118,28 +118,9 @@
             <button class="btn btn-primary w-100" id="submitButton" type="submit">Register</button>
         </div>
     </form>
+    <script th:src="@{/js/phone-format.js}"></script>
 </main>
 
-<script>
-    const phoneInput = document.getElementById('phoneNumber');
-    const form = document.getElementById('registrationForm');
-    
-    phoneInput.addEventListener('input', (e) => {
-        let value = e.target.value.replace(/[^0-9]/g, ''); // Remove all non-digits
-        
-        if (value.length > 3) {
-            value = value.slice(0, 3) + '-' + value.slice(3);
-        }
-        
-        e.target.value = value;
-    });
-    
-    // Before submitting form, remove dashes to send only digits
-    form.addEventListener('submit', () => {
-        let digits = phoneInput.value.replace(/-/g, '');
-        phoneInput.value = `+49${digits}`;
-    });
-</script>
 
 </body>
 </html>
