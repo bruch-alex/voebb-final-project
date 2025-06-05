@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const sidebar = document.querySelector(".filters-sidebar");
+    const sidebar = document.querySelector(".offcanvas");
     const mainForm = document.getElementById("searchForm");
 
     // Visible elements
@@ -12,34 +12,33 @@ document.addEventListener("DOMContentLoaded", function () {
     const hiddenLanguage = document.getElementById("languageHidden");
     const hiddenCountry = document.getElementById("countryHidden");
 
-
-
-    // Library dropdown
-    setupDropdown(
-        hiddenLibrary,
-        document.getElementById("libraryDropdown").querySelectorAll('.dropdown-item'),
-        document.getElementById('libraryDropdownButton'))
-
-    // Product type dropdown
     setupDropdown(
         hiddenProductType,
-        document.getElementById("productTypeDropdown").querySelectorAll('.dropdown-item'),
-        document.getElementById('productTypeDropdownButton'))
+        document.getElementById('productTypeDropdown').querySelectorAll('.dropdown-item'),
+        document.getElementById('productTypeDropdownButton')
+    );
 
-    // Language dropdown
     setupDropdown(
         hiddenLanguage,
-        document.getElementById("languageDropdown").querySelectorAll('.dropdown-item'),
-        document.getElementById('languageDropdownButton'))
+        document.getElementById('languageDropdown').querySelectorAll('.dropdown-item'),
+        document.getElementById('languageDropdownButton')
+    );
 
-    // Country dropdown
     setupDropdown(
         hiddenCountry,
-        document.getElementById("countryDropdown").querySelectorAll('.dropdown-item'),
-        document.getElementById('countryDropdownButton'))
+        document.getElementById('countryDropdown').querySelectorAll('.dropdown-item'),
+        document.getElementById('countryDropdownButton')
+    );
+
+    setupDropdown(
+        hiddenLibrary,
+        document.getElementById('libraryDropdown').querySelectorAll('.dropdown-item'),
+        document.getElementById('libraryDropdownButton')
+    );
 
     function setupDropdown(hidden, items, button) {
-        if (hidden.value) {
+        // Set button text if hidden has a pre-set value
+        if (hidden && hidden.value) {
             items.forEach(item => {
                 if (item.getAttribute('data-value') === hidden.value) {
                     button.textContent = item.textContent;
@@ -49,34 +48,35 @@ document.addEventListener("DOMContentLoaded", function () {
 
         items.forEach(item => {
             item.addEventListener('click', function (e) {
-                //e.preventDefault();
-
-                // Update dropdown button text
-                button.textContent = this.textContent;
-
-                // Update hidden select value
-                hidden.value = this.getAttribute('data-value');
+                e.preventDefault(); // Correct use of preventDefault
+                button.textContent = item.textContent;
+                hidden.value = item.getAttribute('data-value');
             });
         });
     }
 
-    // Handle apply
-    document.getElementById("applyFiltersBtn").addEventListener("click", function (e) {
-        //e.preventDefault();
-        // Copy sidebar values to hidden fields
-        hiddenCreator.value = sidebarCreator.value;
-        // Submit the main form
-        mainForm.submit();
-    });
+    // Handle Apply Filters
+    const applyBtn = document.getElementById("applyFiltersBtn");
+    if (applyBtn) {
+        applyBtn.addEventListener("click", function (e) {
+            e.preventDefault();
+            if (sidebarCreator && hiddenCreator) {
+                hiddenCreator.value = sidebarCreator.value;
+            }
+            mainForm.submit();
+        });
+    }
 
-    // Handle reset
-    document.getElementById("resetFiltersBtn").addEventListener("click", function (e) {
-        //e.preventDefault();
-        hiddenProductType.value = '';
-        hiddenCreator.value = '';
-        hiddenLanguage.value = '';
-        hiddenCountry.value = '';
-        mainForm.submit();
-    });
-
+    // Handle Reset Filters
+    const resetBtn = document.getElementById("resetFiltersBtn");
+    if (resetBtn) {
+        resetBtn.addEventListener("click", function (e) {
+            e.preventDefault();
+            if (hiddenProductType) hiddenProductType.value = '';
+            if (hiddenCreator) hiddenCreator.value = '';
+            if (hiddenLanguage) hiddenLanguage.value = '';
+            if (hiddenCountry) hiddenCountry.value = '';
+            mainForm.submit();
+        });
+    }
 });

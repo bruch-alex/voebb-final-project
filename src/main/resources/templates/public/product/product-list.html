@@ -33,7 +33,7 @@
           align-items: center;
           flex-shrink: 0; /* don't shrink */
       }
-      
+
       .filters-sidebar {
           width: 250px;
           height: fit-content;
@@ -50,85 +50,6 @@
 
 <main layout:fragment="content">
   <div class="page-wrapper d-flex">
-    <aside class="filters-sidebar card p-3">
-      <h5>Filters</h5>
-      
-      <hr style="border: none; height: 1px; background-color: black;"/>
-      
-      <label for="productTypeDropdown" class="form-label">Product Type</label>
-      <div class="dropdown w-auto" id="productTypeDropdown">
-        <button class="btn btn-secondary dropdown-toggle w-100 text-body" type="button"
-                id="productTypeDropdownButton"
-                data-bs-toggle="dropdown" aria-expanded="false"
-                style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-          All
-        </button>
-        <ul class="dropdown-menu mt-2 shadow-lg" aria-labelledby="productTypeDropdownButton"
-            style="max-height: 200px; overflow-y: auto;">
-          <li><a class="dropdown-item" data-value="">All</a></li>
-          <li th:each="type : ${productTypes}">
-            <a class="dropdown-item"
-               th:text="${type.name}"
-               th:attr="data-value=${type.id}"></a>
-          </li>
-        </ul>
-      </div>
-      
-      <hr style="border: none; height: 1px; background-color: black;"/>
-      
-      <div>
-        <label for="creator" class="form-label">Creator</label>
-        <input type="text" id="creator" name="creator" class="form-control" th:value="${productFilters.author}">
-      </div>
-      
-      <hr style="border: none; height: 1px; background-color: black;"/>
-      
-      <label for="languageDropdown" class="form-label">Product language</label>
-      <div class="dropdown w-auto" id="languageDropdown">
-        <button class="btn btn-secondary dropdown-toggle w-100 text-body" type="button"
-                id="languageDropdownButton"
-                data-bs-toggle="dropdown" aria-expanded="false"
-                style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-          All
-        </button>
-        <ul class="dropdown-menu mt-2 shadow-lg" aria-labelledby="languageDropdownButton"
-            style="max-height: 200px; overflow-y: auto;">
-          <li><a class="dropdown-item" data-value="">All</a></li>
-          <li th:each="language : ${productLanguages}">
-            <a class="dropdown-item"
-               th:text="${language.name}"
-               th:attr="data-value=${language.id}"></a>
-          </li>
-        </ul>
-      </div>
-      
-      <hr style="border: none; height: 1px; background-color: black;"/>
-      
-      <label for="countryDropdown" class="form-label">Product country</label>
-      <div class="dropdown w-auto" id="countryDropdown">
-        <button class="btn btn-secondary dropdown-toggle w-100 text-body" type="button"
-                id="countryDropdownButton"
-                data-bs-toggle="dropdown" aria-expanded="false"
-                style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-          All
-        </button>
-        <ul class="dropdown-menu mt-2 shadow-lg" aria-labelledby="countryDropdownButton"
-            style="max-height: 200px; overflow-y: auto;">
-          <li><a class="dropdown-item" data-value="">All</a></li>
-          <li th:each="country : ${productCountries}">
-            <a class="dropdown-item"
-               th:text="${country.name}"
-               th:attr="data-value=${country.id}"></a>
-          </li>
-        </ul>
-      </div>
-      
-      <hr style="border: none; height: 1px; background-color: black;"/>
-      
-      <button id="applyFiltersBtn" class="btn btn-primary w-100 m-1">Apply filters</button>
-      <button id="resetFiltersBtn" class="btn btn-danger w-100 m-1">Reset filters</button>
-    </aside>
-    
     <div class="cards-container d-flex container align-items-stretch mt-3">
       <!-- Card List -->
       <div class="flex-fill">
@@ -164,9 +85,7 @@
       
       </div>
     </div>
-  
   </div>
-  <script th:src="@{/js/product/synchronizeProductFiltersAndHiddenInput.js}"></script>
 </main>
 </body>
 </html>

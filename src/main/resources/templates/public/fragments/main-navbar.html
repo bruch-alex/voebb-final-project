@@ -1,4 +1,5 @@
-<nav class="navbar sticky-top navbar-expand-lg bg-primary position-relative" th:fragment="main-navbar" data-bs-theme="light">
+<nav class="navbar sticky-top navbar-expand-lg bg-primary position-relative" th:fragment="main-navbar"
+     data-bs-theme="light">
   <div class="container-fluid d-flex align-items-center justify-content-between position-relative">
     
     <!-- Left: Brand + Tabs -->
@@ -28,7 +29,7 @@
              style="width: 300px">
       
       <!-- Library dropdown -->
-      <div class="dropdown" style="width: 200px;">
+      <div class="dropdown" id="libraryDropdown" style="width: 200px;">
         <button class="btn btn-secondary dropdown-toggle w-100 h-100 text-body" type="button"
                 id="libraryDropdownButton"
                 data-bs-toggle="dropdown" aria-expanded="false"
@@ -37,17 +38,25 @@
         </button>
         <ul class="dropdown-menu mt-2 shadow-lg" aria-labelledby="libraryDropdownButton"
             style="max-height: 400px; overflow-y: auto;">
-          <li><a class="dropdown-item" data-value="">All libraries</a></li>
+          <li><a class="dropdown-item" data-value="" href="#">All libraries</a></li>
           <li th:each="lib : ${libraries}">
             <a class="dropdown-item"
                th:text="${lib.district} + ': ' + ${lib.name}"
-               th:attr="data-value=${lib.id}"></a>
+               th:attr="data-value=${lib.id}"
+               href="#"></a>
           </li>
         </ul>
       </div>
       
       <button type="submit" class="btn btn-light">Search</button>
+      
+      <button class="btn btn-outline-light" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample"
+              aria-controls="offcanvasExample">
+        Extended
+      </button>
+    
     </form>
+    
     
     <!-- Right: Login -->
     <div class="d-flex align-items-center flex-shrink-0">

@@ -23,6 +23,89 @@
 <!--Main content-->
 <div layout:fragment="content"></div>
 
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel"
+     style="width: 300px">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Search filters</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body p-4">
+    <label for="productTypeDropdown" class="form-label">Product Type</label>
+    <div class="dropdown w-auto" id="productTypeDropdown">
+      <button class="btn btn-secondary dropdown-toggle w-100 text-body" type="button"
+              id="productTypeDropdownButton"
+              data-bs-toggle="dropdown" aria-expanded="false"
+              style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+        All
+      </button>
+      <ul class="dropdown-menu mt-2 shadow-lg" aria-labelledby="productTypeDropdownButton"
+          style="max-height: 200px; overflow-y: auto;">
+        <li><a class="dropdown-item" data-value="" href="#">All</a></li>
+        <li th:each="type : ${productTypes}">
+          <a class="dropdown-item"
+             th:text="${type.name}"
+             th:attr="data-value=${type.id}"
+             href="#"></a>
+        </li>
+      </ul>
+    </div>
+    
+    <hr style="border: none; height: 1px; background-color: black;"/>
+    
+    <div>
+      <label for="creator" class="form-label">Creator</label>
+      <input type="text" id="creator" name="creator" class="form-control" th:value="${productFilters.author}">
+    </div>
+    
+    <hr style="border: none; height: 1px; background-color: black;"/>
+    
+    <label for="languageDropdown" class="form-label">Product language</label>
+    <div class="dropdown w-auto" id="languageDropdown">
+      <button class="btn btn-secondary dropdown-toggle w-100 text-body" type="button"
+              id="languageDropdownButton"
+              data-bs-toggle="dropdown" aria-expanded="false"
+              style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+        All
+      </button>
+      <ul class="dropdown-menu mt-2 shadow-lg" aria-labelledby="languageDropdownButton"
+          style="max-height: 200px; overflow-y: auto;">
+        <li><a class="dropdown-item" data-value="">All</a></li>
+        <li th:each="language : ${productLanguages}">
+          <a class="dropdown-item"
+             th:text="${language.name}"
+             th:attr="data-value=${language.id}"></a>
+        </li>
+      </ul>
+    </div>
+    
+    <hr style="border: none; height: 1px; background-color: black;"/>
+    
+    <label for="countryDropdown" class="form-label">Product country</label>
+    <div class="dropdown w-auto" id="countryDropdown">
+      <button class="btn btn-secondary dropdown-toggle w-100 text-body" type="button"
+              id="countryDropdownButton"
+              data-bs-toggle="dropdown" aria-expanded="false"
+              style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+        All
+      </button>
+      <ul class="dropdown-menu mt-2 shadow-lg" aria-labelledby="countryDropdownButton"
+          style="max-height: 200px; overflow-y: auto;">
+        <li><a class="dropdown-item" data-value="">All</a></li>
+        <li th:each="country : ${productCountries}">
+          <a class="dropdown-item"
+             th:text="${country.name}"
+             th:attr="data-value=${country.id}"></a>
+        </li>
+      </ul>
+    </div>
+    
+    <hr style="border: none; height: 1px; background-color: black;"/>
+    
+    <button id="applyFiltersBtn" class="btn btn-primary w-100 m-1">Apply filters</button>
+    <button id="resetFiltersBtn" class="btn btn-danger w-100 m-1">Reset filters</button>
+  </div>
+</div>
+
 <!-- Footer -->
 <footer layout:fragment="footer">
   <div th:replace="~{public/fragments/footer.html :: footer}"></div>
@@ -30,6 +113,7 @@
 
 <!--Scripts-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/product/synchronizeProductFiltersAndHiddenInput.js}"></script>
 
 <!-- Enable Bootstrap tooltips globally -->
 <script>
