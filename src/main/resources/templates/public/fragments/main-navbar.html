@@ -1,22 +1,58 @@
-<nav class="navbar sticky-top navbar-expand-lg bg-primary" th:fragment="main-navbar" data-bs-theme="light">
-  <div class="container-fluid">
-    <a class="navbar-brand text-light" href="/">VÖBB</a>
+<nav class="navbar sticky-top navbar-expand-lg bg-primary position-relative" th:fragment="main-navbar" data-bs-theme="light">
+  <div class="container-fluid d-flex align-items-center justify-content-between position-relative">
     
-    <button class="navbar-toggler text-light" type="button" data-bs-toggle="collapse"
-            data-bs-target="#navbarColor01" aria-controls="navbarColor01"
-            aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    
-    <div class="collapse navbar-collapse" id="navbarColor01">
-      <ul class="navbar-nav me-auto">
-        <li class="nav-item" role="presentation">
+    <!-- Left: Brand + Tabs -->
+    <div class="d-flex align-items-center flex-shrink-0">
+      <a class="navbar-brand text-light me-4" href="/">VÖBB</a>
+      <ul class="navbar-nav flex-row">
+        <li class="nav-item me-3">
           <a class="nav-link active text-light" href="/libraries">Libraries</a>
         </li>
       </ul>
-      
-      <div th:replace="~{public/fragments/login-dropdown :: public-login-dropdown}"></div>
-      
     </div>
+    
+    <!-- Center: Search Form absolutely centered -->
+    <form th:action="@{/search}" method="POST" th:object="${productFilters}" id="searchForm"
+          class="d-flex align-items-center gap-2 position-absolute"
+          style="left: 50%; transform: translateX(-50%); z-index: 1;">
+      
+      <input type="hidden" th:field="*{author}" id="creatorHidden">
+      <input type="hidden" th:field="*{productType}" id="productTypeHidden">
+      <input type="hidden" th:field="*{languageId}" id="languageHidden">
+      <input type="hidden" th:field="*{libraryId}" id="libraryHidden">
+      <input type="hidden" th:field="*{countryId}" id="countryHidden">
+      
+      <!-- Search field -->
+      <input type="text" class="form-control" id="title" name="title"
+             th:field="*{title}" placeholder="Search for a product"
+             style="width: 300px">
+      
+      <!-- Library dropdown -->
+      <div class="dropdown" style="width: 200px;">
+        <button class="btn btn-secondary dropdown-toggle w-100 h-100 text-body" type="button"
+                id="libraryDropdownButton"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+          All libraries
+        </button>
+        <ul class="dropdown-menu mt-2 shadow-lg" aria-labelledby="libraryDropdownButton"
+            style="max-height: 400px; overflow-y: auto;">
+          <li><a class="dropdown-item" data-value="">All libraries</a></li>
+          <li th:each="lib : ${libraries}">
+            <a class="dropdown-item"
+               th:text="${lib.district} + ': ' + ${lib.name}"
+               th:attr="data-value=${lib.id}"></a>
+          </li>
+        </ul>
+      </div>
+      
+      <button type="submit" class="btn btn-light">Search</button>
+    </form>
+    
+    <!-- Right: Login -->
+    <div class="d-flex align-items-center flex-shrink-0">
+      <div th:replace="~{public/fragments/login-dropdown :: public-login-dropdown}"></div>
+    </div>
+  
   </div>
 </nav>

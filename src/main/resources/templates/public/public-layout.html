@@ -10,55 +10,14 @@
   <link th:href="@{/css/custom-style.css}" rel="stylesheet">
   <title data-layout-title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE"></title>
 </head>
-<body class="d-flex flex-column min-vh-100 bg-light">
+<body class="d-flex flex-column vh-100">
 
-<header class="sticky-top" layout:fragment="header">
+<header class="sticky-top mb-3" layout:fragment="header">
   <div th:if="${borrowExpiresSoon}" class="bg-dark text-white py-1 text-center v-middle py-2">
     <small>🔔 You have borrows that expires soon! Check your borrows in profile and return them at time. 🔔</small>
   </div>
   
   <div th:replace="~{public/fragments/main-navbar.html :: main-navbar}"></div>
-  
-  <div class="w-100 p-2 bg-primary">
-    <div class="container">
-      <form th:action="@{/search}" method="POST" th:object="${productFilters}" id="searchForm">
-        
-        <input type="hidden" th:field="*{author}" id="creatorHidden">
-        <input type="hidden" th:field="*{productType}" id="productTypeHidden">
-        <input type="hidden" th:field="*{languageId}" id="languageHidden">
-        <input type="hidden" th:field="*{libraryId}" id="libraryHidden">
-        <input type="hidden" th:field="*{countryId}" id="countryHidden">
-        
-        <div class="d-flex justify-content-center gap-3">
-          <div class="form-floating flex-grow-1" style="max-width: 400px">
-            <input type="text" class="form-control" id="title" name="title"
-                   th:field="*{title}" placeholder="Search for a product">
-            <label for="title">Search</label>
-          </div>
-          
-          <div class="dropdown w-25" id="libraryDropdown">
-            <button class="btn btn-secondary dropdown-toggle h-100 w-100 text-body" type="button"
-                    id="libraryDropdownButton"
-                    data-bs-toggle="dropdown" aria-expanded="false"
-                    style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-              All libraries
-            </button>
-            <ul class="dropdown-menu mt-2 shadow-lg" aria-labelledby="libraryDropdownButton"
-                style="max-height: 200px; overflow-y: auto;">
-              <li><a class="dropdown-item" data-value="">All libraries</a></li>
-              <li th:each="lib : ${libraries}">
-                <a class="dropdown-item"
-                   th:text="${lib.district} + ': ' + ${lib.name}"
-                   th:attr="data-value=${lib.id}"></a>
-              </li>
-            </ul>
-          </div>
-          
-          <button type="submit" class="btn btn-secondary">Search</button>
-        </div>
-      </form>
-    </div>
-  </div>
 </header>
 
 <!--Main content-->
