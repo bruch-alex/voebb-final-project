@@ -50,6 +50,7 @@ public class ProductControllerWeb {
         Pageable pageable = PageRequest.of(page - 1, 5);
         Page<CardProductDTO> resultProducts = productService.getProductCardsByFilters(productFilters, pageable);
         model.addAttribute("page", resultProducts);
+        model.addAttribute("totalElements", resultProducts.getTotalElements());
         model.addAttribute("cardProductDTOs", resultProducts.getContent());
         return "/public/product/product-list";
     }

@@ -33,16 +33,6 @@
           align-items: center;
           flex-shrink: 0; /* don't shrink */
       }
-
-      .filters-sidebar {
-          width: 250px;
-          height: fit-content;
-          position: fixed;
-          left: 15px;
-          top: 160px;
-          bottom: 0;
-          box-sizing: border-box;
-      }
   </style>
 
 </head>
@@ -70,6 +60,13 @@
             <p class="text-muted fst-italic" style="font-size: 0.9rem;">
               Please change your search query.
             </p>
+          </div>
+        </div>
+        
+        <div th:if="${totalElements > 0}"
+             class="card mb-4 text-start text-white bg-success">
+          <div class="card-body">
+            <p class="card-text" th:text="'Found ' + ${totalElements} + ' products'"></p>
           </div>
         </div>
         
