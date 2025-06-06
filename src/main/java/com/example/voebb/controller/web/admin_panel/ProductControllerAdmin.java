@@ -111,12 +111,12 @@ public class ProductControllerAdmin {
 
         try {
             productService.deleteProductById(id);
-            redirectAttributes.addFlashAttribute("success", "Item deleted successfully.");
+            redirectAttributes.addFlashAttribute("success", "Product deleted successfully.");
         } catch (IllegalStateException e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
         } catch (
                 EntityNotFoundException e) {
-            redirectAttributes.addFlashAttribute("error", "Item not found.");
+            redirectAttributes.addFlashAttribute("error", "Product not found.");
         }
         return "redirect:/admin/products";
     }

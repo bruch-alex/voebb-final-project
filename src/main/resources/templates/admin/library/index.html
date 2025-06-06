@@ -3,79 +3,186 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{admin/admin-layout}">
 <head>
-    <meta charset="UTF-8">
-    <title>Libraries</title>
+  <title>Libraries</title>
 </head>
 <body>
-<main layout:fragment="content" class="container mt-5">
-    <h2 class="text-center mb-4">Library management</h2>
-
-    <div class="mt-4 d-flex justify-content-center" th:if="${page.totalPages > 1}">
-        <ul class="pagination">
-            <li class="page-item" th:classappend="${page.hasPrevious()} ? '' : 'disabled'">
-                <a class="page-link"
-                   th:href="@{/admin/libraries(page=${page.number - 1})}">Previous</a>
-            </li>
-
-            <li class="page-item" th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}"
-                th:classappend="${page.number == i} ? 'active'">
-                <a class="page-link"
-                   th:href="@{/admin/libraries(page=${i})}"
-                   th:text="${i + 1}">1</a>
-            </li>
-
-            <li class="page-item" th:classappend="${page.hasNext()} ? '' : 'disabled'">
-                <a class="page-link"
-                   th:href="@{/admin/libraries(page=${page.number + 1})}">Next</a>
-            </li>
-        </ul>
+<main layout:fragment="content">
+  
+  <div class="container my-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h3 class="mb-0">Library Management</h3>
+      <a th:href="@{/admin/libraries/new}"
+         class="btn btn-outline-primary d-flex align-items-center gap-2"
+         aria-label="Add new product">
+        <i class="bi bi-plus-circle"></i>
+        <span class="fw-medium">Add New Library</span>
+      </a>
     </div>
-
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>District</th>
-            <th>Name</th>
-            <th>Actions</th>
+    
+    <div th:replace="~{admin/fragments/_alerts :: alerts}"></div>
+    
+    <div class="card border shadow-sm mb-4">
+      <div class="card-header bg-light d-flex justify-content-between align-items-center flex-wrap">
+        <strong>Filter Libraries</strong>
+        <div class="d-flex gap-2 mt-2 mt-md-0">
+          <a th:href="@{/admin/libraries}" class="btn btn-outline-secondary btn-sm">
+            <i class="bi bi-arrow-counterclockwise"></i> Reset
+          </a>
+          <button type="submit" form="libraryFilterForm" class="btn btn-primary btn-sm">
+            <i class="bi bi-filter"></i> Apply Filters
+          </button>
+        </div>
+      </div>
+      
+      <form id="libraryFilterForm" th:action="@{/admin/libraries}" method="get" class="card-body row g-3">
+        
+        <div class="col-md-4">
+          <label for="libraryIdFilter" class="form-label">Library ID</label>
+          <input type="text"
+                 id="libraryIdFilter"
+                 name="libraryId"
+                 class="form-control"
+                 pattern="[0-9]*"
+                 inputmode="numeric"
+                 th:value="${libraryFilters.libraryId}"
+                 placeholder="Enter Library ID">
+        </div>
+        
+        <div class="col-md-4">
+          <label for="libraryNameFilter" class="form-label">Name</label>
+          <input type="text"
+                 id="libraryNameFilter"
+                 name="name"
+                 class="form-control"
+                 th:value="${libraryFilters.name}"
+                 placeholder="Enter Name">
+        </div>
+        
+        <div class="col-md-4">
+          <label for="districtFilter" class="form-label">District</label>
+          <select id="districtFilter" name="district" class="form-select">
+            <option th:value="''">All Districts</option>
+            <option th:each="district : ${librariesDistricts}"
+                    th:value="${district}"
+                    th:text="${district}"
+                    th:selected="${libraryFilters.district == district}">
+            </option>
+          </select>
+        </div>
+      
+      </form>
+    </div>
+    
+    
+    <div class="table-responsive border rounded shadow-sm mb-0">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-light">
+        <tr class="small text-nowrap">
+          <th>ID</th>
+          <th>Name</th>
+          <th>District</th>
+          <th class="text-end">Actions</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="library : ${libraries}">
-            <td th:text="${library.id}"></td>
-            <td th:text="${library.district}"></td>
-            <td th:text="${library.name}"></td>
-
-            <td>
-                <!-- Edit userDTO -->
-                <a th:href="@{/admin/libraries/edit/{id}(id=${library.id})}" class="btn btn-info btn-sm">Edit</a>
-            </td>
+        <tr th:each="library : ${page.content}">
+          <td th:text="${library.id}"></td>
+          
+          <td class="text-nowrap" style="max-width: 220px;">
+            <div class="text-truncate d-inline-block"
+                 style="max-width: 200px;"
+                 th:text="${library.name}"
+                 th:attr="data-bs-toggle='tooltip', title=${library.name}">
+            </div>
+          </td>
+          
+          <td>
+        <span class="badge bg-info-subtle text-info-emphasis px-3 py-2 text-capitalize"
+              th:text="${library.district != null && !library.district.isBlank() ? library.district : 'N/A'}">
+        </span>
+          </td>
+          
+          <td class="text-end text-nowrap">
+            <a th:href="@{/admin/libraries/edit/{id}(id=${library.id})}"
+               class="btn btn-sm btn-info me-1"
+               data-bs-toggle="tooltip"
+               title="Edit Library">
+              <i class="bi bi-pencil-square me-1"></i> Edit
+            </a>
+          </td>
+        </tr>
+        
+        <tr th:if="${#lists.isEmpty(page.content)}" class="table-light" style="pointer-events: none;">
+          <td colspan="4" class="text-center text-muted">No libraries found.</td>
         </tr>
         </tbody>
-    </table>
-
-    <div class="mt-4 d-flex justify-content-center" th:if="${page.totalPages > 1}">
-        <ul class="pagination">
-            <li class="page-item" th:classappend="${page.hasPrevious()} ? '' : 'disabled'">
-                <a class="page-link"
-                   th:href="@{/admin/libraries(page=${page.number - 1})}">Previous</a>
-            </li>
-
-            <li class="page-item" th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}"
-                th:classappend="${page.number == i} ? 'active'">
-                <a class="page-link"
-                   th:href="@{/admin/libraries(page=${i})}"
-                   th:text="${i + 1}">1</a>
-            </li>
-
-            <li class="page-item" th:classappend="${page.hasNext()} ? '' : 'disabled'">
-                <a class="page-link"
-                   th:href="@{/admin/title(page=${page.number + 1})}">Next</a>
-            </li>
-        </ul>
+      </table>
     </div>
-
-    <a href="/admin/libraries/new" class="btn btn-primary">Create New Library</a>
+    
+    <nav th:if="${page.totalPages > 1}" class="mt-3">
+      <ul class="pagination justify-content-center small">
+        
+        <li class="page-item" th:classappend="${page.first} ? 'disabled'">
+          <a class="page-link"
+             th:href="@{/admin/libraries(
+               page=${page.number - 1},
+               libraryId=${libraryFilters.libraryId},
+               name=${libraryFilters.name},
+               district=${libraryFilters.district})}">
+            Previous
+          </a>
+        </li>
+        
+        <li class="page-item" th:classappend="${page.number == 0} ? 'active'">
+          <a class="page-link"
+             th:href="@{/admin/libraries(page=0,
+               libraryId=${libraryFilters.libraryId},
+               name=${libraryFilters.name},
+               district=${libraryFilters.district})}">1</a>
+        </li>
+        
+        <li class="page-item disabled" th:if="${page.number > 2}">
+          <span class="page-link">…</span>
+        </li>
+        
+        <li class="page-item"
+            th:each="i : ${#numbers.sequence(page.number - 1, page.number + 1)}"
+            th:if="${i > 0 and i < page.totalPages - 1}"
+            th:classappend="${i == page.number} ? 'active'">
+          <a class="page-link"
+             th:href="@{/admin/libraries(page=${i},
+               libraryId=${libraryFilters.libraryId},
+               name=${libraryFilters.name},
+               district=${libraryFilters.district})}"
+             th:text="${i + 1}"></a>
+        </li>
+        
+        <li class="page-item disabled" th:if="${page.number < page.totalPages - 3}">
+          <span class="page-link">…</span>
+        </li>
+        
+        <li class="page-item" th:if="${page.totalPages > 1}"
+            th:classappend="${page.number == page.totalPages - 1} ? 'active'">
+          <a class="page-link"
+             th:href="@{/admin/libraries(page=${page.totalPages - 1},
+               libraryId=${libraryFilters.libraryId},
+               name=${libraryFilters.name},
+               district=${libraryFilters.district})}"
+             th:text="${page.totalPages}">Last</a>
+        </li>
+        
+        <li class="page-item" th:classappend="${page.last} ? 'disabled'">
+          <a class="page-link"
+             th:href="@{/admin/libraries(page=${page.number + 1},
+               libraryId=${libraryFilters.libraryId},
+               name=${libraryFilters.name},
+               district=${libraryFilters.district})}">
+            Next
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
 </main>
 </body>
 </html>

@@ -40,6 +40,11 @@ public class WebControllerAdvice {
         return libraryService.getAllLibraries();
     }
 
+    @ModelAttribute("librariesDistricts")
+    public List<String> librariesDistricts() {
+        return libraryService.getAllDistricts();
+    }
+
     @ModelAttribute("productTypes")
     public List<ProductTypeDTO> productTypes() {
         return productTypeService.getAllProductTypes();
@@ -59,14 +64,21 @@ public class WebControllerAdvice {
     public List<CreatorRoleResponseDTO> roles() {
         return creatorRoleService.getAllCreatorRoles();
     }
+
     @ModelAttribute("itemFilters")
-    public ItemFilters itemFilters() {return new ItemFilters();}
+    public ItemFilters itemFilters() {
+        return new ItemFilters();
+    }
 
     @ModelAttribute("itemStatuses")
-    public List<ItemStatus> statuses() {return itemStatusService.getAllStatuses();}
+    public List<ItemStatus> statuses() {
+        return itemStatusService.getAllStatuses();
+    }
 
     @ModelAttribute("requestURI")
-    public String requestURI(HttpServletRequest request) {return request.getRequestURI();}
+    public String requestURI(HttpServletRequest request) {
+        return request.getRequestURI();
+    }
 
     @ModelAttribute("borrowExpiresSoon")
     @PreAuthorize("isAuthenticated()")

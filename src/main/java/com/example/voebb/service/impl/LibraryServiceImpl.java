@@ -1,8 +1,6 @@
 package com.example.voebb.service.impl;
 
-import com.example.voebb.model.dto.library.CreateLibraryDTO;
-import com.example.voebb.model.dto.library.EditLibraryDTO;
-import com.example.voebb.model.dto.library.LibraryDTO;
+import com.example.voebb.model.dto.library.*;
 import com.example.voebb.model.entity.Library;
 import com.example.voebb.model.mapper.AddressMapper;
 import com.example.voebb.model.mapper.LibraryMapper;
@@ -25,11 +23,16 @@ public class LibraryServiceImpl implements LibraryService {
     @Transactional
     @Override
     public void createLibrary(CreateLibraryDTO createLibraryDTO) {
-        if(libraryRepo.existsByName(createLibraryDTO.getName())){
+        if (libraryRepo.existsByName(createLibraryDTO.getName())) {
             throw new RuntimeException("Library with this name already exists");
         }
         Library newLibrary = LibraryMapper.toNewEntity(createLibraryDTO);
         libraryRepo.save(newLibrary);
+    }
+
+    @Override
+    public EditLibraryDTO getLibraryById(Long libraryId) {
+        return libraryRepo.getLibraryFullInfo(libraryId);
     }
 
     @Override
@@ -38,14 +41,21 @@ public class LibraryServiceImpl implements LibraryService {
     }
 
     @Override
-    public Page<LibraryDTO> getAllLibraries(Pageable pageable) {
-        return libraryRepo.getLibrariesForAdmin(pageable);
+    public List<String> getAllDistricts() {
+        return libraryRepo.findAllDistricts();
     }
 
     @Override
-    public EditLibraryDTO getLibraryById(Long libraryId) {
-        return libraryRepo.getLibraryFullInfo(libraryId);
+    public Page<FullInfoLibraryDTO> getFilteredLibrariesAdmin(LibraryFilters filters, Pageable pageable) {
+        return libraryRepo
+                .findFilteredLibrariesForAdmin(
+                        filters.getLibraryId(),
+                        filters.getName(),
+                        filters.getDistrict(),
+                        pageable)
+                .map(LibraryMapper::toFullInfoDTO);
     }
+
 
     @Transactional
     @Override

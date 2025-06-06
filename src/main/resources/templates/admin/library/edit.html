@@ -3,60 +3,65 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{admin/admin-layout}">
 <head>
-    <meta charset="UTF-8">
-    <title>Edit Library</title>
+  <meta charset="UTF-8">
+  <title>Edit Library</title>
 </head>
 <body>
-<main layout:fragment="content" class="container">
-    <h2 class="text-center mb-4">Edit Library</h2>
-
-    <form th:action="@{/admin/libraries/edit/{id}(id=${library.id})}" th:object="${library}" method="post">
+<main layout:fragment="content" class="container my-5">
+  
+  <h2 class="mb-4 fw-bold">Update Library Details</h2>
+  
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <form th:action="@{/admin/libraries/edit/{id}(id=${library.id})}" th:object="${library}" method="post">
         <div class="mb-3">
-            <label for="name" class="form-label">Library name</label>
-            <input type="text" id="name" th:field="*{name}" class="form-control" required>
+          <label for="name" class="form-label">Library Name</label>
+          <input type="text" id="name" th:field="*{name}" class="form-control" placeholder="Enter library name"
+                 required>
         </div>
-
+        
         <div class="mb-3">
-            <label for="description" class="form-label">Email</label>
-            <textarea id="description" class="form-control" name="description" rows="2"
-                      th:field="*{description}"></textarea>
+          <label for="description" class="form-label">Description</label>
+          <textarea id="description" th:field="*{description}" class="form-control" rows="2"
+                    placeholder="Optional short description"></textarea>
         </div>
-
-        <div class="mb-3">
-            <label for="postcode" class="form-label">postcode</label>
+        
+        <h5 class="mt-4 mb-3">Address Information</h5>
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="postcode" class="form-label">Postcode</label>
             <input type="text" id="postcode" th:field="*{postcode}" class="form-control" required>
-        </div>
-
-        <div class="mb-3">
-            <label for="city" class="form-label">city</label>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="city" class="form-label">City</label>
             <input type="text" id="city" th:field="*{city}" class="form-control" required>
-        </div>
-
-        <div class="mb-3">
-            <label for="district" class="form-label">district</label>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="district" class="form-label">District</label>
             <input type="text" id="district" th:field="*{district}" class="form-control" required>
-        </div>
-
-        <div class="mb-3">
-            <label for="street" class="form-label">street</label>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="street" class="form-label">Street</label>
             <input type="text" id="street" th:field="*{street}" class="form-control" required>
-        </div>
-
-        <div class="mb-3">
-            <label for="houseNumber" class="form-label">houseNumber</label>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="houseNumber" class="form-label">House Number</label>
             <input type="text" id="houseNumber" th:field="*{houseNumber}" class="form-control" required>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="osmLink" class="form-label">OSM Link</label>
+            <input type="url" id="osmLink" th:field="*{osmLink}" class="form-control"
+                   placeholder="https://www.openstreetmap.org/..." required>
+          </div>
         </div>
-
-        <div class="mb-3">
-            <label for="osmLink" class="form-label">osmLink</label>
-            <input type="text" id="osmLink" th:field="*{osmLink}" class="form-control" required>
+        
+        <div class="d-flex justify-content-between mt-4">
+          <a href="/admin/libraries" class="btn btn-outline-secondary">Back to Libraries</a>
+          <button type="submit" class="btn btn-primary">Save Changes</button>
         </div>
-
-        <div class="btn-group mb-3 text-center w-100" role="group">
-            <button type="submit" class="btn btn-success">Submit</button>
-            <a href="/admin/libraries" class="btn btn-danger">Back to Libraries</a>
-        </div>
-    </form>
+      </form>
+    </div>
+  </div>
 </main>
 </body>
 </html>
