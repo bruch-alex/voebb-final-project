@@ -10,7 +10,7 @@
 <body>
 <div layout:fragment="content" class="container mt-4 flex-grow-1">
   
-  <h2 th:text="'Hello, '+ ${userUpdateDTO.firstName} + ' ' + ${userUpdateDTO.lastName}"></h2>
+  <h2 th:text="'Hello '+ ${userUpdateDTO.firstName} + ' ' + ${userUpdateDTO.lastName} + ','"></h2><br>
   
   <div th:replace="~{admin/fragments/_alerts :: alerts}"></div>
   
@@ -30,15 +30,19 @@
   <div id="myTabContent" class="tab-content">
     <div class="tab-pane fade active show" id="info" role="tabpanel">
       <div class="container mt-4">
-        <h2>User info</h2>
-        <p th:text="'Name:' + ${userUpdateDTO.firstName} + ' ' + ${userUpdateDTO.lastName}">full-name</p>
-        <p th:text="'Email:' + ${userUpdateDTO.email}">Email</p>
-        <p th:text="'Phone number: ' + ${userUpdateDTO.phoneNumber}">Phone number</p>
-      </div>
+        <h4 class="mb-3">👤 User Info</h4>
+        <div class="card-body">
+          <p><strong>Name:</strong> <span th:text="${userUpdateDTO.firstName} + ' ' + ${userUpdateDTO.lastName}">John Doe</span></p>
+          <p><strong>Email:</strong> <span th:text="${userUpdateDTO.email}">email@example.com</span></p>
+          <p><strong>Phone Number:</strong> <span th:text="${userUpdateDTO.phoneNumber}">+491234567890</span></p>
+        </div>
+      </div><br>
       <div class="container mt-4">
-        <h2>Membership info</h2>
-        <p th:text="'Membership status: (add membership func)'"></p>
-        <p th:text="'Active till: (add membership func)' "></p>
+        <h4 class="mb-3">📋 Membership Info</h4>
+        <div class="card-body">
+          <p><strong>Membership Status:</strong> <span>(add membership func)</span></p>
+          <p><strong>Active Till:</strong> <span>(add membership func)</span></p>
+        </div>
       </div>
     
     </div>
