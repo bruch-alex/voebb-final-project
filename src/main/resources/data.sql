@@ -48,27 +48,27 @@ VALUES (1, 'English'),
        (10, 'Korean')
 ON CONFLICT (language_id) DO NOTHING;
 SELECT SETVAL('languages_language_id_seq', (SELECT MAX(language_id) FROM languages));
--- DUMMY DATA BELLOW
 
+-- DUMMY DATA BELLOW
 -- Products with photos
 INSERT INTO products (product_id, product_type_id, product_link_to_emedia, title, release_year, photo, description)
-VALUES (1, 1, NULL, 'Harry Potter and the Philosopher''s Stone', '1997', 'photo_url_1', 'First book of Harry Potter series'),
-       (2, 2, 'https://ebooks.voebb.de/hp1', 'Harry Potter and the Philosopher''s Stone', '1997', 'photo_url_1', 'First book of Harry Potter series'),
-       (3, 1, NULL, 'Harry Potter and the Chamber of Secrets', '1998', 'photo_url_2', 'Second book in the series'),
-       (4, 2, 'https://ebooks.voebb.de/hp2', 'Harry Potter and the Chamber of Secrets', '1998', 'photo_url_2', 'Second book in the series'),
-       (5, 1, NULL, 'Harry Potter and the Prisoner of Azkaban', '1999', 'photo_url_3', 'Third book in the series'),
-       (6, 2, 'https://ebooks.voebb.de/hp3', 'Harry Potter and the Goblet of Fire', '2000', 'photo_url_4', 'Fourth book in the series'),
-       (7, 1, NULL, 'Harry Potter and the Order of the Phoenix', '2003', 'photo_url_5', 'Fifth book in the series'),
-       (13, 4, NULL, 'Monopoly', '1935', 'photo_url_13', 'Holds the Guinness World Record for being played by the most people')
+VALUES (1, 1, NULL, 'Harry Potter and the Philosopher''s Stone', '1997', 'photo_url_1', 'Harry Potter discovers on his eleventh birthday that he is a wizard. He begins his magical education at Hogwarts School of Witchcraft and Wizardry and learns about his mysterious past. Along the way, he uncovers a secret about a powerful stone hidden in the school.'),
+       (2, 2, 'https://ebooks.voebb.de/hp1', 'Harry Potter and the Philosopher''s Stone', '1997', 'photo_url_1', 'Harry Potter discovers on his eleventh birthday that he is a wizard. He begins his magical education at Hogwarts School of Witchcraft and Wizardry and learns about his mysterious past. Along the way, he uncovers a secret about a powerful stone hidden in the school.'),
+       (3, 1, NULL, 'Harry Potter and the Chamber of Secrets', '1998', 'photo_url_2', 'During his second year at Hogwarts, Harry investigates a series of mysterious attacks on students. He discovers an ancient legend about the Chamber of Secrets and faces a terrifying monster. Secrets from the school’s dark past come to light.'),
+       (4, 2, 'https://ebooks.voebb.de/hp2', 'Harry Potter and the Chamber of Secrets', '1998', 'photo_url_2', 'During his second year at Hogwarts, Harry investigates a series of mysterious attacks on students. He discovers an ancient legend about the Chamber of Secrets and faces a terrifying monster. Secrets from the school’s dark past come to light.'),
+       (5, 1, NULL, 'Harry Potter and the Prisoner of Azkaban', '1999', 'photo_url_3', 'Harry learns that Sirius Black, a dangerous escaped convict, may be after him. As he unravels the truth, Harry discovers shocking secrets about his family and the night his parents died. The story deepens Harry’s connection to his past.'),
+       (6, 2, 'https://ebooks.voebb.de/hp3', 'Harry Potter and the Goblet of Fire', '2000', 'photo_url_4', 'Harry is unexpectedly entered into the deadly Triwizard Tournament, where he faces three life-threatening challenges. As the tournament unfolds, dark forces re-emerge and Voldemort returns to power. The wizarding world is changed forever.'),
+       (7, 1, NULL, 'Harry Potter and the Order of the Phoenix', '2003', 'photo_url_5', 'With the Ministry of Magic refusing to believe in Voldemort’s return, Harry creates a student group to prepare for the dangers ahead. He struggles with visions tied to the Dark Lord and feels increasingly isolated. The battle for truth and unity begins.'),
+       (13, 4, NULL, 'Monopoly', '1935', 'photo_url_13', 'Monopoly is the iconic board game of buying, trading, and developing properties to build wealth. Players compete to bankrupt their opponents through strategy and chance. It''s one of the most played and recognizable games in the world.')
 ON CONFLICT (product_id) DO NOTHING;
 
 -- Products without photos
 INSERT INTO products (product_id, product_type_id, product_link_to_emedia, title, release_year, description)
-VALUES (8, 2, 'https://ebooks.voebb.de/hp4', 'Harry Potter and the Half-Blood Prince', '2005', 'Sixth book in the series'),
-       (9, 1, NULL, 'Harry Potter and the Deathly Hallows', '2007', 'Final book in the series'),
-       (10, 1, NULL, 'Harry Potter and the Cursed Child', '2016', 'Play based on Harry Potter universe'),
-       (11, 1, NULL, 'Fantastic Beasts and Where to Find Them', '2001', 'A companion book to Harry Potter'),
-       (12, 3, NULL, 'The Matrix', '1999', 'DVD format')
+VALUES (8, 2, 'https://ebooks.voebb.de/hp4', 'Harry Potter and the Half-Blood Prince', '2005', 'In his sixth year, Harry explores Voldemort’s past to uncover the key to his destruction. He finds a mysterious potion book marked ''Property of the Half-Blood Prince.'' As dark events unfold, tragedy strikes at Hogwarts.'),
+       (9, 1, NULL, 'Harry Potter and the Deathly Hallows', '2007', 'Harry, Ron, and Hermione leave Hogwarts to hunt down Voldemort’s Horcruxes. Their journey is filled with danger, sacrifice, and revelations. The final battle at Hogwarts decides the fate of the wizarding world.'),
+       (10, 1, NULL, 'Harry Potter and the Cursed Child', '2016', 'Set nineteen years later, Harry is now a father and Ministry of Magic official. His son Albus struggles with living in his father’s shadow and changes the past with a time-turner. Together they face the unintended consequences of altering time.'),
+       (11, 1, NULL, 'Fantastic Beasts and Where to Find Them', '2001', 'This magical guidebook by Newt Scamander details the magical creatures of the wizarding world. It includes descriptions, habitats, and classifications of beasts from dragons to nifflers. A fun and imaginative companion to the Harry Potter series.'),
+       (12, 3, NULL, 'The Matrix', '1999', 'Neo, a hacker, learns that his world is a simulated reality created by machines to enslave humanity. He joins a group of rebels to free human minds and fight back. The film explores themes of illusion, freedom, and reality.')
 ON CONFLICT (product_id) DO NOTHING;
 SELECT SETVAL('products_product_id_seq', (SELECT MAX(product_id) FROM products));
 

@@ -14,21 +14,23 @@ public class SecurityConfig {
 
     private final PasswordEncoder passwordEncoder;
     private final CustomUserDetailsService customUserDetailsService;
+    private final CustomAuthenticationSuccessHandler successHandler;
 
-    public SecurityConfig(PasswordEncoder passwordEncoder, CustomUserDetailsService customUserDetailsService) {
+    public SecurityConfig(PasswordEncoder passwordEncoder, CustomUserDetailsService customUserDetailsService, CustomAuthenticationSuccessHandler successHandler) {
         this.passwordEncoder = passwordEncoder;
         this.customUserDetailsService = customUserDetailsService;
+        this.successHandler = successHandler;
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests(auth -> auth
-                        //.requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/profile").hasRole("CLIENT")
+                        .requestMatchers("/admin").hasRole("ADMIN")
                         .anyRequest().permitAll())
                 .formLogin(form -> form
-                        .defaultSuccessUrl("/")
                         .loginPage("/login")
+                        .successHandler(successHandler)
                         .permitAll()
                 )
                 .logout(logout -> logout
@@ -36,7 +38,7 @@ public class SecurityConfig {
                         .permitAll())
                 .rememberMe(auth -> auth
                         .key("secret")
-                        .tokenValiditySeconds(60 * 60 * 6)) // remember login for 6 hours
+                        .tokenValiditySeconds(60 * 60 * 6)) // 6 hours
                 .build();
     }
 

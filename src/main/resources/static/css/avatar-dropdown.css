@@ -1,0 +1,57 @@
+/* Hide scrollbar */
+html, body {
+    overflow: auto;
+    scrollbar-width: none; /* Firefox */
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+    display: none; /* Chrome, Safari */
+}
+
+.loginBtn {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.loginBtn:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.user-avatar-dropdown {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.user-avatar-dropdown:hover {
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
+.avatar-caret {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    width: 14px;
+    height: 14px;
+    background-color: #ffffff;
+    color: #3a3a3a;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05);
+    font-size: 0.6rem;
+    transition: transform 0.3s ease;
+}
+
+.user-avatar-dropdown[aria-expanded="true"] .avatar-caret {
+    transform: translate(1px, -1px) rotate(180deg);
+}
+

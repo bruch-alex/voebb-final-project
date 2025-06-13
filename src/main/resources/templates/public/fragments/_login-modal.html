@@ -4,34 +4,48 @@
   <div class="nav-item dropdown d-none d-lg-flex ms-auto">
 
     <button th:if="${!#authorization.expr('isAuthenticated()')}"
-            class="log-in-hover text-light border-0 rounded px-3 py-2 d-flex align-items-center gap-2"
+            class="loginBtn text-light border-0 rounded px-3 py-2 d-flex align-items-center gap-2"
             type="button" data-bs-toggle="dropdown" aria-expanded="false">
       <i class="bi bi-person"></i> Login
     </button>
+    
+    
+    <div th:if="${#authorization.expr('isAuthenticated()')}"
+         class="user-avatar-dropdown"
+         role="button"
+         data-bs-toggle="dropdown"
+         aria-expanded="false"
+         tabindex="0"
+         aria-label="Account menu">
+      <i class="bi bi-person-circle fs-5 text-white"></i>
+      <div class="avatar-caret">
+        <i class="bi bi-chevron-down small"></i>
+      </div>
+    </div>
 
-    
-    <a th:if="${#authorization.expr('isAuthenticated()')}"
-       class="nav-link h-100 dropdown-toggle d-flex align-items-center px-3 py-2 rounded-2 text-white"
-       href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-      <i class="bi bi-person-circle h-100" style="color: white;"></i>
-    </a>
-    
     <div th:replace="~{this :: login-dropdown-body}"></div>
   </div>
   
   <!--  Mobile/Tablet Login Button -->
   <div class="d-lg-none">
     <a th:if="${!#authorization.expr('isAuthenticated()')}"
-       class="d-flex align-items-center gap-2 text-light text-decoration-none"
+       class="text-start text-light d-flex align-items-center gap-2 px-3 text-decoration-none"
        href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-      <i class="bi bi-person-circle"></i> Login
+      <i class="bi bi-person-circle"></i>Login
     </a>
     
-    <a th:if="${#authorization.expr('isAuthenticated()')}"
-       class="d-inline-flex align-items-center gap-2 px-3 py-2 rounded dropdown-toggle text-light text-decoration-none"
-       href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-      <i class="bi bi-person-circle fs-5"></i>
-      <span class="fw-medium">Account</span>
+    <!-- MOBILE: ADMIN -->
+    <a th:if="${#authorization.expression('hasRole(''ADMIN'')')}"
+       class="d-inline-flex align-items-center gap-2 text-light text-decoration-none"
+       href="/admin" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="bi bi-person-circle"></i> Admin Panel
+    </a>
+    
+    <!-- MOBILE: CLIENT -->
+    <a th:if="${#authorization.expression('hasRole(''CLIENT'')')}"
+       class="text-start text-light d-flex align-items-center gap-2 px-3 text-decoration-none"
+       href="/profile" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="bi bi-person-circle"></i> Account
     </a>
     
     <div th:replace="~{this :: login-dropdown-body}"></div>
@@ -81,16 +95,30 @@
     </div>
     
     <div th:if="${#authorization.expr('isAuthenticated()')}" class="container">
-      <div class="rounded-3 p-2 user-menu">
-        <a class="dropdown-item d-flex align-items-center gap-2 rounded-2 px-3 py-2" href="/profile">
+      <div class="rounded-3 p-2">
+        
+        <!-- Desktop: ADMIN -->
+        <a th:if="${#authorization.expression('hasRole(''ADMIN'')')}"
+           class="dropdown-item d-flex text-light align-items-center gap-2 rounded-2 px-3 py-2"
+           href="/admin">
+          <i class="bi bi-person-circle"></i> Admin Panel
+        </a>
+        
+        <a th:if="${#authorization.expression('hasRole(''CLIENT'')')}"
+           class="dropdown-item d-flex text-light align-items-center gap-2 rounded-2 px-3 py-2"
+           href="/profile">
           <i class="bi bi-person-circle"></i> Profile
         </a>
+        
+        <!-- Desktop: CLIENT -->
         <form th:action="@{/logout}" method="post" class="m-0">
-          <button class="dropdown-item d-flex align-items-center gap-2 rounded-2 px-3 py-2 w-100" type="submit">
+          <button class="dropdown-item d-flex text-light align-items-center gap-2 rounded-2 px-3 py-2 w-100" type="submit">
             <i class="bi bi-box-arrow-right"></i> Logout
           </button>
         </form>
+      
       </div>
     </div>
+  
   </div>
 </div>

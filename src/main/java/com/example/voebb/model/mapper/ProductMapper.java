@@ -19,6 +19,11 @@ public class ProductMapper {
                 .map(Country::getName)
                 .collect(Collectors.toSet());
 
+        Set<String> languageNames = product.getLanguages()
+                .stream()
+                .map(Language::getName)
+                .collect(Collectors.toSet());
+
         return new ProductInfoDTO(
                 product.getId(),
                 product.getType().getName(),
@@ -29,6 +34,7 @@ public class ProductMapper {
                 product.getDescription(),
                 product.getProductLinkToEmedia(),
                 countryNames,
+                languageNames,
                 product.isBook() ? BookDetailsMapper.toDto(product.getBookDetails()) : null,
                 product.getCreatorProductRelations().stream()
                         .map(relation -> new CreatorWithRoleDTO(

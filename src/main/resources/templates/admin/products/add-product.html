@@ -309,31 +309,37 @@
               
               <div class="card shadow-sm p-4">
                 
-                <!-- General Info -->
                 <section class="py-3 px-2 border-bottom">
-                  <h5 class="mb-3 fw-semibold text-muted small">General Info</h5>
-                  <div class="row gx-4">
-                    <div class="col-md-6">
+                  
+                  <div class="row gx-5 align-items-start">
+                    <h5 class="fw-semibold text-muted small mb-4">General Info</h5>
+                  
+                    <div class="col-md-7">
                       <div class="mb-2"><strong>Product Type:</strong>
                         <span id="revProductType" class="text-muted small">—</span></div>
                       <div class="mb-2"><strong>Title:</strong>
                         <span id="revTitle" class="text-muted small">—</span></div>
                       <div class="mb-2"><strong>Release Year:</strong>
-                        <span id="revReleaseYear" class="text-muted">—</span></div>
+                        <span id="revReleaseYear" class="text-muted small">—</span></div>
                       <div class="mb-2"><strong>Description:</strong>
                         <span id="revDescription" class="text-muted small">—</span></div>
                       <div class="mb-2" id="revEmediaBlock"><strong>Product Link (eMedia):</strong>
                         <span id="revProductLink" class="text-muted small">—</span></div>
                     </div>
-                    <div class="col-md-6">
-                      <label class="fw-medium mb-2 small">Cover Photo</label>
-                      <div class="border rounded bg-light d-flex align-items-center justify-content-center"
-                           style="height: 200px;">
-                        <img id="revPhotoPreview" src="#" alt="Cover Photo Preview" class="img-fluid d-none"
-                             style="max-height: 180px;"/>
+                    
+                    <div class="col-md-5 text-center">
+                      <div class="mb-2 fw-medium small text-muted">Cover Photo</div>
+                      <div class="border rounded bg-light d-flex align-items-center justify-content-center mx-auto"
+                           style="height: 240px; max-width: 200px;">
+                        <img id="revPhotoPreview"
+                             src="#"
+                             alt="Cover Photo Preview"
+                             class="img-fluid d-none"
+                             style="max-height: 220px; object-fit: contain;" />
                         <span id="revPhoto" class="text-muted small">No image preview available</span>
                       </div>
                     </div>
+                  
                   </div>
                 </section>
                 
@@ -373,8 +379,7 @@
                 
                 <div class="d-flex justify-content-end align-items-center gap-2 mt-4 border-top pt-4">
                   <button type="button" class="btn btn-outline-secondary"
-                          onclick="goToTab('tab-metadata-tab', 3, false)">
-                    Back
+                          onclick="goToTab('tab-metadata-tab', 3, false)"> Back
                   </button>
                   <button type="submit" class="btn btn-success">
                     <i class="bi bi-check-circle me-1"></i> Submit

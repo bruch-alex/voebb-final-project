@@ -8,6 +8,7 @@ import com.example.voebb.model.entity.ItemStatus;
 import com.example.voebb.model.entity.ProductItem;
 import com.example.voebb.model.entity.Reservation;
 import com.example.voebb.repository.*;
+import com.example.voebb.service.BorrowService;
 import com.example.voebb.service.ReservationService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,7 @@ public class ReservationServiceImpl implements ReservationService {
     private final ProductItemRepo itemRepo;
     private final ItemStatusRepo statusRepo;
     private final BorrowRepo borrowRepo;
+    private final BorrowService borrowService;
 
     @Override
     public Page<GetReservationDTO> getFilteredReservations(Long userId, Long itemId, Long libraryId, Pageable pageable) {
@@ -92,24 +94,8 @@ public class ReservationServiceImpl implements ReservationService {
         Reservation reservation = reservationRepo.findById(reservationId)
                 .orElseThrow(() -> new ReservationNotFoundException(reservationId));
 
-        CustomUser user = reservation.getCustomUser();
-        ProductItem item = reservation.getItem();
-
-        ItemStatus borrowedStatus = statusRepo.findByNameIgnoreCase("borrowed")
-                .orElseThrow(() -> new ItemStatusNotFoundException("borrowed"));
-
-        item.setStatus(borrowedStatus);
-        itemRepo.save(item);
-
-        user.setBorrowedProductsCount(user.getBorrowedProductsCount() + 1);
-        userRepo.save(user);
-
         reservationRepo.delete(reservation);
-
-        String userName = user.getFirstName() + " " + user.getLastName();
-        String productTitle = item.getProduct().getTitle();
-
-        return "Item \"" + productTitle + "\" [ID: " + item.getId() + "] was borrowed by User [ID: " + user.getId() + "] " + userName + ".";
+        return borrowService.createBorrowInternal(reservation.getCustomUser(), reservation.getItem(), true);
     }
 
 

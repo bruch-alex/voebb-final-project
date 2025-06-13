@@ -31,7 +31,7 @@ public class BorrowServiceImpl implements BorrowService {
 
     @Override
     @Transactional
-    public void createBorrow(CreateBorrowDTO dto) {
+    public String createBorrow(CreateBorrowDTO dto) {
 
         if (dto.userId() == null || dto.itemId() == null) {
             throw new IllegalArgumentException("Both User ID and Item ID are required.");
@@ -39,48 +39,12 @@ public class BorrowServiceImpl implements BorrowService {
 
         CustomUser user = userRepo.findById(dto.userId())
                 .orElseThrow(() -> new UserNotFoundException(dto.userId()));
-
         ProductItem item = itemRepo.findById(dto.itemId())
                 .orElseThrow(() -> new ItemNotFoundException(dto.itemId()));
 
-        if (!item.getStatus().getName().equalsIgnoreCase("available")) {
-            throw new ItemNotAvailableException(item.getProduct().getTitle(), item.getId(), item.getStatus().getName());
-        }
-
-        int activeBorrowCount = borrowRepo.countByCustomUserIdAndReturnDateIsNull(user.getId());
-        int activeReservationCount = reservationRepo.countByCustomUserId(user.getId());
-
-        if (activeBorrowCount + activeReservationCount >= 5) {
-            throw new UserBorrowLimitExceededException(user.getId(), user.getFirstName(), user.getLastName());
-        }
-
-        if (item.getProduct() == null || item.getProduct().getType() == null) {
-            throw new IllegalStateException("Item's product or product type is not properly set.");
-        }
-
-        int borrowDurationDays = item.getProduct().getType().getBorrowDurationDays();
-
-        LocalDate startDate = LocalDate.now();
-        LocalDate dueDate = startDate.plusDays(borrowDurationDays);
-
-        Borrow borrow = new Borrow();
-        borrow.setCustomUser(user);
-        borrow.setItem(item);
-        borrow.setStartDate(startDate);
-        borrow.setDueDate(dueDate);
-        borrow.setExtendsCount(0);
-
-        borrowRepo.save(borrow);
-
-        ItemStatus borrowedStatus = statusRepo.findByNameIgnoreCase("borrowed")
-                .orElseThrow(() -> new ItemStatusNotFoundException("borrowed"));
-        item.setStatus(borrowedStatus);
-        itemRepo.save(item);
-
-        user.setBorrowedProductsCount(user.getBorrowedProductsCount() + 1);
-        userRepo.save(user);
-
+        return createBorrowInternal(user, item, false);
     }
+
 
     @Override
     public Page<GetBorrowingsDTO> getFilteredBorrowings(Long userId, Long itemId, Long libraryId, String status, Pageable pageable) {
@@ -145,6 +109,48 @@ public class BorrowServiceImpl implements BorrowService {
         return "[User ID: " + user.getId() + "] " + userName +
                " successfully extended the item \"" + productTitle + "\" [Item ID: " + item.getId() + "] until " +
                borrow.getDueDate() + ".";
+    }
+
+    public String createBorrowInternal(CustomUser user, ProductItem item, boolean skipAvailabilityAndLimitCheck) {
+
+        if (!skipAvailabilityAndLimitCheck) {
+            if (!item.getStatus().getName().equalsIgnoreCase("available")) {
+                throw new ItemNotAvailableException(item.getProduct().getTitle(), item.getId(), item.getStatus().getName());
+            }
+
+            int activeBorrowCount = borrowRepo.countByCustomUserIdAndReturnDateIsNull(user.getId());
+            int activeReservationCount = reservationRepo.countByCustomUserId(user.getId());
+
+            if (activeBorrowCount + activeReservationCount >= 5) {
+                throw new UserBorrowLimitExceededException(user.getId(), user.getFirstName(), user.getLastName());
+            }
+        }
+
+        if (item.getProduct() == null || item.getProduct().getType() == null) {
+            throw new IllegalStateException("Item's product or product type is not properly set.");
+        }
+
+        int borrowDurationDays = item.getProduct().getType().getBorrowDurationDays();
+        LocalDate startDate = LocalDate.now();
+        LocalDate dueDate = startDate.plusDays(borrowDurationDays);
+
+        Borrow borrow = new Borrow();
+        borrow.setCustomUser(user);
+        borrow.setItem(item);
+        borrow.setStartDate(startDate);
+        borrow.setDueDate(dueDate);
+        borrow.setExtendsCount(0);
+        borrowRepo.save(borrow);
+
+        ItemStatus borrowedStatus = statusRepo.findByNameIgnoreCase("borrowed")
+                .orElseThrow(() -> new ItemStatusNotFoundException("borrowed"));
+        item.setStatus(borrowedStatus);
+        itemRepo.save(item);
+
+        user.setBorrowedProductsCount(user.getBorrowedProductsCount() + 1);
+        userRepo.save(user);
+
+        return "Item \"" + item.getProduct().getTitle() + "\" [ID: " + item.getId() + "] was borrowed by User [ID: " + user.getId() + "] " + user.getFirstName() + " " + user.getLastName() + ".";
     }
 
 

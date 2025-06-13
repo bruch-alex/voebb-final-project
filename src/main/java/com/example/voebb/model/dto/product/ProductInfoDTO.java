@@ -15,11 +15,11 @@ public record ProductInfoDTO(
         String releaseYear,
         String photo,
         String defaultPhoto,
-        String description, // summary of the product based on media_type
+        String description,
         String productLinkToEmedia,
         Set<String> countries,
-        BookDetailsDTO bookDetails, //  null for non-books
+        Set<String> languages,
+        BookDetailsDTO bookDetails,
         List<CreatorWithRoleDTO> creators
-        //TODO: add Languages
 ) {
 }

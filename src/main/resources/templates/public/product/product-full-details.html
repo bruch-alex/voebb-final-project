@@ -13,53 +13,97 @@
 <main layout:fragment="content">
   <!-- General Product Info -->
   <div class="container mt-4">
-    <h4>General info</h4>
-    <!-- ✅ Book Cover Image -->
-    <div style="text-align: center;">
-      <img th:src="${productInfoDTO.photo}"
-           alt="Book cover"
-           style="height: 250px; object-fit: contain; margin-bottom: 1rem;"
-           th:attr="onerror='this.onerror=null; this.src=\'' + ${productInfoDTO.defaultPhoto} + '\';'"/>
-    </div>
+    <div class="card shadow-sm p-4">
+      
+      <section class="py-3 px-2 border-bottom mx-3">
+        <div class="row gx-5">
+          
+          <div class="col-md-5 text-center">
+            <div class="border rounded d-flex align-items-center justify-content-center mx-auto"
+                 style="height: 240px; max-width: 200px;">
+              <img th:src="${productInfoDTO.photo}"
+                   alt="Cover Photo Preview"
+                   class="img-fluid"
+                   style="max-height: 220px; object-fit: contain;"
+                   th:attr="onerror='this.onerror=null; this.src=\'' + ${productInfoDTO.defaultPhoto} + '\';'" />
+            </div>
+          </div>
+          
+          <div class="col-md-7">
+            <h5 class="fw-semibold text-muted small mb-4">General Info</h5>
+            
+            <div class="mb-2"><strong>Product Type:</strong>
+              <span class="text-muted small" th:text="${productInfoDTO.productType}">—</span></div>
+            <div class="mb-2"><strong>Title:</strong>
+              <span class="text-muted small" th:text="${productInfoDTO.title}">—</span></div>
+            <div class="mb-2"><strong>Release Year:</strong>
+              <span class="text-muted small" th:text="${productInfoDTO.releaseYear}">—</span></div>
+            <div class="mb-2"><strong>Description:</strong>
+              <span class="text-muted small" th:text="${productInfoDTO.description}">—</span></div>
+            <div class="mb-2" th:if="${productInfoDTO.productLinkToEmedia}">
+              <strong>Product Link (eMedia):</strong>
+              <a th:href="${productInfoDTO.productLinkToEmedia}"
+                 th:text="${productInfoDTO.productLinkToEmedia}"
+                 class="text-muted small text-decoration-underline"
+                 target="_blank" rel="noopener noreferrer">
+              </a>
+            </div>
+          </div>
+        
+        </div>
+      </section>
+      
+      <section class="py-3 px-2 border-bottom mx-3" th:if="${bookDetailsDTO != null}">
+        <h5 class="mb-3 fw-semibold text-muted small">Book Details</h5>
+        <div class="row gx-4">
+          <div class="col-md-4"><strong>ISBN:</strong>
+            <span class="text-muted small" th:text="${bookDetailsDTO.isbn}">—</span></div>
+          <div class="col-md-4"><strong>Edition:</strong>
+            <span class="text-muted small" th:text="${bookDetailsDTO.edition}">—</span></div>
+          <div class="col-md-4"><strong>Pages:</strong>
+            <span class="text-muted small" th:text="${bookDetailsDTO.pages}">—</span></div>
+        </div>
+      </section>
+      
+      <section class="py-2 px-2 border-bottom m-3" th:if="${productInfoDTO.creators.size() > 0}">
+        <h5 class="mb-3 fw-semibold text-muted small">Creators</h5>
+        <div class="d-flex flex-wrap gap-2 ps-4 small">
+          <ul class="mb-0">
+            <li th:each="creator : ${productInfoDTO.creators}"
+                th:text="${creator.role} + ': ' + ${creator.firstName} + ' ' + ${creator.lastName}"></li>
+          </ul>
+        </div>
+      </section>
+      
+      <section class="py-2 px-2 mx-3">
+        <div class="row gx-4">
+          <div class="col-md-6" th:if="${productInfoDTO.countries != null and !productInfoDTO.countries.isEmpty()}">
+          <strong class="small text-muted">Countries</strong>
+            <div class="d-flex flex-wrap gap-2 mt-2 ps-4 small">
+              <ul class="mb-0">
+                <li th:each="country : ${productInfoDTO.countries}" th:text="${country}"></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-md-6" th:if="${productInfoDTO.languages != null and !productInfoDTO.languages.isEmpty()}">
+            <strong class="small text-muted">Languages</strong>
+            <div class="d-flex flex-wrap gap-2 mt-2 ps-4 small">
+              <ul class="mb-0">
+                <li th:each="language : ${productInfoDTO.languages}" th:text="${language}"></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
     
-    <p th:text="'Title: ' + ${productInfoDTO.title}"></p>
-    <p th:text="'Type: ' + ${productInfoDTO.productType.toUpperCase()}"></p>
-    <p th:text="'Release: ' + ${productInfoDTO.releaseYear}"></p>
-    
-    <p th:text="'Description: ' + ${productInfoDTO.description}"></p>
-    <div class="mb-3" th:if="${productInfoDTO.productLinkToEmedia}">
-      Link:
-      <a th:href="${productInfoDTO.productLinkToEmedia}"
-         th:text="${productInfoDTO.productLinkToEmedia}"
-         class="text-decoration-underline text-primary"
-         target="_blank" rel="noopener noreferrer">
-      </a>
     </div>
-  
-  </div>
-  
-  <!-- Book details section -->
-  <div class="container mt-4" th:if="${bookDetailsDTO != null}">
-    <h4>Book Details</h4>
-    <p th:text="'ISBN: ' + ${bookDetailsDTO.isbn}"></p>
-    <p th:text="'Edition: ' + ${bookDetailsDTO.edition}"></p>
-    <p th:text="'Pages: ' + ${bookDetailsDTO.pages}"></p>
-  </div>
-  
-  <!-- Creators section -->
-  <div class="container mt-4" th:if="${productInfoDTO.creators.size() > 0}">
-    <h4>Creators</h4>
-    <ul th:each="creatorWithRoleDTO : ${productInfoDTO.creators}">
-      <li th:text="${creatorWithRoleDTO.role}
-        + ': '+ ${creatorWithRoleDTO.firstName}
-        + ' ' + ${creatorWithRoleDTO.lastName}"></li>
-    </ul>
   </div>
   
   <!-- Locations section -->
   <div class="container mt-4" th:if="${locationAndItemStatusDTOs.size() > 0}">
-    <h4>Locations</h4>
-    <table class="table table-hover rounded">
+    <h4 class="ms-1">Locations</h4>
+    <div class="table-responsive border rounded shadow-sm mb-0">
+    <table class="table table-hover">
       <thead>
       <tr>
         <th scope="col">Status</th>
@@ -104,6 +148,7 @@
       </tr>
       </tbody>
     </table>
+    </div>
   </div>
 </main>
 </body>
