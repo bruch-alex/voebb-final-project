@@ -67,7 +67,7 @@
             <div class="accordion-body">
               <div th:each="location : ${cardProductDTO.locations}">
                 <p
-                  th:text="'Location: ' + ${location.district} + ', ' + ${location.libraryName} + ', available items: ' + ${location.itemsCount}"></p>
+                  th:text="${location.district} + ': ' + ${location.libraryName} + ', available items: ' + ${location.itemsCount}"></p>
               </div>
             </div>
           </div>

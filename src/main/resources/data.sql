@@ -160,6 +160,7 @@ VALUES (1, 'United Kingdom'),
        (16, 'Netherlands'),
        (17, 'Sweden'),
        (18, 'Norway'),
+
        (19, 'Switzerland'),
        (20, 'South Africa'),
        (21, 'Argentina'),

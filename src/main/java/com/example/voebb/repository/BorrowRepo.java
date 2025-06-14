@@ -28,7 +28,8 @@ public interface BorrowRepo extends JpaRepository<Borrow, Long> {
                         WHEN b.returnDate IS NOT NULL THEN 'Returned'
                         WHEN b.dueDate < CURRENT_DATE THEN 'Overdue'
                         ELSE 'Active'
-                    END
+                    END,
+                    l.id
                 )
                 FROM Borrow b
                 JOIN b.customUser u

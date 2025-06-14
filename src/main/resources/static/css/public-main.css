@@ -1,13 +1,13 @@
 body[data-theme="light"] {
     background-color: #f8f9fa;
-    --dropdown-toggle-background: #ffffff;
+    --dropdown-white-toggle-background: #ffffff;
     --search-row-background: #e9ecef;
 }
 
 body[data-theme="dark"] {
     background-color: #242627;
-    --dropdown-toggle-background: #242627;
-    --dropdown-btn-border: 1px solid #777777;
+    --dropdown-white-toggle-background: #242627;
+    --dropdown-white-btn-border: 1px solid #777777;
     --search-row-background: #3a3a3a;
 }
 
@@ -58,12 +58,12 @@ body[data-theme="light"] .user-menu .dropdown-item {
     border: 1px solid #555555;
 }
 
-.dropdown-toggle {
-    background-color: var(--dropdown-toggle-background) !important;
-    border: var(--dropdown-btn-border);
+.dropdown-white-toggle {
+    background-color: var(--dropdown-white-toggle-background) !important;
+    border: var(--dropdown-white-btn-border);
 }
 
-.dropdown-toggle:hover {
+.dropdown-white-toggle:hover {
     background-color: #0b5ed7 !important;
     color: #fff !important;
 }

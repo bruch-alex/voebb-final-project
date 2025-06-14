@@ -100,10 +100,10 @@
   </div>
   
   <!-- Locations section -->
-  <div class="container mt-4" th:if="${locationAndItemStatusDTOs.size() > 0}">
+  <div class="container mt-4 mb-4" th:if="${locationAndItemStatusDTOs.size() > 0}">
     <h4 class="ms-1">Locations</h4>
     <div class="table-responsive border rounded shadow-sm mb-0">
-    <table class="table table-hover">
+    <table class="table table-hover align-middle mb-0">
       <thead>
       <tr>
         <th scope="col">Status</th>
@@ -116,9 +116,16 @@
       <tbody>
       <tr th:each="locationAndItemStatusDTO : ${locationAndItemStatusDTOs}">
         <td th:switch="${locationAndItemStatusDTO.itemStatus}">
-          <span th:case="'available'" class="badge bg-success fs-6">Available</span>
-          <span th:case="'borrowed'" class="badge bg-danger fs-6">Borrowed</span>
-          <span th:case="'reserved'" class="badge bg-warning fs-6">Reserved</span>
+          <i th:case="'available'" class="bi bi-check-circle fs-4 text-success" data-bs-toggle="tooltip" data-bs-placement="left"
+             title="This item is available. U can reserve it and pick up from library"></i>
+          <i th:case="'borrowed'" class="bi bi-exclamation-circle fs-4 text-warning" data-bs-toggle="tooltip" data-bs-placement="left"
+             title="This item is borrowed. U can't reserve or borrow it now"></i>
+          <i th:case="'reserved'" class="bi bi-x-circle fs-4 text-warning" data-bs-toggle="tooltip" data-bs-placement="left"
+             title="This item is reserved. U can't reserve or borrow it now"></i>
+          <i th:case="'damaged'" class="bi bi-x-circle fs-4 text-danger" data-bs-toggle="tooltip" data-bs-placement="left"
+             title="This item is damaged."></i>
+          <i th:case="'lost'" class="bi bi-x-circle fs-4 text-danger" data-bs-toggle="tooltip" data-bs-placement="left"
+             title="This item is lost."></i>
         </td>
         <td th:text="${locationAndItemStatusDTO.district}">District</td>
         <td>

@@ -1,7 +1,6 @@
 package com.example.voebb.controller.web;
 
 import com.example.voebb.model.dto.CarouselEvent;
-import com.example.voebb.model.dto.library.LibraryDTO;
 import com.example.voebb.model.dto.product.CardProductDTO;
 import com.example.voebb.model.dto.product.ProductFilters;
 import com.example.voebb.model.dto.product.ProductInfoDTO;
@@ -31,7 +30,7 @@ public class ProductControllerWeb {
 
 
     @GetMapping
-    public String getIndexPage(@ModelAttribute(name = "libraries") List<LibraryDTO> libraries, Model model) {
+    public String getIndexPage(Model model) {
 
         List<CarouselEvent> events = List.of(
                 new CarouselEvent("Reading & Discussions", "Join fellow book lovers for lively conversations around hand-picked titles. Share your thoughts, explore new perspectives, and deepen your love for literature in a relaxed, inclusive setting.", "/images/image1.jpg", "email@example.com"),

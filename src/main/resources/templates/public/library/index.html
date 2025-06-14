@@ -13,23 +13,23 @@
         <h2 class="text-center">Our Libraries</h2>
 
         <div class="accordion" id="accordionExample">
-            <div class="accordion-item" th:each="library : ${libraries}">
-                <h2 class="accordion-header" th:id="'heading__' + ${library.id}">
+            <div class="accordion-item" th:each="entry : ${libraries}">
+                <h2 class="accordion-header" th:id="'heading__' + ${entry.key}">
                     <button class="accordion-button collapsed"
                             type="button"
                             data-bs-toggle="collapse"
-                            th:data-bs-target="'#collapse__' + ${library.id}"
-                            th:aria-controls="'collapse__' + ${library.id}"
-                            th:text="${library.name}">
+                            th:data-bs-target="'#collapse__' + ${entry.key}"
+                            th:aria-controls="'collapse__' + ${entry.key}"
+                            th:text="${entry.value}">
                     </button>
                 </h2>
                 <div class="accordion-collapse collapse"
-                     th:id="'collapse__' + ${library.id}"
-                     th:attr="aria-labelledby='heading__' + ${library.id}"
+                     th:id="'collapse__' + ${entry.key}"
+                     th:attr="aria-labelledby='heading__' + ${entry.key}"
                      data-bs-parent="#accordionExample">
                     <div class="accordion-body">
                         <p>Show more info later</p>
-                        <a th:href="@{/libraries/{id}(id=${library.id})}">
+                        <a th:href="@{/libraries/{id}(id=${entry.key})}">
                             Open details
                         </a>
                     </div>

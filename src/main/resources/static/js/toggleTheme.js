@@ -7,18 +7,16 @@ body.setAttribute("data-theme", savedTheme);
 
 const updateThemeIcon = (theme) => {
     const icon = document.getElementById('themeIcon');
-    const iconMobile = document.getElementById('themeIconMobile');
+    if (!icon) return;
 
-    const applyIconFlip = (el) => {
-        if (theme === 'light') {
-            el?.classList.add('icon-flip');
-        } else {
-            el?.classList.remove('icon-flip');
-        }
-    };
-
-    applyIconFlip(icon);
-    applyIconFlip(iconMobile);
+    const isLight = theme === 'light';
+    if (isLight) {
+        icon.style.transform = 'scale(1.5)';
+    } else {
+        icon.style.transform = '';
+    }
+    icon.classList.toggle('bi-brightness-low-fill', isLight);
+    icon.classList.toggle('bi-moon-stars-fill', !isLight);
 };
 
 const toggleTheme = () => {
@@ -33,7 +31,6 @@ const toggleTheme = () => {
 };
 
 document.getElementById('themeToggle')?.addEventListener('click', toggleTheme);
-document.getElementById('themeToggleMobile')?.addEventListener('click', toggleTheme);
 
 document.addEventListener('DOMContentLoaded', () => {
     updateThemeIcon(savedTheme);

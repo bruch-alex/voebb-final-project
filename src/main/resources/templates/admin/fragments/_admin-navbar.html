@@ -65,11 +65,10 @@
         </li>
       </ul>
       
-      <div class="py-2 ps-1">
-        <div class="d-flex align-items-center gap-2 ms-1">
-          <div th:replace="~{public/fragments/_login-modal :: login-dropdown}"></div>
-        </div>
-      </div>
+      <!-- Right nav -->
+      <ul class="navbar-nav ms-md-auto">
+        <li th:replace="~{public/fragments/_login-modal :: login-dropdown}"></li>
+      </ul>
     </div>
   </div>
 </nav>
