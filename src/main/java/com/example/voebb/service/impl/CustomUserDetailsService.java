@@ -95,7 +95,8 @@ public class CustomUserDetailsService implements UserDetailsService, CustomUserS
                                 getReservationDTO.itemId(),
                                 getReservationDTO.startDate(),
                                 getReservationDTO.dueDate(),
-                                null
+                                null,
+                                getReservationDTO.libraryId()
                         ))
                         .toList());
 
@@ -109,7 +110,8 @@ public class CustomUserDetailsService implements UserDetailsService, CustomUserS
                                 getBorrowingsDTO.itemId(),
                                 getBorrowingsDTO.startDate(),
                                 getBorrowingsDTO.dueDate(),
-                                !LocalDate.now().plusDays(3).isBefore(getBorrowingsDTO.dueDate())
+                                !LocalDate.now().plusDays(3).isBefore(getBorrowingsDTO.dueDate()),
+                                getBorrowingsDTO.libraryId()
                         ))
                         .toList());
 

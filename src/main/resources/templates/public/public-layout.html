@@ -6,8 +6,8 @@
   <meta charset="UTF-8"/>
   <meta content="width=device-width, initial-scale=1" name="viewport"/>
   <title>VÖBB</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/zephyr/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.6/dist/zephyr/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" rel="stylesheet">
   <link rel="stylesheet" th:href="@{/css/public-main.css}">
   <link rel="stylesheet" th:href="@{/css/avatar-dropdown.css}">
   <title data-layout-title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE"></title>
@@ -23,6 +23,10 @@
   <div th:replace="~{public/fragments/main-navbar.html :: main-navbar}"></div>
 </header>
 
+<div class="container mt-4" th:if="${success != null or error != null}">
+  <div th:replace="~{admin/fragments/_alerts :: alerts}"></div>
+</div>
+
 <!--Main content-->
 <main layout:fragment="content"></main>
 
@@ -35,7 +39,7 @@
   <div class="offcanvas-body p-4">
     <label for="productTypeDropdown" class="form-label">Product Type</label>
     <div class="dropdown w-auto" id="productTypeDropdown">
-      <button class="btn btn-secondary dropdown-toggle w-100 text-body shadow-sm" type="button"
+      <button class="btn btn-secondary dropdown-toggle dropdown-white-toggle w-100 text-body shadow-sm" type="button"
               id="productTypeDropdownButton"
               data-bs-toggle="dropdown" aria-expanded="false"
               style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
@@ -57,14 +61,15 @@
     
     <div>
       <label for="creatorInputSidebar" class="form-label">Creator</label>
-      <input type="text" id="creatorInputSidebar" name="creator" class="form-control" th:value="${productFilters.author}">
+      <input type="text" id="creatorInputSidebar" name="creator" class="form-control"
+             th:value="${productFilters.author}">
     </div>
     
     <hr style="border: none; height: 1px; background-color: black;"/>
     
     <label for="languageDropdown" class="form-label">Product language</label>
     <div class="dropdown w-auto" id="languageDropdown">
-      <button class="btn btn-secondary dropdown-toggle w-100 text-body shadow-sm" type="button"
+      <button class="btn btn-secondary dropdown-toggle dropdown-white-toggle w-100 text-body shadow-sm" type="button"
               id="languageDropdownButton"
               data-bs-toggle="dropdown" aria-expanded="false"
               style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
@@ -86,7 +91,7 @@
     
     <label for="countryDropdown" class="form-label">Product country</label>
     <div class="dropdown w-auto" id="countryDropdown">
-      <button class="btn btn-secondary dropdown-toggle w-100 text-body shadow-sm" type="button"
+      <button class="btn btn-secondary dropdown-toggle dropdown-white-toggle w-100 text-body shadow-sm" type="button"
               id="countryDropdownButton"
               data-bs-toggle="dropdown" aria-expanded="false"
               style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
@@ -112,12 +117,17 @@
 </div>
 
 <!-- Footer -->
-<footer class="mt-auto" th:replace="~{public/fragments/footer.html :: footer}"></footer>
+<footer class="mt-auto" layout:fragment="footer">
+  <div th:replace="~{public/fragments/footer.html :: footer}"></div>
+</footer>
 
 <!-- Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
+        crossorigin="anonymous"></script>
+
+<script th:src="@{/js/base.js}"></script>
 <script th:src="@{/js/toggleTheme.js}"></script>
 <script th:src="@{/js/product/synchronizeProductFiltersAndHiddenInput.js}"></script>
-
 </body>
 </html>

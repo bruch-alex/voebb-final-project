@@ -1,60 +1,32 @@
-<div th:fragment="login-dropdown">
+<li th:fragment="login-dropdown" class="nav-item">
   
-  <!-- Desktop Login Button -->
-  <div class="nav-item dropdown d-none d-lg-flex ms-auto">
-
-    <button th:if="${!#authorization.expr('isAuthenticated()')}"
-            class="loginBtn text-light border-0 rounded px-3 py-2 d-flex align-items-center gap-2"
-            type="button" data-bs-toggle="dropdown" aria-expanded="false">
-      <i class="bi bi-person"></i> Login
-    </button>
-    
-    
-    <div th:if="${#authorization.expr('isAuthenticated()')}"
-         class="user-avatar-dropdown"
-         role="button"
-         data-bs-toggle="dropdown"
-         aria-expanded="false"
-         tabindex="0"
-         aria-label="Account menu">
-      <i class="bi bi-person-circle fs-5 text-white"></i>
-      <div class="avatar-caret">
-        <i class="bi bi-chevron-down small"></i>
-      </div>
-    </div>
-
-    <div th:replace="~{this :: login-dropdown-body}"></div>
-  </div>
+  <a th:if="${!#authorization.expr('isAuthenticated()')}"
+     class="nav-link d-flex text-light text-decoration-none align-items-center"
+     data-bs-toggle="dropdown"
+     aria-expanded="false"
+     data-bs-display="static"
+     href="#">
+    <i class="bi bi-person-circle text-white fs-5"></i>
+    <span class="ms-2 fw-semibold">Login</span>
+  </a>
   
-  <!--  Mobile/Tablet Login Button -->
-  <div class="d-lg-none">
-    <a th:if="${!#authorization.expr('isAuthenticated()')}"
-       class="text-start text-light d-flex align-items-center gap-2 px-3 text-decoration-none"
-       href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-      <i class="bi bi-person-circle"></i>Login
-    </a>
-    
-    <!-- MOBILE: ADMIN -->
-    <a th:if="${#authorization.expression('hasRole(''ADMIN'')')}"
-       class="d-inline-flex align-items-center gap-2 text-light text-decoration-none"
-       href="/admin" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-      <i class="bi bi-person-circle"></i> Admin Panel
-    </a>
-    
-    <!-- MOBILE: CLIENT -->
-    <a th:if="${#authorization.expression('hasRole(''CLIENT'')')}"
-       class="text-start text-light d-flex align-items-center gap-2 px-3 text-decoration-none"
-       href="/profile" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-      <i class="bi bi-person-circle"></i> Account
-    </a>
-    
-    <div th:replace="~{this :: login-dropdown-body}"></div>
-  </div>
-</div>
+  <a th:if="${#authorization.expr('isAuthenticated()')}"
+     class="nav-link d-flex text-light text-decoration-none align-items-center"
+     role="button"
+     data-bs-toggle="dropdown"
+     aria-expanded="false"
+     data-bs-display="static"
+     href="#">
+    <i class="bi bi-person-circle text-white fs-5"></i>
+    <span class="ms-2 fw-semibold">Account</span>
+  </a>
+  
+  <div th:replace="~{this :: login-dropdown-body}"></div>
+</li>
 
 <!-- Reusable Dropdown Body -->
 <div th:fragment="login-dropdown-body">
-  <div class="dropdown-menu dropdown-menu-end shadow-sm mt-2"
+  <div class="dropdown-menu dropdown-menu-end shadow-sm  m-2"
        style="width: 300px; background-color: #333333;" data-bs-auto-close="outside">
     
     <div th:if="${!#authorization.expr('isAuthenticated()')}">
@@ -64,6 +36,9 @@
       
       <div class="p-4 rounded text-light">
         <form th:action="@{/login}" method="post">
+          
+          <input type="hidden" name="redirect" id="redirectInput"/>
+          
           <div class="mb-3">
             <label for="usernameInput" class="form-label">Email or phone number</label>
             <input type="text" id="usernameInput" name="username" required
@@ -112,13 +87,16 @@
         
         <!-- Desktop: CLIENT -->
         <form th:action="@{/logout}" method="post" class="m-0">
-          <button class="dropdown-item d-flex text-light align-items-center gap-2 rounded-2 px-3 py-2 w-100" type="submit">
+          <button class="dropdown-item d-flex text-light align-items-center gap-2 rounded-2 px-3 py-2 w-100"
+                  type="submit">
             <i class="bi bi-box-arrow-right"></i> Logout
           </button>
         </form>
       
       </div>
     </div>
-  
   </div>
+  <script>
+      document.getElementById('redirectInput').value = window.location.href;
+  </script>
 </div>

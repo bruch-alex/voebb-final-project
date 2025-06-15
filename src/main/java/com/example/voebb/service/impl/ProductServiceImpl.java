@@ -82,13 +82,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Page<CardProductDTO> getProductCardsByFilters(ProductFilters filters, Pageable pageable) {
-//        System.out.println("title - " + filters.getTitle());
-//        System.out.println("author - " + filters.getAuthor());
-//        System.out.println("libraryId - " + filters.getLibraryId());
-//        System.out.println("type - " + filters.getProductType());
-//        System.out.println("language - " + filters.getLanguageId());
-//        System.out.println("country - " + filters.getCountryId());
-
         Page<Product> page = productRepo.searchWithFilters(
                 null,
                 filters.getTitle(),

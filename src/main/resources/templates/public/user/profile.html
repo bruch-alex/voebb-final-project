@@ -87,6 +87,7 @@
           <tr>
             <th>Activity</th>
             <th>Title</th>
+            <th>Library</th>
             <th>Start Date</th>
             <th>Due Date</th>
             <th class="text-end">Actions</th>
@@ -101,6 +102,11 @@
             
             <td class="text-nowrap">
               <div th:text="${activity.itemTitle}"></div>
+            </td>
+            
+            <td class="text-nowrap">
+              <a th:text="${libraries[activity.libraryId]}"
+                 th:href="@{/libraries/{id}(id=${activity.libraryId})}"></a>
             </td>
             
             <td th:text="${activity.startDate}"></td>

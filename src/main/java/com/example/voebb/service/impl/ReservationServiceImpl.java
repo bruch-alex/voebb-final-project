@@ -42,7 +42,8 @@ public class ReservationServiceImpl implements ReservationService {
                 dto.itemTitle(),
                 dto.startDate(),
                 dto.dueDate(),
-                ChronoUnit.DAYS.between(LocalDate.now(), dto.dueDate())
+                ChronoUnit.DAYS.between(LocalDate.now(), dto.dueDate()),
+                dto.libraryId()
         ));
     }
 

@@ -10,5 +10,6 @@ public record GetReservationDTO(
         String itemTitle,
         LocalDate startDate,
         LocalDate dueDate,
-        long daysUntilDue
+        long daysUntilDue,
+        Long libraryId
 ) {}

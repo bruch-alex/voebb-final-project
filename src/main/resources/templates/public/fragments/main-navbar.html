@@ -1,48 +1,33 @@
-<nav th:fragment="main-navbar">
+<div th:fragment="main-navbar">
   <!-- Nav bar-->
   <div class="navbar navbar-expand-lg navbar-dark bg-primary px-3">
-    <a class="navbar-brand fw-bold" href="/">VÖBB</a>
-    
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
-            aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    
-    <div class="collapse navbar-collapse justify-content-between mt-2 mt-lg-0" id="navbarContent">
-      <!-- Desktop: Left nav -->
-      <ul class="navbar-nav align-items-lg-center">
-        <li class="nav-item d-none d-lg-block">
-          <a href="/libraries" class="nav-link text-light fw-semibold">Libraries</a>
-        </li>
-      </ul>
+    <div class="container-fluid">
+      <a class="navbar-brand fw-bold" href="/">VÖBB</a>
       
-      <!-- Desktop: Right nav -->
-      <div class="d-none d-lg-flex align-items-center">
-        <button id="themeToggle" class="btn btn-icon text-light text-decoration-none ms-3 d-flex align-items-center justify-content-center" aria-label="Toggle theme">
-          <i id="themeIcon" class="bi bi-circle-half"></i>
-        </button>
-        
-        <div th:replace="~{public/fragments/_login-modal :: login-dropdown}"></div>
-      </div>
+      <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+              aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
       
-      <!-- Mobile: buttons -->
-      <div class="d-lg-none w-100 px-3 py-2">
-        <div class="d-flex flex-column gap-2">
-          
-          <a href="/libraries"
-             class="text-start text-light d-flex align-items-center gap-2 px-3 text-decoration-none">
-            <i class="bi bi-buildings"></i>
-            <span>Libraries</span>
-          </a>
-          
-          <button id="themeToggleMobile"
-                  class="btn btn-link text-start text-light d-flex align-items-center gap-2 px-3 text-decoration-none">
-            <i id="themeIconMobile" class="bi bi-circle-half"></i> Theme
-          </button>
-          
-          <div th:replace="~{public/fragments/_login-modal :: login-dropdown}"></div>
+      <div class="collapse navbar-collapse justify-content-between mt-2 mt-lg-0" id="navbarContent" style="">
+        <!-- Left nav -->
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a href="/libraries" class="nav-link text-light fw-semibold">Libraries</a>
+          </li>
+        </ul>
         
-        </div>
+        <!-- Right nav -->
+        <ul class="navbar-nav ms-md-auto">
+          <li class="nav-item">
+            <a id="themeToggle" class="nav-link d-flex text-light text-decoration-none pl-0 align-items-center" aria-label="Toggle theme" href="#">
+              <i id="themeIcon" class="bi text-white fs-5"></i>
+              <span class="ms-2 fw-semibold d-lg-none">Toggle theme</span>
+            </a>
+          </li>
+          
+          <li th:replace="~{public/fragments/_login-modal :: login-dropdown}"></li>
+        </ul>
       </div>
     </div>
   </div>
@@ -51,8 +36,9 @@
   <div class="search-row">
     <div class="container-fluid">
       <div class="container">
-        <form class="row g-3 align-items-end" id="searchForm" method="POST" th:action="@{/search}"
-              th:object="${productFilters}">
+        <form class="row g-3 align-items-end" id="searchForm" method="GET" th:action="@{/search}"
+              th:object="${productFilters}"
+              onsubmit="return cleanForm(this)">
           
           <input id="creatorHidden" th:field="*{author}" type="hidden">
           <input id="productTypeHidden" th:field="*{productType}" type="hidden">
@@ -68,9 +54,9 @@
             <label class="form-label search-label" for="librarySelect">Library</label>
             <select class="form-select" id="librarySelect" th:field="*{libraryId}">
               <option value="">All Libraries</option>
-              <option th:each="library : ${libraries}"
-                      th:text="${library.name}"
-                      th:value="${library.id}">
+              <option th:each="entry : ${libraries}"
+                      th:text="${entry.value}"
+                      th:value="${entry.key}">
               </option>
             </select>
           </div>
@@ -89,4 +75,4 @@
       </div>
     </div>
   </div>
-</nav>
+</div>

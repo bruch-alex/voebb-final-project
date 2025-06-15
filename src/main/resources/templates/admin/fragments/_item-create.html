@@ -170,9 +170,9 @@
                                     <label class="form-label">Library</label>
                                     <select class="form-select" name="libraryId" required>
                                         <option value="" disabled selected>-- Select library --</option>
-                                        <option th:each="lib : ${libraries}"
-                                                th:value="${lib.id}"
-                                                th:text="${lib.name}"></option>
+                                        <option th:each="entry : ${libraries}"
+                                                th:value="${entry.key}"
+                                                th:text="${entry.value}"></option>
                                     </select>
                                 </div>
                                 

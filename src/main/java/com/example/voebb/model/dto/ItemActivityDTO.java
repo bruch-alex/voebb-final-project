@@ -23,4 +23,6 @@ public class ItemActivityDTO {
     private LocalDate dueDate;
 
     private Boolean expiresSoon;
+
+    private Long libraryId;
 }

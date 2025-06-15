@@ -25,7 +25,8 @@ public interface ReservationRepo extends JpaRepository<Reservation, Long> {
                     p.title,
                     r.startDate,
                     r.dueDate,
-                    0L                  )
+                    0L,
+                    l.id)
                 FROM Reservation r
                 JOIN r.customUser u
                 JOIN r.item i

@@ -4,53 +4,50 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{public/public-layout}">
 <head>
-    <meta charset="UTF-8">
-    <title>VÖBB | Library Info</title>
+  <meta charset="UTF-8">
+  <title>VÖBB | Library Info</title>
 </head>
 <body>
 
 <main layout:fragment="content">
-    <!-- General Product Info -->
-    <div class="container mt-4">
-        <h4>Library info</h4>
-        <p th:text="'Name: ' + ${editLibraryDTO.name}"></p>
-        <p th:text="'Id: ' + ${editLibraryDTO.id}"></p>
-        <p th:text="'Type: ' + ${editLibraryDTO.description}"></p>
-    </div>
-
-    <!-- Address section -->
-    <div class="container mt-4">
-        <div class="card shadow">
-            <div class="card-header bg-primary text-white">
-                <h5 class="mb-0">Library Address Information</h5>
-            </div>
-            <div class="card-body">
-                <dl class="row">
-                    <dt class="col-sm-3">Postcode:</dt>
-                    <dd class="col-sm-9" th:text="${editLibraryDTO.postcode}">12345</dd>
-
-                    <dt class="col-sm-3">City:</dt>
-                    <dd class="col-sm-9" th:text="${editLibraryDTO.city}">Berlin</dd>
-
-                    <dt class="col-sm-3">District:</dt>
-                    <dd class="col-sm-9" th:text="${editLibraryDTO.district}">Mitte</dd>
-
-                    <dt class="col-sm-3">Street:</dt>
-                    <dd class="col-sm-9" th:text="${editLibraryDTO.street}">Alexanderplatz</dd>
-
-                    <dt class="col-sm-3">House Number:</dt>
-                    <dd class="col-sm-9" th:text="${editLibraryDTO.houseNumber}">5A</dd>
-
-                    <dt class="col-sm-3">OpenStreetMap:</dt>
-                    <dd class="col-sm-9">
-                        <a th:href="${editLibraryDTO.osmLink}" target="_blank" th:text="${editLibraryDTO.osmLink}">View
-                            on OSM</a>
-                    </dd>
-                </dl>
-            </div>
-
+  
+  <div class="container my-4">
+    <div class="card border shadow-sm mb-4">
+      <div class="card-header d-flex justify-content-between align-items-center flex-wrap">
+        <strong th:text="${editLibraryDTO.name}"></strong>
+        <div class="d-flex gap-2 mt-2 mt-md-0">
+          <a th:href="${editLibraryDTO.osmLink}">View on map</a>
         </div>
+      </div>
+      
+      <div class="card-body row g-3">
+        <p th:text="${editLibraryDTO.description}"></p>
+        
+        <div class="container py-4">
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <h5>Adress</h5>
+              <p class="mb-1" th:text="'District: ' + ${editLibraryDTO.district}">District</p>
+              <p class="mb-1" th:text="${editLibraryDTO.street} + ' ' + ${editLibraryDTO.houseNumber}">Musterstraße 12</p>
+              <p class="mb-1" th:text="${editLibraryDTO.postcode} + ' ' + ${editLibraryDTO.city}">12345 Musterstadt</p>
+              <p class="mb-1">Telefon: <a href="tel:+49-123-4567890">+49 123 4567890</a></p>
+              <p class="mb-1">E-Mail: <a href="mailto:contact@library-example.de">contact@library-example.de</a></p>
+            </div>
+            
+            <div class="col-md-6">
+              <h5>Hours</h5>
+              <ul class="list-unstyled mb-0">
+                <li><strong>Monday – Friday:</strong> 09:00 – 18:00</li>
+                <li><strong>Saturday:</strong> 10:00 – 14:00 Uhr</li>
+                <li><strong>Sunday:</strong> Closed</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
+  
 </main>
 </body>
 </html>

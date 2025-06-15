@@ -160,6 +160,7 @@ VALUES (1, 'United Kingdom'),
        (16, 'Netherlands'),
        (17, 'Sweden'),
        (18, 'Norway'),
+
        (19, 'Switzerland'),
        (20, 'South Africa'),
        (21, 'Argentina'),
@@ -181,93 +182,66 @@ VALUES (1, 1),
        (1, 2);
 
 -- Libraries ─────────────────────────────────────────────────
-INSERT INTO libraries (library_id, library_name, library_description, address_city, address_district, address_postcode,
-                       address_street, address_house_nr, address_osm_link)
-VALUES (1, 'Zentral- und Landesbibliothek Berlin (ZLB) - Amerika-Gedenkbibliothek', 'One of the main branches of the ZLB, located in Kreuzberg. Offers a vast collection of books and digital media.', 'Berlin', 'Friedrichshain-Kreuzberg', '10969', 'Blücherplatz', '1', 'https://www.openstreetmap.org/?mlat=52.5000&mlon=13.4300#map=16/52.5000/13.4300'),
-       (2, 'Zentral- und Landesbibliothek Berlin (ZLB) - Berliner Stadtbibliothek', 'The central city library located in Mitte, featuring extensive archives and modern facilities.', 'Berlin', 'Mitte', '10178', 'Breite Straße', '30-36', 'https://www.openstreetmap.org/?mlat=52.5170&mlon=13.3900#map=16/52.5170/13.3900'),
-       (3, 'Bezirkszentralbibliothek Friedrichshain-Kreuzberg', 'Main district library in Friedrichshain-Kreuzberg offering a wide range of literature and community programs.', 'Berlin', 'Friedrichshain-Kreuzberg', '10243', 'Frankfurter Allee', '149', 'https://www.openstreetmap.org/?mlat=52.5100&mlon=13.4500#map=16/52.5100/13.4500'),
-       (4, 'Bezirkszentralbibliothek Pankow', 'Central library for the Pankow district, providing books, multimedia, and educational workshops.', 'Berlin', 'Pankow', '13189', 'Wollankstraße', '17', 'https://www.openstreetmap.org/?mlat=52.5700&mlon=13.4200#map=16/52.5700/13.4200'),
-       (5, 'Bezirkszentralbibliothek Neukölln', 'Neukölln district library with extensive resources, reading areas, and digital services.', 'Berlin', 'Neukölln', '12043', 'Karl-Marx-Straße', '66', 'https://www.openstreetmap.org/?mlat=52.4800&mlon=13.4300#map=16/52.4800/13.4300'),
-       (6, 'Bezirkszentralbibliothek Charlottenburg-Wilmersdorf', 'Library serving the Charlottenburg-Wilmersdorf district with a diverse collection and cultural events.', 'Berlin', 'Charlottenburg-Wilmersdorf', '10585', 'Schloßstraße', '48', 'https://www.openstreetmap.org/?mlat=52.5000&mlon=13.2900#map=16/52.5000/13.2900'),
-       (7, 'Bezirkszentralbibliothek Treptow-Köpenick', 'Main district library in Treptow-Köpenick, offering books, media, and community engagement activities.', 'Berlin', 'Treptow-Köpenick', '12435', 'Neue Krugallee', '12', 'https://www.openstreetmap.org/?mlat=52.4600&mlon=13.5600#map=16/52.4600/13.5600'),
-       (8, 'Bezirkszentralbibliothek Tempelhof-Schöneberg', 'Library in Tempelhof-Schöneberg providing diverse literature and multimedia collections for all ages.', 'Berlin', 'Tempelhof-Schöneberg', '10829', 'Friedenau', '3', 'https://www.openstreetmap.org/?mlat=52.4800&mlon=13.3500#map=16/52.4800/13.3500'),
-       (9, 'Bezirkszentralbibliothek Lichtenberg', 'Lichtenberg’s central library with a broad collection of books and digital media, plus local history resources.', 'Berlin', 'Lichtenberg', '10317', 'Möllendorffstraße', '10', 'https://www.openstreetmap.org/?mlat=52.5200&mlon=13.5100#map=16/52.5200/13.5100'),
-       (10, 'Bezirkszentralbibliothek Marzahn-Hellersdorf', 'Main district library serving Marzahn-Hellersdorf with extensive educational and cultural resources.', 'Berlin', 'Marzahn-Hellersdorf', '12679', 'Allee der Kosmonauten', '23', 'https://www.openstreetmap.org/?mlat=52.5600&mlon=13.5900#map=16/52.5600/13.5900'),
-       (11, 'Bezirkszentralbibliothek Reinickendorf', 'Reinickendorf district library offering a wide variety of books, events, and digital resources.', 'Berlin', 'Reinickendorf', '13407', 'Residenzstraße', '56', 'https://www.openstreetmap.org/?mlat=52.5800&mlon=13.3200#map=16/52.5800/13.3200'),
-       (12, 'Bibliothek Mitte', 'Community library located in the heart of Mitte, Berlin, featuring cultural programs and extensive collections.', 'Berlin', 'Mitte', '10115', 'Invalidenstraße', '116', 'https://www.openstreetmap.org/?mlat=52.5300&mlon=13.3800#map=16/52.5300/13.3800'),
-       (13, 'Bibliothek Prenzlauer Berg', 'Popular neighborhood library in Prenzlauer Berg offering a cozy reading environment and events.', 'Berlin', 'Pankow', '10405', 'Schönhauser Allee', '10', 'https://www.openstreetmap.org/?mlat=52.5400&mlon=13.4200#map=16/52.5400/13.4200'),
-       (14, 'Bibliothek Köpenick', 'Local library in Köpenick providing access to books, media, and community services.', 'Berlin', 'Treptow-Köpenick', '12555', 'Alt-Köpenick', '30', 'https://www.openstreetmap.org/?mlat=52.4600&mlon=13.6100#map=16/52.4600/13.6100'),
-       (15, 'Bibliothek Schöneberg', 'Library serving the Schöneberg area, focused on educational resources and community outreach.', 'Berlin', 'Tempelhof-Schöneberg', '10827', 'Grunewaldstraße', '5', 'https://www.openstreetmap.org/?mlat=52.4700&mlon=13.3400#map=16/52.4700/13.3400'),
-       (16, 'Bibliothek Wilmersdorf', 'Wilmersdorf neighborhood library with a rich collection of literature and multimedia resources.', 'Berlin', 'Charlottenburg-Wilmersdorf', '10715', 'Frankfurter Allee', '99', 'https://www.openstreetmap.org/?mlat=52.5100&mlon=13.3200#map=16/52.5100/13.3200'),
-       (17, 'Bibliothek Neukölln', 'Neighborhood library in Neukölln offering diverse collections and community-focused events.', 'Berlin', 'Neukölln', '12051', 'Hermannstraße', '125', 'https://www.openstreetmap.org/?mlat=52.4800&mlon=13.4300#map=16/52.4800/13.4300'),
-       (18, 'Bibliothek Tempelhof', 'Tempelhof district library providing a variety of reading materials and digital access.', 'Berlin', 'Tempelhof-Schöneberg', '12101', 'Tempelhofer Damm', '14', 'https://www.openstreetmap.org/?mlat=52.4700&mlon=13.4000#map=16/52.4700/13.4000'),
-       (19, 'Bibliothek Lichtenberg', 'Library in Lichtenberg district focused on providing local history materials and general collections.', 'Berlin', 'Lichtenberg', '10365', 'Frankfurter Allee', '232', 'https://www.openstreetmap.org/?mlat=52.5100&mlon=13.5200#map=16/52.5100/13.5200'),
-       (20, 'Bibliothek Friedrichshain', 'Friedrichshain library offering extensive resources for education and entertainment.', 'Berlin', 'Friedrichshain-Kreuzberg', '10247', 'Boxhagener Straße', '60', 'https://www.openstreetmap.org/?mlat=52.5100&mlon=13.4600#map=16/52.5100/13.4600'),
-       (21, 'Bibliothek Reinickendorf','Reinickendorf library focused on children’s books and community programs.','Berlin', 'Reinickendorf', '13403', 'Oranienburger Straße', '20', 'https://www.openstreetmap.org/?mlat=52.6000&mlon=13.3200#map=16/52.6000/13.3200'),
-       (22, 'Bibliothek Marzahn', 'Marzahn district library providing educational programs and diverse media.', 'Berlin', 'Marzahn-Hellersdorf', '12679', 'Alice-Salomon-Platz', '4', 'https://www.openstreetmap.org/?mlat=52.5600&mlon=13.5800#map=16/52.5600/13.5800'),
-       (23, 'Bibliothek Charlottenburg', 'Library in Charlottenburg district offering a wide range of literature and digital collections.', 'Berlin', 'Charlottenburg-Wilmersdorf', '10585', 'Schloßstraße', '1', 'https://www.openstreetmap.org/?mlat=52.5000&mlon=13.2900#map=16/52.5000/13.2900'),
-       (24, 'Bibliothek Köpenick Nord', 'Northern Köpenick branch with a focus on local culture and community engagement.', 'Berlin', 'Treptow-Köpenick', '12555', 'Kietzer Straße', '23', 'https://www.openstreetmap.org/?mlat=52.4700&mlon=13.6000#map=16/52.4700/13.6000'),
-       (25, 'Bibliothek Pankow Nord', 'Northern Pankow branch focused on family programs and diverse media.', 'Berlin', 'Pankow', '13187', 'Schönhauser Allee', '175', 'https://www.openstreetmap.org/?mlat=52.5500&mlon=13.4300#map=16/52.5500/13.4300'),
-       (26, 'Bibliothek Friedrichshain Nord', 'Northern Friedrichshain branch providing local literature and multimedia resources.', 'Berlin', 'Friedrichshain-Kreuzberg', '10249', 'Landsberger Allee', '15', 'https://www.openstreetmap.org/?mlat=52.5200&mlon=13.4600#map=16/52.5200/13.4600'),
-       (27, 'Bibliothek Mitte Süd', 'South Mitte branch offering books, media, and educational activities.', 'Berlin', 'Mitte', '10179', 'Leipziger Straße', '57', 'https://www.openstreetmap.org/?mlat=52.5100&mlon=13.3900#map=16/52.5100/13.3900'),
-       (28, 'Bibliothek Schöneberg Süd', 'South Schöneberg branch with a wide range of books and community events.', 'Berlin', 'Tempelhof-Schöneberg', '10827', 'Dominicusstraße', '4', 'https://www.openstreetmap.org/?mlat=52.4700&mlon=13.3500#map=16/52.4700/13.3500'),
-       (29, 'Bibliothek Neukölln Nord', 'Northern Neukölln branch offering community programs and a broad selection of books.', 'Berlin', 'Neukölln', '12053', 'Karl-Marx-Straße', '150', 'https://www.openstreetmap.org/?mlat=52.4900&mlon=13.4300#map=16/52.4900/13.4300'),
-       (30, 'Bibliothek Treptow Nord', 'Northern Treptow library focusing on digital media and community engagement.', 'Berlin', 'Treptow-Köpenick', '12439', 'Neue Krugallee', '40', 'https://www.openstreetmap.org/?mlat=52.4700&mlon=13.5600#map=16/52.4700/13.5600'),
-       (31, 'Bibliothek Tempelhof Nord', 'Northern Tempelhof branch with a comprehensive selection of literature and media.', 'Berlin', 'Tempelhof-Schöneberg', '12101', 'Holzmarktstraße', '7', 'https://www.openstreetmap.org/?mlat=52.4700&mlon=13.3900#map=16/52.4700/13.3900'),
-       (32, 'Bibliothek Lichtenberg Nord', 'Northern Lichtenberg library offering extensive children’s books and study spaces.', 'Berlin', 'Lichtenberg', '10367', 'Roedernallee', '6', 'https://www.openstreetmap.org/?mlat=52.5200&mlon=13.5200#map=16/52.5200/13.5200'),
-       (33, 'Bibliothek Marzahn Nord', 'Northern Marzahn branch focused on community events and educational resources.', 'Berlin', 'Marzahn-Hellersdorf', '12685', 'Hellersdorfer Straße', '12', 'https://www.openstreetmap.org/?mlat=52.5700&mlon=13.5900#map=16/52.5700/13.5900'),
-       (34, 'Bibliothek Charlottenburg Nord', 'Northern Charlottenburg library with a strong focus on digital access and modern literature.', 'Berlin', 'Charlottenburg-Wilmersdorf', '14059', 'Wilhelmstraße', '50', 'https://www.openstreetmap.org/?mlat=52.5100&mlon=13.2900#map=16/52.5100/13.2900'),
-       (35, 'Bibliothek Wilmersdorf Nord', 'Northern Wilmersdorf branch offering a variety of collections and community programs.', 'Berlin', 'Charlottenburg-Wilmersdorf', '10715', 'Bismarckstraße', '60', 'https://www.openstreetmap.org/?mlat=52.5200&mlon=13.3100#map=16/52.5200/13.3100'),
-       (36, 'Bibliothek Friedenau Nord', 'Northern Friedenau library with a wide selection of books and local history materials.', 'Berlin', 'Tempelhof-Schöneberg', '12159', 'Bundesallee', '110', 'https://www.openstreetmap.org/?mlat=52.4600&mlon=13.3500#map=16/52.4600/13.3500'),
-       (37, 'Bibliothek Schöneberg West', 'Western Schöneberg branch offering diverse educational materials and multimedia.', 'Berlin', 'Tempelhof-Schöneberg', '10827', 'Dominicusstraße', '6', 'https://www.openstreetmap.org/?mlat=52.4700&mlon=13.3500#map=16/52.4700/13.3500'),
-       (38, 'Bibliothek Mitte West', 'Western Mitte branch focused on historical collections and digital resources.', 'Berlin', 'Mitte', '10179', 'Leipziger Platz', '10', 'https://www.openstreetmap.org/?mlat=52.5100&mlon=13.3900#map=16/52.5100/13.3900'),
-       (39, 'Bibliothek Friedrichshain West', 'Western Friedrichshain branch with extensive literary and digital offerings.', 'Berlin', 'Friedrichshain-Kreuzberg', '10249', 'Boxhagener Platz', '5', 'https://www.openstreetmap.org/?mlat=52.5100&mlon=13.4600#map=16/52.5100/13.4600'),
-       (40, 'Bibliothek Pankow West', 'Western Pankow library offering community-focused events and varied collections.', 'Berlin', 'Pankow', '13187', 'Schönhauser Allee', '180', 'https://www.openstreetmap.org/?mlat=52.5500&mlon=13.4300#map=16/52.5500/13.4300'),
-       (41, 'Bibliothek Neukölln West', 'Western Neukölln branch with focus on youth programs and digital media.', 'Berlin', 'Neukölln', '12053', 'Karl-Marx-Straße', '160', 'https://www.openstreetmap.org/?mlat=52.4900&mlon=13.4300#map=16/52.4900/13.4300'),
-       (42, 'Bibliothek Reinickendorf West','Western Reinickendorf library offering quiet study spaces and community resources.','Berlin', 'Reinickendorf', '13409', 'Oranienburger Straße', '40', 'https://www.openstreetmap.org/?mlat=52.6000&mlon=13.3200#map=16/52.6000/13.3200'),
-       (43, 'Bibliothek Hohenschönhausen', 'Local library in Hohenschönhausen with a variety of books and digital media.', 'Berlin', 'Lichtenberg', '13057', 'Wartenberger Straße', '70', 'https://www.openstreetmap.org/?mlat=52.5700&mlon=13.5300#map=16/52.5700/13.5300'),
-       (44, 'Bibliothek Friedrichshagen', 'Local library in Friedrichshagen, offering a peaceful reading environment and community programs.', 'Berlin', 'Treptow-Köpenick', '12587', 'Rahnsdorfer Straße', '3', 'https://www.openstreetmap.org/?mlat=52.4800&mlon=13.6300#map=16/52.4800/13.6300'),
-       (45, 'Bibliothek Alt-Treptow', 'Neighborhood library in Alt-Treptow with a broad selection of literature and digital offerings.', 'Berlin', 'Friedrichshain-Kreuzberg', '12435', 'Plesser Straße', '14', 'https://www.openstreetmap.org/?mlat=52.4600&mlon=13.5600#map=16/52.4600/13.5600'),
-       (46, 'Bibliothek Wedding', 'Wedding district library providing diverse collections and community programs.', 'Berlin', 'Mitte', '13347', 'Rehberge', '20', 'https://www.openstreetmap.org/?mlat=52.5500&mlon=13.3500#map=16/52.5500/13.3500'),
-       (47, 'Bibliothek Spandau', 'Spandau district library with extensive resources and cultural events.', 'Berlin', 'Spandau', '13597', 'Carl-Schurz-Straße', '30', 'https://www.openstreetmap.org/?mlat=52.5400&mlon=13.2000#map=16/52.5400/13.2000'),
-       (48, 'Bibliothek Reinickendorf Nord', 'Northern Reinickendorf branch focusing on educational resources and community services.', 'Berlin', 'Reinickendorf', '13405', 'Residenzstraße', '75', 'https://www.openstreetmap.org/?mlat=52.5800&mlon=13.3200#map=16/52.5800/13.3200'),
-       (49, 'Bibliothek Rudow', 'Rudow neighborhood library offering a comprehensive collection and community events.', 'Berlin', 'Neukölln', '12357', 'Johannisthaler Chaussee', '200', 'https://www.openstreetmap.org/?mlat=52.4300&mlon=13.4400#map=16/52.4300/13.4400'),
-       (50, 'Bibliothek Lankwitz', 'Lankwitz branch with a diverse selection of books and digital media.', 'Berlin', 'Steglitz-Zehlendorf', '12247', 'Lankwitzer Straße', '14', 'https://www.openstreetmap.org/?mlat=52.4500&mlon=13.3200#map=16/52.4500/13.3200'),
-       (51, 'Bibliothek Zehlendorf Süd', 'Southern Zehlendorf branch offering a peaceful atmosphere with extensive collections in various media formats.', 'Berlin', 'Steglitz-Zehlendorf', '14163', 'Clayallee', '200', 'https://www.openstreetmap.org/?mlat=52.4400&mlon=13.2600#map=16/52.4400/13.2600'),
-       (52, 'Bibliothek Steglitz West', 'West Steglitz library providing a wide range of literature, digital resources, and community programs.', 'Berlin', 'Steglitz-Zehlendorf', '12165', 'Schloßstraße', '55', 'https://www.openstreetmap.org/?mlat=52.4500&mlon=13.2800#map=16/52.4500/13.2800'),
-       (53, 'Bibliothek Tempelhof West', 'Western Tempelhof branch known for its rich collection of fiction and non-fiction books.', 'Berlin', 'Tempelhof-Schöneberg', '12101', 'Friedrich-Wilhelm-Straße', '15', 'https://www.openstreetmap.org/?mlat=52.4700&mlon=13.3700#map=16/52.4700/13.3700'),
-       (54, 'Bibliothek Treptow West', 'Western Treptow library focusing on local history and educational workshops.', 'Berlin', 'Treptow-Köpenick', '12435', 'Alt-Treptow', '7', 'https://www.openstreetmap.org/?mlat=52.4600&mlon=13.5500#map=16/52.4600/13.5500'),
-       (55, 'Bibliothek Neukölln Süd', 'Southern Neukölln branch offering a broad selection of books and multimedia for all ages.', 'Berlin', 'Neukölln', '12057', 'Rudower Straße', '50', 'https://www.openstreetmap.org/?mlat=52.4700&mlon=13.4500#map=16/52.4700/13.4500'),
-       (56, 'Bibliothek Kreuzberg Süd', 'Southern Kreuzberg library with a vibrant cultural program and multilingual collections.','Berlin', 'Friedrichshain-Kreuzberg', '10997', 'Adalbertstraße', '20', 'https://www.openstreetmap.org/?mlat=52.5000&mlon=13.4200#map=16/52.5000/13.4200'),
-       (57, 'Bibliothek Lichtenberg Süd ','Southern Lichtenberg branch providing community services and a large children’s section. ','Berlin', 'Lichtenberg', '10365', 'Frankfurter Allee', '123', 'https://www.openstreetmap.org/?mlat=52.5100&mlon=13.5200#map=16/52.5100/13.5200' ),
-       (58, 'Bibliothek Hellersdorf Süd ','Southern Hellersdorf library offering modern media and quiet reading rooms.','Berlin', 'Marzahn-Hellersdorf', '12629', 'Hellersdorfer Straße', '44', 'https://www.openstreetmap.org/?mlat=52.5600&mlon=13.6200#map=16/52.5600/13.6200' ),
-       (59, 'Bibliothek Reinickendorf Süd','Southern Reinickendorf branch focused on youth programs and digital collections.','Berlin', 'Reinickendorf', '13409', 'Residenzstraße', '12', 'https://www.openstreetmap.org/?mlat=52.5900&mlon=13.3100#map=16/52.5900/13.3100' ),
-       (60, 'Bibliothek Spandau Süd','Southern Spandau library offering a comprehensive selection of media and cultural events.','Berlin', 'Spandau', '13585', 'Altstadt Spandau', '38', 'https://www.openstreetmap.org/?mlat=52.5400&mlon=13.1900#map=16/52.5400/13.1900' ),
-       (61, 'Bibliothek Pankow Süd','Southern Pankow branch with a focus on educational support and multimedia collections.','Berlin', 'Pankow', '13187', 'Fröbelstraße', '8', 'https://www.openstreetmap.org/?mlat=52.5400&mlon=13.4200#map=16/52.5400/13.4200' ),
-       (62, 'Bibliothek Wedding Süd','Southern Wedding library providing various learning materials and community programs.','Berlin', 'Mitte', '13347', 'Seestraße', '45', 'https://www.openstreetmap.org/?mlat=52.5500&mlon=13.3500#map=16/52.5500/13.3500' ),
-       (63, 'Bibliothek Friedrichshain Süd','Southern Friedrichshain branch featuring modern media and community workshops.','Berlin', 'Friedrichshain-Kreuzberg', '10245', 'Samariterstraße', '12', 'https://www.openstreetmap.org/?mlat=52.5100&mlon=13.4600#map=16/52.5100/13.4600' ),
-       (64, 'Bibliothek Schöneberg Ost','Eastern Schöneberg branch with a focus on local history and cultural events.','Berlin', 'Tempelhof-Schöneberg', '10827', 'Akazienstraße', '19', 'https://www.openstreetmap.org/?mlat=52.4700&mlon=13.3500#map=16/52.4700/13.3500' ),
-       (65, 'Bibliothek Charlottenburg Ost','Eastern Charlottenburg library offering a wide range of literature and digital media.','Berlin', 'Charlottenburg-Wilmersdorf', '10585', 'Kantstraße', '50', 'https://www.openstreetmap.org/?mlat=52.5000&mlon=13.3000#map=16/52.5000/13.3000' ),
-       (66, 'Bibliothek Marzahn Ost','Eastern Marzahn branch focused on family-friendly services and community engagement.','Berlin', 'Marzahn-Hellersdorf', '12679', 'Allee der Kosmonauten', '15', 'https://www.openstreetmap.org/?mlat=52.5700&mlon=13.6100#map=16/52.5700/13.6100' ),
-       (67, 'Bibliothek Neukölln Ost','Eastern Neukölln library offering multilingual collections and cultural programs.','Berlin', 'Neukölln', '12051', 'Karl-Marx-Straße', '105', 'https://www.openstreetmap.org/?mlat=52.4900&mlon=13.4300#map=16/52.4900/13.4300' ),
-       (68, 'Bibliothek Treptow Ost','Eastern Treptow library providing access to educational resources and digital media.','Berlin', 'Treptow-Köpenick', '12435', 'Neue Krugallee', '70', 'https://www.openstreetmap.org/?mlat=52.4700&mlon=13.5600#map=16/52.4700/13.5600' ),
-       (69, 'Bibliothek Tempelhof Ost','Eastern Tempelhof branch with a broad collection of literature and community activities.','Berlin', 'Tempelhof-Schöneberg', '12101', 'Tempelhofer Damm', '44', 'https://www.openstreetmap.org/?mlat=52.4700&mlon=13.3900#map=16/52.4700/13.3900' ),
-       (70, 'Bibliothek Lichtenberg Ost','Eastern Lichtenberg library focused on children’s literature and local history.','Berlin', 'Lichtenberg', '10367', 'Roedernallee', '22', 'https://www.openstreetmap.org/?mlat=52.5200&mlon=13.5200#map=16/52.5200/13.5200' ),
-       (71, 'Bibliothek Hohenschönhausen Ost','Eastern Hohenschönhausen branch offering diverse media collections and study spaces.','Berlin', 'Lichtenberg', '13057', 'Wartenberger Straße', '80', 'https://www.openstreetmap.org/?mlat=52.5700&mlon=13.5300#map=16/52.5700/13.5300' ),
-       (72, 'Bibliothek Friedrichshagen Ost','Eastern Friedrichshagen library with a focus on peaceful reading areas and community programs.','Berlin', 'Treptow-Köpenick', '12587', 'Rahnsdorfer Straße', '8', 'https://www.openstreetmap.org/?mlat=52.4800&mlon=13.6300#map=16/52.4800/13.6300' ),
-       (73, 'Bibliothek Alt-Treptow Ost','Eastern Alt-Treptow library providing a rich selection of books and digital media.','Berlin', 'Friedrichshain-Kreuzberg', '12435', 'Plesser Straße', '22', 'https://www.openstreetmap.org/?mlat=52.4600&mlon=13.5600#map=16/52.4600/13.5600' ),
-       (74, 'Bibliothek Wedding Ost','Eastern Wedding library with community-oriented programs and diverse media collections.','Berlin', 'Mitte', '13347', 'Rehberge', '25', 'https://www.openstreetmap.org/?mlat=52.5500&mlon=13.3500#map=16/52.5500/13.3500' ),
-       (75, 'Bibliothek Spandau Ost','Eastern Spandau library focused on cultural events and educational resources.','Berlin', 'Spandau', '13597', 'Carl-Schurz-Straße', '42', 'https://www.openstreetmap.org/?mlat=52.5400&mlon=13.2000#map=16/52.5400/13.2000' ),
-       (76, 'Bibliothek Reinickendorf Nord Ost','Northern Reinickendorf branch specializing in community education and digital access.','Berlin', 'Reinickendorf', '13405', 'Residenzstraße', '78', 'https://www.openstreetmap.org/?mlat=52.5800&mlon=13.3200#map=16/52.5800/13.3200' ),
-       (77, 'Bibliothek Rudow Ost','Rudow neighborhood library with a wide array of books, media, and community events.','Berlin', 'Neukölln', '12357', 'Johannisthaler Chaussee', '210', 'https://www.openstreetmap.org/?mlat=52.4300&mlon=13.4400#map=16/52.4300/13.4400' ),
-       (78, 'Bibliothek Lankwitz Ost','Lankwitz branch known for its welcoming atmosphere and diverse media collection.','Berlin', 'Steglitz-Zehlendorf', '12247', 'Lankwitzer Straße', '18', 'https://www.openstreetmap.org/?mlat=52.4500&mlon=13.3200#map=16/52.4500/13.3200' ),
-       (79, 'Bibliothek Wilmersdorf Nord','Northern Wilmersdorf library offering a wide selection of literature and digital media.','Berlin', 'Charlottenburg-Wilmersdorf', '10715', 'Berliner Straße', '48', 'https://www.openstreetmap.org/?mlat=52.4900&mlon=13.2900#map=16/52.4900/13.2900' ),
-       (80, 'Bibliothek Neukölln Nord','Northern Neukölln branch focused on youth programs and community engagement.','Berlin', 'Neukölln', '12051', 'Neuköllner Straße', '33', 'https://www.openstreetmap.org/?mlat=52.4900&mlon=13.4300#map=16/52.4900/13.4300' ),
-       (81, 'Bibliothek Mitte Nord','Northern Mitte library with a broad range of books and cultural activities.','Berlin', 'Mitte', '10115', 'Alexanderplatz', '7', 'https://www.openstreetmap.org/?mlat=52.5200&mlon=13.4050#map=16/52.5200/13.4050' ),
-       (82, 'Bibliothek Friedrichshain Nord','Northern Friedrichshain library providing community workshops and diverse media.','Berlin', 'Friedrichshain-Kreuzberg', '10243', 'Boxhagener Straße', '25', 'https://www.openstreetmap.org/?mlat=52.5100&mlon=13.4500#map=16/52.5100/13.4500' ),
-       (83, 'Bibliothek Treptow Nord','Northern Treptow library offering educational resources and quiet study areas.','Berlin', 'Treptow-Köpenick', '12435', 'Sternstraße', '40', 'https://www.openstreetmap.org/?mlat=52.4700&mlon=13.5400#map=16/52.4700/13.5400' ),
-       (84, 'Bibliothek Zehlendorf Nord','Northern Zehlendorf branch focused on literature for all ages and community events.','Berlin', 'Steglitz-Zehlendorf', '14163', 'Argentinische Allee', '35', 'https://www.openstreetmap.org/?mlat=52.4400&mlon=13.2700#map=16/52.4400/13.2700')
+INSERT INTO libraries (
+    library_id,
+    address_district,
+    library_name,
+    library_description,
+    address_city,
+    address_postcode,
+    address_street,
+    address_house_nr,
+    address_osm_link
+) VALUES
+-- Mitte
+(1, 'Mitte', 'Zentral- und Landesbibliothek Berlin', NULL, 'Berlin', '10178', 'Breite Str.', '30-36', 'https://www.openstreetmap.org/?mlat=52.517&mlon=13.401'),
+(2, 'Mitte', 'Philipp-Schaeffer-Bibliothek', NULL, 'Berlin', '10119', 'Brunnenstraße', '181', 'https://www.openstreetmap.org/?mlat=52.535&mlon=13.396'),
+
+-- Friedrichshain-Kreuzberg
+(3, 'Friedrichshain-Kreuzberg', 'ZLB – Amerika-Gedenkbibliothek', NULL, 'Berlin', '10961', 'Blücherplatz', '1', 'https://www.openstreetmap.org/?mlat=52.497&mlon=13.390'),
+(4, 'Friedrichshain-Kreuzberg', 'Bezirkszentralbibliothek Frankfurter Allee', NULL, 'Berlin', '10247', 'Frankfurter Allee', '14A', 'https://www.openstreetmap.org/?mlat=52.512&mlon=13.463'),
+
+-- Pankow
+(5, 'Pankow', 'Stadtbibliothek Pankow', NULL, 'Berlin', '13187', 'Breite Str.', '36', 'https://www.openstreetmap.org/?mlat=52.566&mlon=13.411'),
+(6, 'Pankow', 'Bibliothek am Wasserturm', NULL, 'Berlin', '10405', 'Prenzlauer Allee', '227/228', 'https://www.openstreetmap.org/?mlat=52.532&mlon=13.425'),
+
+-- Charlottenburg-Wilmersdorf
+(7, 'Charlottenburg-Wilmersdorf', 'Hauptbibliothek – Dietrich-Bonhoeffer-Bibliothek', NULL, 'Berlin', '10713', 'Brandenburgische Str.', '2', 'https://www.openstreetmap.org/?mlat=52.489&mlon=13.319'),
+(8, 'Charlottenburg-Wilmersdorf', 'Johanna-Moosdorf-Bibliothek', NULL, 'Berlin', '10625', 'Pestalozzistraße', '5-8', 'https://www.openstreetmap.org/?mlat=52.510&mlon=13.305'),
+
+-- Spandau
+(9, 'Spandau', 'Stadtbibliothek Spandau', NULL, 'Berlin', '13597', 'Carl-Schurz-Str.', '13', 'https://www.openstreetmap.org/?mlat=52.536&mlon=13.199'),
+(10, 'Spandau', 'Johannes-Bobrowski-Bibliothek', NULL, 'Berlin', '13581', 'Pausiner Str.', '20', 'https://www.openstreetmap.org/?mlat=52.541&mlon=13.181'),
+
+-- Steglitz-Zehlendorf
+(11, 'Steglitz-Zehlendorf', 'Ingeborg-Drewitz-Bibliothek', NULL, 'Berlin', '12165', 'Grunewaldstr.', '3', 'https://www.openstreetmap.org/?mlat=52.455&mlon=13.323'),
+(12, 'Steglitz-Zehlendorf', 'Gottfried-Benn-Bibliothek', NULL, 'Berlin', '14193', 'Nentershäuser Platz', '1', 'https://www.openstreetmap.org/?mlat=52.483&mlon=13.263'),
+
+-- Tempelhof-Schöneberg
+(13, 'Tempelhof-Schöneberg', 'Thomas-Dehler-Bibliothek', NULL, 'Berlin', '10825', 'Martin-Luther-Straße', '77', 'https://www.openstreetmap.org/?mlat=52.486&mlon=13.351'),
+(14, 'Tempelhof-Schöneberg', 'Bezirkszentralbibliothek Eva-Maria-Buch-Haus', NULL, 'Berlin', '12099', 'Götzstraße', '8–12', 'https://www.openstreetmap.org/?mlat=52.458&mlon=13.387'),
+
+-- Neukölln
+(15, 'Neukölln', 'Helene-Nathan-Bibliothek', NULL, 'Berlin', '12043', 'Karl-Marx-Str.', '66', 'https://www.openstreetmap.org/?mlat=52.482&mlon=13.439'),
+(16, 'Neukölln', 'Stadtteilbibliothek Rudow', NULL, 'Berlin', '12353', 'Zwickauer Damm', '10', 'https://www.openstreetmap.org/?mlat=52.422&mlon=13.493'),
+
+-- Treptow-Köpenick
+(17, 'Treptow-Köpenick', 'Stadtbibliothek Köpenick', NULL, 'Berlin', '12555', 'Alter Markt', '2', 'https://www.openstreetmap.org/?mlat=52.445&mlon=13.578'),
+(18, 'Treptow-Köpenick', 'Stadtteilbibliothek Altglienicke', NULL, 'Berlin', '12524', 'Ortolfstraße', '182–184', 'https://www.openstreetmap.org/?mlat=52.418&mlon=13.515'),
+
+-- Marzahn-Hellersdorf
+(19, 'Marzahn-Hellersdorf', 'Mark-Twain-Bibliothek', NULL, 'Berlin', '12679', 'Marzahner Promenade', '55', 'https://www.openstreetmap.org/?mlat=52.545&mlon=13.566'),
+(20, 'Marzahn-Hellersdorf', 'Stadtteilbibliothek Kaulsdorf', NULL, 'Berlin', '12621', 'Heesestraße', '7', 'https://www.openstreetmap.org/?mlat=52.500&mlon=13.565'),
+
+-- Lichtenberg
+(21, 'Lichtenberg', 'Anna-Seghers-Bibliothek', NULL, 'Berlin', '13051', 'Prerower Platz', '2', 'https://www.openstreetmap.org/?mlat=52.564&mlon=13.510'),
+(22, 'Lichtenberg', 'Bodo-Uhse-Bibliothek', NULL, 'Berlin', '10319', 'Erich-Kurz-Str.', '9', 'https://www.openstreetmap.org/?mlat=52.505&mlon=13.512'),
+
+-- Reinickendorf
+(23, 'Reinickendorf', 'Stadtbibliothek Reinickendorf', NULL, 'Berlin', '13437', 'Eichborndamm', '215', 'https://www.openstreetmap.org/?mlat=52.588&mlon=13.317'),
+(24, 'Reinickendorf', 'Humboldt-Bibliothek', NULL, 'Berlin', '13507', 'Karolinenstraße', '19', 'https://www.openstreetmap.org/?mlat=52.573&mlon=13.293')
 ON CONFLICT (library_id) DO NOTHING;
+
 SELECT SETVAL('libraries_library_id_seq', (SELECT MAX(library_id) FROM libraries));
 
 -- Items

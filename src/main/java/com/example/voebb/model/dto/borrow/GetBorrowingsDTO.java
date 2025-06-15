@@ -13,6 +13,7 @@ public record GetBorrowingsDTO(
         LocalDate dueDate,
         LocalDate returnDate,
         int extendsCount,
-        String borrowStatus  // [note: active , overdue, returned] calculated on-the-fly based on returnDate & dueDate
+        String borrowStatus,  // [note: active , overdue, returned] calculated on-the-fly based on returnDate & dueDate
+        Long libraryId
 ) {
 }

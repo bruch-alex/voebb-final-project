@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @ControllerAdvice
 @RequiredArgsConstructor
@@ -36,8 +38,12 @@ public class WebControllerAdvice {
     }
 
     @ModelAttribute("libraries")
-    public List<LibraryDTO> libraries() {
-        return libraryService.getAllLibraries();
+    public Map<Long, String> libraries() {
+        return libraryService.getAllLibraries().stream()
+                .collect(Collectors.toMap(
+                        LibraryDTO::id,
+                        dto -> dto.district() + ": " + dto.name()
+                ));
     }
 
     @ModelAttribute("librariesDistricts")

@@ -15,8 +15,7 @@ public class LibraryControllerWeb {
     private final LibraryService libraryService;
 
     @GetMapping
-    public String getIndexPage(Model model){
-        model.addAttribute("libraries", libraryService.getAllLibraries());
+    public String getIndexPage(){
         return "public/library/index";
     }
 

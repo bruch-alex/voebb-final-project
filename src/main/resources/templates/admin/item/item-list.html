@@ -79,10 +79,10 @@
           <label for="libraryIdFilter" class="form-label">Library</label>
           <select id="libraryIdFilter" name="libraryId" class="form-select">
             <option value="" th:selected="${itemFilters.libraryId == null}">All Libraries</option>
-            <option th:each="library : ${libraries}"
-                    th:value="${library.id}"
-                    th:text="${library.name}"
-                    th:selected="${library.id == itemFilters.libraryId}">
+            <option th:each="entry : ${libraries}"
+                    th:value="${entry.key}"
+                    th:text="${entry.value}"
+                    th:selected="${entry.key == itemFilters.libraryId}">
             </option>
           </select>
         </div>

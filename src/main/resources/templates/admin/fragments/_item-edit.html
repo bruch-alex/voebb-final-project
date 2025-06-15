@@ -21,7 +21,7 @@
                     <!-- Status Dropdown -->
                     <div class="mb-3">
                         <label for="statusId" class="form-label">Status</label>
-                        <select class="form-select" name="statusId" required>
+                        <select class="form-select" name="statusId" id="statusId" required>
                             <option th:each="status : ${itemStatuses}"
                                     th:value="${status.id}"
                                     th:text="${status.name.toUpperCase()}"
@@ -33,18 +33,18 @@
                     <!-- Library Dropdown -->
                     <div class="mb-3">
                         <label for="libraryId" class="form-label">Library</label>
-                        <select class="form-select" name="libraryId" required>
-                            <option th:each="lib : ${libraries}"
-                                    th:value="${lib.id}"
-                                    th:text="${lib.name}"
-                                    th:selected="${lib.name == item.libraryName}">
+                        <select class="form-select" name="libraryId" id="libraryId" required>
+                            <option th:each="entry : ${libraries}"
+                                    th:value="${entry.key}"
+                                    th:text="${entry.value}"
+                                    th:selected="${entry.value == item.libraryName}">
                             </option>
                         </select>
                     </div>
 
                     <div class="mb-3">
                         <label for="locationNote" class="form-label">Location Note</label>
-                        <textarea class="form-control" name="locationNote" rows="2"
+                        <textarea class="form-control" name="locationNote" id="locationNote" rows="2"
                                   th:text="${item.locationNote}"></textarea>
                     </div>
 

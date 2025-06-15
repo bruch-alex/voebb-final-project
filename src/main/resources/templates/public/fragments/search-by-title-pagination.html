@@ -1,20 +1,54 @@
 <div class="mt-4 d-flex justify-content-center" th:fragment="pagination" th:if="${page.totalPages > 1}">
-  <ul class="pagination">
+  <ul class="pagination justify-content-center small"
+      th:with="baseParams=${#strings.concat(
+          productFilters.author != null && productFilters.author != '' ? 'author=' + productFilters.author + '&' : '',
+          productFilters.productType != null && productFilters.productType != '' ? 'productType=' + productFilters.productType + '&' : '',
+          productFilters.languageId != null ? 'languageId=' + productFilters.languageId + '&' : '',
+          productFilters.countryId != null ? 'countryId=' + productFilters.countryId + '&' : '',
+          productFilters.title != null && productFilters.title != '' ? 'title=' + productFilters.title + '&' : '',
+          productFilters.libraryId != null ? 'libraryId=' + productFilters.libraryId + '&' : ''
+      )}">
+    
+    <!-- Previous button -->
     <li class="page-item" th:classappend="${page.hasPrevious()} ? '' : 'disabled'">
-      <a class="page-link"
-         th:href="@{/search(page=${page.number})}">Previous</a>
+      <a class="page-link" th:href="@{|/search?${baseParams}page=${page.number}|}">Previous</a>
     </li>
-
-    <li class="page-item" th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}"
-        th:classappend="${page.number == i} ? 'active'">
-      <a class="page-link"
-         th:href="@{/search(page=${i + 1})}"
-         th:text="${i + 1}">1</a>
+    
+    <!-- First page -->
+    <li class="page-item" th:classappend="${page.number == 0} ? 'active'">
+      <a class="page-link" th:href="@{|/search?${baseParams}page=1|}">1</a>
     </li>
-
+    
+    <!-- Left ellipsis -->
+    <li class="page-item disabled" th:if="${page.number > 2}">
+      <span class="page-link">…</span>
+    </li>
+    
+    <!-- Pages around current (e.g., current-1, current, current+1) -->
+    <li class="page-item"
+        th:each="i : ${#numbers.sequence(page.number - 1, page.number + 1)}"
+        th:if="${i > 0 && i < page.totalPages - 1}"
+        th:classappend="${i == page.number} ? 'active'">
+      <a class="page-link"
+         th:href="@{|/search?${baseParams}page=${i + 1}|}"
+         th:text="${i + 1}"></a>
+    </li>
+    
+    <!-- Right ellipsis -->
+    <li class="page-item disabled" th:if="${page.number < page.totalPages - 3}">
+      <span class="page-link">…</span>
+    </li>
+    
+    <!-- Last page -->
+    <li class="page-item" th:classappend="${page.number == page.totalPages - 1} ? 'active'">
+      <a class="page-link"
+         th:href="@{|/search?${baseParams}page=${page.totalPages}|}"
+         th:text="${page.totalPages}">Last</a>
+    </li>
+    
+    <!-- Next button -->
     <li class="page-item" th:classappend="${page.hasNext()} ? '' : 'disabled'">
-      <a class="page-link"
-         th:href="@{/search(page=${page.number + 2})}">Next</a>
+      <a class="page-link" th:href="@{|/search?${baseParams}page=${page.number + 2}|}">Next</a>
     </li>
   </ul>
 </div>

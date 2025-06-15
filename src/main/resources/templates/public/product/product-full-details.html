@@ -25,7 +25,7 @@
                    alt="Cover Photo Preview"
                    class="img-fluid"
                    style="max-height: 220px; object-fit: contain;"
-                   th:attr="onerror='this.onerror=null; this.src=\'' + ${productInfoDTO.defaultPhoto} + '\';'" />
+                   th:attr="onerror='this.onerror=null; this.src=\'' + ${productInfoDTO.defaultPhoto} + '\';'"/>
             </div>
           </div>
           
@@ -78,7 +78,7 @@
       <section class="py-2 px-2 mx-3">
         <div class="row gx-4">
           <div class="col-md-6" th:if="${productInfoDTO.countries != null and !productInfoDTO.countries.isEmpty()}">
-          <strong class="small text-muted">Countries</strong>
+            <strong class="small text-muted">Countries</strong>
             <div class="d-flex flex-wrap gap-2 mt-2 ps-4 small">
               <ul class="mb-0">
                 <li th:each="country : ${productInfoDTO.countries}" th:text="${country}"></li>
@@ -100,42 +100,55 @@
   </div>
   
   <!-- Locations section -->
-  <div class="container mt-4" th:if="${locationAndItemStatusDTOs.size() > 0}">
+  <div class="container mt-4 mb-4" th:if="${locationAndItemStatusDTOs.size() > 0}">
     <h4 class="ms-1">Locations</h4>
     <div class="table-responsive border rounded shadow-sm mb-0">
-    <table class="table table-hover">
-      <thead>
-      <tr>
-        <th scope="col">Status</th>
-        <th scope="col">District</th>
-        <th scope="col">Library</th>
-        <th scope="col">Location in library</th>
-        <th scope="col">Actions</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr th:each="locationAndItemStatusDTO : ${locationAndItemStatusDTOs}">
-        <td th:switch="${locationAndItemStatusDTO.itemStatus}">
-          <span th:case="'available'" class="badge bg-success fs-6">Available</span>
-          <span th:case="'borrowed'" class="badge bg-danger fs-6">Borrowed</span>
-          <span th:case="'reserved'" class="badge bg-warning fs-6">Reserved</span>
-        </td>
-        <td th:text="${locationAndItemStatusDTO.district}">District</td>
-        <td>
-          <a th:href="@{/libraries/{id}(id=${locationAndItemStatusDTO.libraryId})}"
-             th:text="${locationAndItemStatusDTO.libraryName}">
-            Library Name
-          </a>
-        </td>
-        <td th:text="${locationAndItemStatusDTO.locationInLibrary()}">Location in library</td>
-        <td>
-          <a class="btn btn-sm btn-primary"
-             href="/login"
-             sec:authorize="isAnonymous()">Login to reserve</a>
-          
-          <form sec:authorize="isAuthenticated()"
-                th:action="@{/reserve/{id}(id=${locationAndItemStatusDTO.itemId})}" method="post"
-                class="d-inline">
+      <table class="table table-hover align-middle mb-0">
+        <thead>
+        <tr>
+          <th scope="col">Status</th>
+          <th scope="col">District</th>
+          <th scope="col">Library</th>
+          <th scope="col">Location in library</th>
+          <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="locationAndItemStatusDTO : ${locationAndItemStatusDTOs}">
+          <td th:switch="${locationAndItemStatusDTO.itemStatus}">
+            <i th:case="'available'" class="bi bi-check-circle fs-4 text-success" data-bs-toggle="tooltip"
+               data-bs-placement="left"
+               title="This item is available. U can reserve it and pick up from library"></i>
+            <i th:case="'borrowed'" class="bi bi-exclamation-circle fs-4 text-warning" data-bs-toggle="tooltip"
+               data-bs-placement="left"
+               title="This item is borrowed. U can't reserve or borrow it now"></i>
+            <i th:case="'reserved'" class="bi bi-exclamation-circle fs-4 text-warning" data-bs-toggle="tooltip"
+               data-bs-placement="left"
+               title="This item is reserved. U can't reserve or borrow it now"></i>
+            <i th:case="'damaged'" class="bi bi-x-circle fs-4 text-danger" data-bs-toggle="tooltip"
+               data-bs-placement="left"
+               title="This item is damaged."></i>
+            <i th:case="'lost'" class="bi bi-x-circle fs-4 text-danger" data-bs-toggle="tooltip"
+               data-bs-placement="left"
+               title="This item is lost."></i>
+          </td>
+          <td th:text="${locationAndItemStatusDTO.district}">District</td>
+          <td>
+            <a th:href="@{/libraries/{id}(id=${locationAndItemStatusDTO.libraryId})}"
+               th:text="${locationAndItemStatusDTO.libraryName}">
+              Library Name
+            </a>
+          </td>
+          <td th:text="${locationAndItemStatusDTO.locationInLibrary()}">Location in library</td>
+          <td>
+            <a class="btn btn-sm btn-primary"
+               href="/login"
+               sec:authorize="isAnonymous()">Login to reserve</a>
+            
+            <form sec:authorize="isAuthenticated()"
+                  th:action="@{/reserve/{id}(id=${locationAndItemStatusDTO.itemId})}" method="post"
+                  class="d-inline">
+              <input type="hidden" name="productId" th:value="${productInfoDTO.id}"/>
               <span data-bs-toggle="tooltip">
                 <button type="submit"
                         class="btn btn-sm btn-success me-1"
@@ -143,11 +156,11 @@
                 <i class="bi bi-clock me-1"></i> Reserve
               </button>
               </span>
-          </form>
-        </td>
-      </tr>
-      </tbody>
-    </table>
+            </form>
+          </td>
+        </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </main>

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class LoginController {
@@ -27,7 +28,8 @@ public class LoginController {
 
     @PostMapping("/register")
     public String postRegisterPage(@ModelAttribute("userRegistrationDTO") @Valid UserRegistrationDTO userRegistrationDTO,
-                                   BindingResult bindingResult) {
+                                   BindingResult bindingResult,
+                                   RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             return "public/login-register/register-page";
         }
@@ -42,7 +44,13 @@ public class LoginController {
             return "public/login-register/register-page";
         }
 
-        customUserDetailsService.registerUser(userRegistrationDTO);
+        try {
+            customUserDetailsService.registerUser(userRegistrationDTO);
+            redirectAttributes.addFlashAttribute("success", "Register successfully.");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+        }
+
         return "redirect:/";
     }
 

@@ -2,19 +2,18 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:sec="http://www.w3.org/1999/xhtml">
+>
 <head>
   <meta charset="UTF-8">
   <meta name="_csrf" th:content="${_csrf.token}">
   <meta name="_csrf_header" th:content="${_csrf.headerName}">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.5/dist/zephyr/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <link rel="stylesheet" th:href="@{/css/avatar-dropdown.css}">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.6/dist/zephyr/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link th:href="@{/css/avatar-dropdown.css}" rel="stylesheet">
   <title data-layout-title-pattern="$CONTENT_TITLE $LAYOUT_TITLE">| ADMIN</title>
   <style>
-      
+
       .dropdown-item {
           color: #f1f3f5;
       !important;
@@ -25,13 +24,13 @@
           border-bottom: 1px solid transparent;
           transition: border-color 0.2s ease;
       }
-      
+
       @media (min-width: 992px) {
           .nav-link.active-link {
               border-bottom: 2px solid white;
           }
       }
-      
+
       @media (max-width: 991.98px) {
           .nav-link.active-link {
               border-bottom: none !important;
@@ -53,7 +52,9 @@
 <!-- Footer -->
 <footer th:replace="~{public/fragments/footer.html :: footer}" class="mt-auto"></footer>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
+        crossorigin="anonymous"></script>
 
 <!-- Enable Bootstrap tooltips globally -->
 <script>
