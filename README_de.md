@@ -100,7 +100,3 @@ voebb-final-project/
 * Eigene Ausnahmen verbessern das Fehlermanagement auf Nutzer- und Admin-Seite.
 * Interne Endpunkte sind über Spring Security rollenbasiert abgesichert.
 * Bootstrap wurde durch individuelles JavaScript funktional erweitert.
-
----
-
-If you'd like to add a language toggle on your site itself (not just README), I can help with that too!
