@@ -2,7 +2,7 @@
 
 # 📚 VOEBB Final Project – Library Management System
 
-A **monolithic Spring Boot** application for managing a library catalog (OPAC – Open Public Access Catalog), designed for both **library users** and **administrators**.
+A **monolithic Spring Boot** application for managing a library catalog (OPAC – Open Public Access Catalog), designed for both **library users** and **personal working at the library**.
 
 ---
 
@@ -19,7 +19,7 @@ This project was developed by:
 
 ## ✨ Overview
 
-This project simulates a full-featured **library system** covering all key functionalities needed by a modern public library. The system allows users to **browse, borrow, and manage books**, while also enabling admins to **maintain the catalog, track borrows, and manage users**.
+This project simulates a full-featured **library system** covering all key functionalities needed by a modern public library. The system allows users to **browse, borrow, and manage books**, while also enabling admins to **maintain the catalog, track and manage borrows and reservations, and manage users**.
 
 ---
 
@@ -88,10 +88,6 @@ voebb-final-project/
 * No public API endpoints
 * Internal endpoints for admin access (secured)
 * Admin actions are protected by role-based access control
-
----
-
-Perfect! Here's the updated **README** section, where the **Setup** instructions are replaced with a **Team** section and an optional suggestion for what you can include in place of setup — such as **Development Notes** or **Usage Tips**.
 
 ---
 
